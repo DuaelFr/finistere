@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.faire-savoir.com/webservices/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.faire-savoir.com/webservices/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.faire-savoir.com/webservices/">
+      <s:import namespace="http://www.w3.org/2001/XMLSchema"/>
+      <s:element name="getFieldsSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getFieldsSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getFieldsSearchResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getFieldsListing">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getFieldsListingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getFieldsListingResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getFieldsDetail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getFieldsDetailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getFieldsDetailResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListing">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getListingResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingDiff">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="date" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingDiffResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getListingDiffResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingByIDs">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="ObjetTourCode" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="IDs" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingByIDsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getListingByIDsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingWithSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FieldsSearch">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListingWithSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getListingWithSearchResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListElements">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FORMFIELD_ID" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="VALEUR_PARENT" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getListElementsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getListElementsResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="idOffre" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDetailResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereau">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereauResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDetailBordereauResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereauDiff">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="date" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereauDiffResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDetailBordereauDiffResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getOffresSuppr">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="date" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getOffresSupprResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getOffresSupprResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereauSuppr">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="date" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDetailBordereauSupprResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDetailBordereauSupprResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStructures">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getStructuresResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getStructuresResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getResearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getResearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getResearchResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getResearchWithSearch">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="FieldsSearch">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getResearchWithSearchResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getResearchWithSearchResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDispo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="idOffre" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDispoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDispoResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDispoBordereau">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="idModule" type="s:string"/>
+            <s:element minOccurs="0" maxOccurs="1" name="OBJETTOUR_CODE" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="getDispoBordereauResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="getDispoBordereauResult">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema"/>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DataSet" nillable="true">
+        <s:complexType>
+          <s:sequence>
+            <s:element ref="s:schema"/>
+            <s:any/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="getFieldsSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:getFieldsSearch"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:getFieldsSearchResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingSoapIn">
+    <wsdl:part name="parameters" element="tns:getFieldsListing"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingSoapOut">
+    <wsdl:part name="parameters" element="tns:getFieldsListingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailSoapIn">
+    <wsdl:part name="parameters" element="tns:getFieldsDetail"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailSoapOut">
+    <wsdl:part name="parameters" element="tns:getFieldsDetailResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getListingSoapIn">
+    <wsdl:part name="parameters" element="tns:getListing"/>
+  </wsdl:message>
+  <wsdl:message name="getListingSoapOut">
+    <wsdl:part name="parameters" element="tns:getListingResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffSoapIn">
+    <wsdl:part name="parameters" element="tns:getListingDiff"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffSoapOut">
+    <wsdl:part name="parameters" element="tns:getListingDiffResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsSoapIn">
+    <wsdl:part name="parameters" element="tns:getListingByIDs"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsSoapOut">
+    <wsdl:part name="parameters" element="tns:getListingByIDsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getListingWithSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:getListingWithSearch"/>
+  </wsdl:message>
+  <wsdl:message name="getListingWithSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:getListingWithSearchResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsSoapIn">
+    <wsdl:part name="parameters" element="tns:getListElements"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsSoapOut">
+    <wsdl:part name="parameters" element="tns:getListElementsResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailSoapIn">
+    <wsdl:part name="parameters" element="tns:getDetail"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailSoapOut">
+    <wsdl:part name="parameters" element="tns:getDetailResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSoapIn">
+    <wsdl:part name="parameters" element="tns:getDetailBordereau"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSoapOut">
+    <wsdl:part name="parameters" element="tns:getDetailBordereauResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffSoapIn">
+    <wsdl:part name="parameters" element="tns:getDetailBordereauDiff"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffSoapOut">
+    <wsdl:part name="parameters" element="tns:getDetailBordereauDiffResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprSoapIn">
+    <wsdl:part name="parameters" element="tns:getOffresSuppr"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprSoapOut">
+    <wsdl:part name="parameters" element="tns:getOffresSupprResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprSoapIn">
+    <wsdl:part name="parameters" element="tns:getDetailBordereauSuppr"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprSoapOut">
+    <wsdl:part name="parameters" element="tns:getDetailBordereauSupprResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresSoapIn">
+    <wsdl:part name="parameters" element="tns:getStructures"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresSoapOut">
+    <wsdl:part name="parameters" element="tns:getStructuresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchSoapIn">
+    <wsdl:part name="parameters" element="tns:getResearch"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchSoapOut">
+    <wsdl:part name="parameters" element="tns:getResearchResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchWithSearchSoapIn">
+    <wsdl:part name="parameters" element="tns:getResearchWithSearch"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchWithSearchSoapOut">
+    <wsdl:part name="parameters" element="tns:getResearchWithSearchResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoSoapIn">
+    <wsdl:part name="parameters" element="tns:getDispo"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoSoapOut">
+    <wsdl:part name="parameters" element="tns:getDispoResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauSoapIn">
+    <wsdl:part name="parameters" element="tns:getDispoBordereau"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauSoapOut">
+    <wsdl:part name="parameters" element="tns:getDispoBordereauResponse"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsSearchHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsSearchHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="ObjetTourCode" type="s:string"/>
+    <wsdl:part name="IDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="FORMFIELD_ID" type="s:string"/>
+    <wsdl:part name="VALEUR_PARENT" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="idOffre" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="idOffre" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauHttpGetIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauHttpGetOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsSearchHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsSearchHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsListingHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getFieldsDetailHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingDiffHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="ObjetTourCode" type="s:string"/>
+    <wsdl:part name="IDs" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListingByIDsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="FORMFIELD_ID" type="s:string"/>
+    <wsdl:part name="VALEUR_PARENT" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getListElementsHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="idOffre" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauDiffHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getOffresSupprHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+    <wsdl:part name="date" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDetailBordereauSupprHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getStructuresHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getResearchHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="idOffre" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauHttpPostIn">
+    <wsdl:part name="idModule" type="s:string"/>
+    <wsdl:part name="OBJETTOUR_CODE" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="getDispoBordereauHttpPostOut">
+    <wsdl:part name="Body" element="tns:DataSet"/>
+  </wsdl:message>
+  <wsdl:portType name="Syndication2Soap">
+    <wsdl:operation name="getFieldsSearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du formulaire de recherche.</documentation>
+      <wsdl:input message="tns:getFieldsSearchSoapIn"/>
+      <wsdl:output message="tns:getFieldsSearchSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du listing.</documentation>
+      <wsdl:input message="tns:getFieldsListingSoapIn"/>
+      <wsdl:output message="tns:getFieldsListingSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du detail.</documentation>
+      <wsdl:input message="tns:getFieldsDetailSoapIn"/>
+      <wsdl:output message="tns:getFieldsDetailSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres sans avoir fait de recherche.</documentation>
+      <wsdl:input message="tns:getListingSoapIn"/>
+      <wsdl:output message="tns:getListingSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getListingDiffSoapIn"/>
+      <wsdl:output message="tns:getListingDiffSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres en fonction d'IDs ex : HPAMIP0430000116,HPAMIP0430000116.</documentation>
+      <wsdl:input message="tns:getListingByIDsSoapIn"/>
+      <wsdl:output message="tns:getListingByIDsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingWithSearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres en fonction des champs de recherche. Le DataSet passé en paramètre correspond à la structure du DataSet renvoyé par la méthode getFieldsSearch.</documentation>
+      <wsdl:input message="tns:getListingWithSearchSoapIn"/>
+      <wsdl:output message="tns:getListingWithSearchSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les éléments d'une liste dont le champ est passé en paramètre. Si le champ dépend d'un autre champ, la valeur du champ parent est à renseigner.</documentation>
+      <wsdl:input message="tns:getListElementsSoapIn"/>
+      <wsdl:output message="tns:getListElementsSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'une offre.</documentation>
+      <wsdl:input message="tns:getDetailSoapIn"/>
+      <wsdl:output message="tns:getDetailSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'un bordereau.</documentation>
+      <wsdl:input message="tns:getDetailBordereauSoapIn"/>
+      <wsdl:output message="tns:getDetailBordereauSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauDiffSoapIn"/>
+      <wsdl:output message="tns:getDetailBordereauDiffSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient la liste des offres supprimées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getOffresSupprSoapIn"/>
+      <wsdl:output message="tns:getOffresSupprSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauSupprSoapIn"/>
+      <wsdl:output message="tns:getDetailBordereauSupprSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des structures.</documentation>
+      <wsdl:input message="tns:getStructuresSoapIn"/>
+      <wsdl:output message="tns:getStructuresSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getResearchSoapIn"/>
+      <wsdl:output message="tns:getResearchSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getResearchWithSearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getResearchWithSearchSoapIn"/>
+      <wsdl:output message="tns:getResearchWithSearchSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoSoapIn"/>
+      <wsdl:output message="tns:getDispoSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoBordereauSoapIn"/>
+      <wsdl:output message="tns:getDispoBordereauSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Syndication2HttpGet">
+    <wsdl:operation name="getFieldsSearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du formulaire de recherche.</documentation>
+      <wsdl:input message="tns:getFieldsSearchHttpGetIn"/>
+      <wsdl:output message="tns:getFieldsSearchHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du listing.</documentation>
+      <wsdl:input message="tns:getFieldsListingHttpGetIn"/>
+      <wsdl:output message="tns:getFieldsListingHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du detail.</documentation>
+      <wsdl:input message="tns:getFieldsDetailHttpGetIn"/>
+      <wsdl:output message="tns:getFieldsDetailHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres sans avoir fait de recherche.</documentation>
+      <wsdl:input message="tns:getListingHttpGetIn"/>
+      <wsdl:output message="tns:getListingHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getListingDiffHttpGetIn"/>
+      <wsdl:output message="tns:getListingDiffHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres en fonction d'IDs ex : HPAMIP0430000116,HPAMIP0430000116.</documentation>
+      <wsdl:input message="tns:getListingByIDsHttpGetIn"/>
+      <wsdl:output message="tns:getListingByIDsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les éléments d'une liste dont le champ est passé en paramètre. Si le champ dépend d'un autre champ, la valeur du champ parent est à renseigner.</documentation>
+      <wsdl:input message="tns:getListElementsHttpGetIn"/>
+      <wsdl:output message="tns:getListElementsHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'une offre.</documentation>
+      <wsdl:input message="tns:getDetailHttpGetIn"/>
+      <wsdl:output message="tns:getDetailHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'un bordereau.</documentation>
+      <wsdl:input message="tns:getDetailBordereauHttpGetIn"/>
+      <wsdl:output message="tns:getDetailBordereauHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauDiffHttpGetIn"/>
+      <wsdl:output message="tns:getDetailBordereauDiffHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient la liste des offres supprimées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getOffresSupprHttpGetIn"/>
+      <wsdl:output message="tns:getOffresSupprHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauSupprHttpGetIn"/>
+      <wsdl:output message="tns:getDetailBordereauSupprHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des structures.</documentation>
+      <wsdl:input message="tns:getStructuresHttpGetIn"/>
+      <wsdl:output message="tns:getStructuresHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getResearchHttpGetIn"/>
+      <wsdl:output message="tns:getResearchHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoHttpGetIn"/>
+      <wsdl:output message="tns:getDispoHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoBordereauHttpGetIn"/>
+      <wsdl:output message="tns:getDispoBordereauHttpGetOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Syndication2HttpPost">
+    <wsdl:operation name="getFieldsSearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du formulaire de recherche.</documentation>
+      <wsdl:input message="tns:getFieldsSearchHttpPostIn"/>
+      <wsdl:output message="tns:getFieldsSearchHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du listing.</documentation>
+      <wsdl:input message="tns:getFieldsListingHttpPostIn"/>
+      <wsdl:output message="tns:getFieldsListingHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les champs du detail.</documentation>
+      <wsdl:input message="tns:getFieldsDetailHttpPostIn"/>
+      <wsdl:output message="tns:getFieldsDetailHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres sans avoir fait de recherche.</documentation>
+      <wsdl:input message="tns:getListingHttpPostIn"/>
+      <wsdl:output message="tns:getListingHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getListingDiffHttpPostIn"/>
+      <wsdl:output message="tns:getListingDiffHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des offres en fonction d'IDs ex : HPAMIP0430000116,HPAMIP0430000116.</documentation>
+      <wsdl:input message="tns:getListingByIDsHttpPostIn"/>
+      <wsdl:output message="tns:getListingByIDsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient tous les éléments d'une liste dont le champ est passé en paramètre. Si le champ dépend d'un autre champ, la valeur du champ parent est à renseigner.</documentation>
+      <wsdl:input message="tns:getListElementsHttpPostIn"/>
+      <wsdl:output message="tns:getListElementsHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'une offre.</documentation>
+      <wsdl:input message="tns:getDetailHttpPostIn"/>
+      <wsdl:output message="tns:getDetailHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le detail d'un bordereau.</documentation>
+      <wsdl:input message="tns:getDetailBordereauHttpPostIn"/>
+      <wsdl:output message="tns:getDetailBordereauHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauDiffHttpPostIn"/>
+      <wsdl:output message="tns:getDetailBordereauDiffHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient la liste des offres supprimées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getOffresSupprHttpPostIn"/>
+      <wsdl:output message="tns:getOffresSupprHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la date indiquée.</documentation>
+      <wsdl:input message="tns:getDetailBordereauSupprHttpPostIn"/>
+      <wsdl:output message="tns:getDetailBordereauSupprHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset qui contient le listing des structures.</documentation>
+      <wsdl:input message="tns:getStructuresHttpPostIn"/>
+      <wsdl:output message="tns:getStructuresHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getResearchHttpPostIn"/>
+      <wsdl:output message="tns:getResearchHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoHttpPostIn"/>
+      <wsdl:output message="tns:getDispoHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Renvoie un Dataset.</documentation>
+      <wsdl:input message="tns:getDispoBordereauHttpPostIn"/>
+      <wsdl:output message="tns:getDispoBordereauHttpPostOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Syndication2Soap" type="tns:Syndication2Soap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+    <wsdl:operation name="getFieldsSearch">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getFieldsSearch" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getFieldsListing" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getFieldsDetail" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getListing" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getListingDiff" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getListingByIDs" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingWithSearch">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getListingWithSearch" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getListElements" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDetail" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDetailBordereau" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDetailBordereauDiff" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getOffresSuppr" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDetailBordereauSuppr" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getStructures" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getResearch" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResearchWithSearch">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getResearchWithSearch" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDispo" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <soap:operation soapAction="http://www.faire-savoir.com/webservices/getDispoBordereau" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Syndication2HttpGet" type="tns:Syndication2HttpGet">
+    <http:binding verb="GET"/>
+    <wsdl:operation name="getFieldsSearch">
+      <http:operation location="/getFieldsSearch"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <http:operation location="/getFieldsListing"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <http:operation location="/getFieldsDetail"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <http:operation location="/getListing"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <http:operation location="/getListingDiff"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <http:operation location="/getListingByIDs"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <http:operation location="/getListElements"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <http:operation location="/getDetail"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <http:operation location="/getDetailBordereau"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <http:operation location="/getDetailBordereauDiff"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <http:operation location="/getOffresSuppr"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <http:operation location="/getDetailBordereauSuppr"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <http:operation location="/getStructures"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <http:operation location="/getResearch"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <http:operation location="/getDispo"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <http:operation location="/getDispoBordereau"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Syndication2HttpPost" type="tns:Syndication2HttpPost">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="getFieldsSearch">
+      <http:operation location="/getFieldsSearch"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsListing">
+      <http:operation location="/getFieldsListing"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getFieldsDetail">
+      <http:operation location="/getFieldsDetail"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListing">
+      <http:operation location="/getListing"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingDiff">
+      <http:operation location="/getListingDiff"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListingByIDs">
+      <http:operation location="/getListingByIDs"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getListElements">
+      <http:operation location="/getListElements"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetail">
+      <http:operation location="/getDetail"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereau">
+      <http:operation location="/getDetailBordereau"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauDiff">
+      <http:operation location="/getDetailBordereauDiff"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOffresSuppr">
+      <http:operation location="/getOffresSuppr"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDetailBordereauSuppr">
+      <http:operation location="/getDetailBordereauSuppr"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStructures">
+      <http:operation location="/getStructures"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getResearch">
+      <http:operation location="/getResearch"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispo">
+      <http:operation location="/getDispo"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDispoBordereau">
+      <http:operation location="/getDispoBordereau"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Syndication2">
+    <documentation xmlns="http://schemas.xmlsoap.org/wsdl/"/>
+    <wsdl:port name="Syndication2Soap" binding="tns:Syndication2Soap">
+      <soap:address location="http://cdt29.tourinsoft.com/soft/RechercheDynamique/Syndication/controle/syndication2.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="Syndication2HttpGet" binding="tns:Syndication2HttpGet">
+      <http:address location="http://cdt29.tourinsoft.com/soft/RechercheDynamique/Syndication/controle/syndication2.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="Syndication2HttpPost" binding="tns:Syndication2HttpPost">
+      <http:address location="http://cdt29.tourinsoft.com/soft/RechercheDynamique/Syndication/controle/syndication2.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

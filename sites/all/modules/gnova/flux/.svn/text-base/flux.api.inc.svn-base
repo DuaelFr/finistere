@@ -1,0 +1,48 @@
+ <?php 
+ 
+ function flux_maj_cck_fieldname($bordereauid, $wsfieldname, $cckfieldname=NULL){
+  	$nb = db_result(db_query("SELECT count(*) FROM {flux_fieldsettings} WHERE bordereau_id='%s' AND fieldname='%s'", $bordereauid, $wsfieldname));
+  	if($nb>0){
+  		if($cckfieldname && strlen($cckfieldname)>0)
+  			db_query("UPDATE {flux_fieldsettings} SET cckfieldname='%s' WHERE bordereau_id='%s' AND fieldname='%s'", $cckfieldname, $bordereauid, $wsfieldname);
+  		return TRUE;
+  	}
+  	else{
+  		return FALSE;
+  	}
+  }
+  
+  function similar_field_with_ws_fieldname($ws_fieldname){
+  		$def = db_fetch_object(db_query("SELECT * FROM {flux_fieldsettings} WHERE fieldname='%s' LIMIT 1", $ws_fieldname));
+  		if(is_object($def)){
+  			return $def;
+  		}else{
+  			return FALSE;
+  		}
+  }
+  
+  /**
+ *	Retourne le mapping entre 
+ *	ws_fieldname (le champ du webservice)
+ *	flux_fieldlabel(le libellé attribué)
+ *	flux_function (la fonction à utiliser)
+ *
+ *	@return array
+ */
+function flux_fieldsmapping($fluxid){
+	$query = db_query("SELECT * FROM {flux_fieldsettings} WHERE bordereau_id='%s' ORDER BY required DESC", $fluxid);
+	$mapping = array();
+	while($result = db_fetch_object($query)){
+		$mapping[$result->fieldname] = $result;
+	}
+	return $mapping;
+}
+
+function flux_fieldsdisplay($fluxid){
+	$query = db_query("SELECT di.* FROM {flux_display} AS di LEFT JOIN {flux_fieldsettings} AS st ON st.bordereau_id=di.bordereau_id AND st.cckfieldname=di.cckfieldname WHERE di.bordereau_id='%s' AND NOT(st.staticfield=1) ORDER BY  di.zone ASC, di.weight ASC", $fluxid);
+	$mapping = array();
+	while($result = db_fetch_object($query)){
+		$mapping[$result->cckfieldname] = $result;
+	}
+	return $mapping;
+}

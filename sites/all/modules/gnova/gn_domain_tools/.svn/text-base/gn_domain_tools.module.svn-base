@@ -1,0 +1,48 @@
+<?php
+
+/**
+ * Implementation of hook_token_list
+ */
+function gn_domain_tools_token_list($type='all'){
+	$tokens = array();
+	
+	if (($type=='all' || $type == 'node' )&& module_exists('domain')) {
+    	$tokens['node']['node-main-domain-id'] = t("The node main domain id");
+    	$tokens['node']['node-main-domain-domain'] = t("The node main domain");
+    }
+    
+    return $tokens;
+}
+
+/**
+ * Implementation of hook_token_values
+ */
+function gn_domain_tools_token_values($type, $object = NULL, $options = array()) {
+	$values = array();
+	
+	if($type=='node' && module_exists('domain')){
+	
+		global $_domain;
+		
+		if($_domain['domain_id']>=0){
+		
+			$domains = domain_domains();
+			
+			if(isset($object->domains[-1]) && $object->domains[-1]==-1){
+				$values['node-main-domain-id'] = 0;
+				$values['node-main-domain-domain'] = $domains[0]['path'];
+			}else{
+				foreach($domains as $dom){
+					if(isset($object->domains[$dom['domain_id']]) && $object->domains[$dom['domain_id']]==$dom['domain_id']){
+						$values['node-main-domain-id'] = 0;
+						$values['node-main-domain-domain'] = $domains[$dom['domain_id']]['path'];
+					}
+				}
+			}
+		
+		}
+		
+	}
+	//dsm($values);
+	return $values;
+}

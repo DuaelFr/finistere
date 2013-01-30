@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function cdt_formalter_form_alter(&$form, $form_state, $form_id) {
+  
+  //Dans tout le site pour les exposed forms, si le libellé est "Commune", on modifie "Tous" par "Toutes"
+  if($form_id="exposed_form"){
+  	dsm($form);
+  }
+  
+}

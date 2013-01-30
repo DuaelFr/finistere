@@ -1,0 +1,114 @@
+<?php
+
+/**
+ * hook_menu
+ */
+function boost_clearcache_menu(){
+  $items['boost_clearcache/%'] = array(
+        'page callback' => 'boost_clearcache_domain',
+        'page arguments' => array(1),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+function boost_clearcache_domain($id){
+  $req = db_query("SELECT paths FROM {boost_clearcache} WHERE id = %d", $id);
+  if($result = db_fetch_object($req)){
+    $paths = unserialize($result->paths);
+    if(is_array($paths)){
+      boost_cache_expire_derivative($paths, true, true);
+    }
+  }
+}
+
+/**
+ * Get new and old values, to clear cache of old referenced pages
+ * @param $node
+ * @param $field
+ * @return array
+ */
+function boost_clearcache_getpaths_fromfield($node, $fieldname){
+  $old_paths = $new_paths = $paths = array();
+
+  // Get field values after form submission
+  foreach($node->{$fieldname} as $values){
+    $new_paths += explode("\n", $values['value']);
+  }
+
+  // get old field values before form submission
+	$old_node = node_load($node->nid);
+  foreach($old_node->{$fieldname} as $values){
+    $old_paths += explode("\n", $values['value']);
+  }
+
+  $paths = array_unique(array_merge($new_paths, $old_paths));
+
+  return $paths;
+} // boost_clearcache_getpaths_fromfield
+
+
+/**
+ * Clear boost cache
+ * @param array $values
+ * @param null $lang
+ * @return void
+ */
+function boost_clearcache_clear($values = array()){
+  global $base_url;
+  // If boost, force rebuild pages where interstitiel is displayed
+  if(variable_get('boost_enabled', 0)){
+    $pathsToClear = array();
+
+    foreach($values as $key=>$value){
+      $path = drupal_lookup_path('alias', $value);
+      if(!$path){
+        $path = $value;
+      }
+      $pathsToClear[] = $path;
+    }
+
+    if(!empty($pathsToClear)){
+      boost_cache_expire_derivative($pathsToClear, true, true);
+    }
+  }
+
+  // Delete for each domain language
+  $languages = language_list();
+  foreach($languages as $lang){
+    if(!empty($lang->domain)){
+      $domains[] = $lang->domain;
+    }
+  }
+
+  if(module_exists('domain')){
+    $domain_domains = domain_domains();
+    foreach($domain_domains as $domain){
+      $domains[] = preg_replace('/^(.+)\/$/','$1',domain_get_path($domain));
+      if(!empty($domain['aliases'])){
+        foreach($domain['aliases'] as $domain_alias){
+          $domains[] = 'http://'.$domain_alias['pattern'];
+        }
+      }
+    }
+
+    // Delete actual $base_url from list
+    $actual = array_search($base_url, $domains);
+    if($actual){
+      unset($domains[$actual]);
+    }
+  } // module_exists('domain')
+
+  if(!empty($domains)){
+    // Delete for all domains
+    $domains = array_unique($domains);
+
+    db_query("INSERT INTO {boost_clearcache} (paths) VALUES ('%s')", serialize($values));
+    $id = db_last_insert_id('boost_clearcache', 'id');
+    foreach($domains as $domain){
+      drupal_http_request($domain . '/boost_clearcache/'.$id);
+    }
+    db_query("DELETE FROM {boost_clearcache} WHERE id = %d", $id);
+  }
+} // boost_clearcache_clear

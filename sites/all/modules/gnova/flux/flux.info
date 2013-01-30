@@ -1,0 +1,4 @@
+core = "6.x"
+description = "Flux tourinsoft"
+name = "Flux"
+package = "G-nova"

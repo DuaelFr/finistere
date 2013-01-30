@@ -1,0 +1,5 @@
+; $Id: interactivemap.info,v 1.1 2011/02/17 02:04:11 sun Exp $
+name = CDT Interactive Map
+description = "Provides interactive map building"
+package = G-nova
+core = 6.x

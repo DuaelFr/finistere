@@ -1,0 +1,1085 @@
+<?php
+
+
+function theme_fieldprix($element){
+	return drupal_render($element);
+}
+
+
+
+/*
+	Ce module permet de mapper des champs textes sur d'autres champs d'un node.
+
+*/
+
+function gn_mapfield_fluxfieldinfos(){
+	return array(
+		'city_location_gnfieldmap' => 'Location city',
+		'zip_location_gnfieldmap' => 'Location zip code',
+		'street_location_gnfieldmap'=>'Location street',
+		'streetmore_location_gnfieldmap' => 'Location additional',
+		'lat_location_gnfieldmap'=>'Location latitude',
+		'lon_location_gnfieldmap'=>'Location longitude',
+		'prix_gnfieldmap' => 'Price field',
+		'int_gnfieldmap' => 'Integer',
+		'str_multi_gnfieldmap' => 'Multivalued string field',
+		'date_gnfieldmap' => 'Date field',
+		'imgs_gnfieldmap' => 'Multivalued image field',
+		'img_gnfieldmap' => 'Simple valued image field',
+		'tariflabel_gnfieldmap' => 'Label tarifs',
+		'tarifmin_gnfieldmap' => 'Tarifs min',
+		'tarifmax_gnfieldmap' => 'Tarifs max',
+	);
+}
+
+function gn_mapfield_flux_alterdata(&$node){
+	
+	if(isset($node->location)){
+		$node->locations=array($node->location);
+		unset($node->location);
+	}
+
+}
+
+/*-------------- cck field float for prices ----------------- */
+function tariflabel_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_tarif_label';
+}
+
+function tariflabel_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	if(!isset($content_type['fluxfieldsinfos']['field_fl_tarif_label'])){
+		gn_fluxfieldmapping_text_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, 'field_fl_tarif_label');
+		$content_type['fluxfieldsinfos']['field_fl_tarif_label']=TRUE;
+	}
+}
+
+function tariflabel_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$vals = trim($parts[$i]);
+		if(strlen($vals)>1){
+			$node->{$cck_fieldname}[$i]['value'] = $vals;
+		}
+	}
+	return TRUE;
+}
+
+
+/*-------------- cck field float for prices ----------------- */
+function tarifmin_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_tarif_min';
+}
+
+function tarifmin_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	if(!isset($content_type['fluxfieldsinfos']['field_fl_tarif_min'])){
+		prix_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, 'field_fl_tarif_min');
+		$content_type['fluxfieldsinfos']['field_fl_tarif_min']=TRUE;
+	}
+}
+
+function tarifmin_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$vals = trim($parts[$i]);
+		if(strlen($vals)>1 && $val = floatval($vals)){
+			$node->{$cck_fieldname}[$i]['value'] = $val;
+		}
+	}
+	return TRUE;
+}
+
+/*-------------- cck field float for prices ----------------- */
+function tarifmax_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_tarif_max';
+}
+
+function tarifmax_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	if(!isset($content_type['fluxfieldsinfos']['field_fl_tarif_max'])){
+		prix_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, 'field_fl_tarif_max');
+		$content_type['fluxfieldsinfos']['field_fl_tarif_max']=TRUE;
+	}
+}
+
+function tarifmax_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$vals = trim($parts[$i]);
+		if(strlen($vals)>1 && $val = floatval($vals)){
+			$node->{$cck_fieldname}[$i]['value'] = $val;
+		}
+	}
+	return TRUE;
+}
+
+/*------------------ Location fields --------------- */
+function city_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function city_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	$value=trim(utf8_encode($value));
+	
+	if(!isset($node->location))
+		$node->location=array();
+		
+	$node->location['city']=$value;
+	
+	return TRUE;
+}
+//----
+function zip_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function zip_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	if(!isset($node->location))
+		$node->location=array();
+	$value=trim(utf8_encode($value));
+	$node->location['postal_code']=$value;
+	return TRUE;
+}
+//----
+function street_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function street_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	if(!isset($node->location))
+		$node->location=array();
+	$value=trim(utf8_encode($value));
+	$node->location['street']=$value;
+	return TRUE;
+}
+//----
+function streetmore_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function streetmore_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	if(!isset($node->location))
+		$node->location=array();
+	$value=trim(utf8_encode($value));
+	$node->location['additional']=$value;
+	return TRUE;
+}
+//----
+function lat_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function lat_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	/*if(!isset($node->location))
+		$node->location=array();
+	$value=trim(utf8_encode($value));
+	$node->location['latitude']=$value;*/
+	return TRUE;
+}
+//----
+function lon_location_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+}
+function lon_location_gnfieldmap_fluxfieldvalue(&$node, $ws_fieldname, $value){
+	/*if(!isset($node->location))
+		$node->location=array();
+	$value=trim(utf8_encode($value));
+	$node->location['longitude']=$value;*/
+	return TRUE;
+}
+
+
+
+/*-------------- cck field float for prices ----------------- */
+function prix_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_prix';
+}
+
+function prix_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel='', $fixedcckfieldname=NULL){
+	
+	if($fixedcckfieldname)
+		$name = $fixedcckfieldname;
+	else
+		$name = prix_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+	
+	$content_type['fields'][] = array (
+    'label' => $label,
+    'field_name' => $name,
+    'type' => 'number_decimal',
+    'widget_type' => 'number',
+    'change' => 'Modifier les informations de base',
+    'weight' => '0',
+    'description' => '',
+    'default_value' => 
+    array (
+      0 => 
+      array (
+        'value' => '',
+        '_error_element' => 'default_value_widget]['.$name.'][0][value',
+      ),
+    ),
+    'default_value_php' => '',
+    'default_value_widget' => 
+    array (
+      $name.'' => 
+      array (
+        0 => 
+        array (
+          'value' => '',
+          '_error_element' => 'default_value_widget]['.$name.'][0][value',
+        ),
+      ),
+    ),
+    'group' => false,
+    'required' => 0,
+    'multiple' => '1',
+    'min' => '',
+    'max' => '',
+    'precision' => '10',
+    'scale' => '2',
+    'decimal' => ',',
+    'prefix' => '',
+    'suffix' => '€',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'op' => 'Enregistrer les paramètres du champ',
+    'module' => 'number',
+    'widget_module' => 'number',
+    'columns' => 
+    array (
+      'value' => 
+      array (
+        'type' => 'numeric',
+        'precision' => '10',
+        'scale' => '2',
+        'not null' => false,
+        'sortable' => true,
+      ),
+    ),
+    'display_settings' => 
+    array (
+      'weight' => '-1',
+      'parent' => '',
+      'label' => 
+      array (
+        'format' => 'hidden',
+      ),
+      'teaser' => 
+      array (
+        'format' => 'fr_2',
+        'exclude' => 0,
+      ),
+      'full' => 
+      array (
+        'format' => 'fr_2',
+        'exclude' => 0,
+      ),
+      4 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      2 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      3 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      5 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+  );
+	return $name;
+}
+function prix_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$vals = trim($parts[$i]);
+		if(strlen($vals)>1 && $val = floatval($vals))
+			$node->{$cck_fieldname}[$i]['value'] = $val;	
+	}
+	return TRUE;
+}
+
+
+/*------------------ Integer ------------------*/
+function int_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_int';
+}
+
+function int_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+	$name = int_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+	
+	$content_type['fields'][] = array (
+    'label' => $label,
+    'field_name' => $name,
+    'type' => 'number_integer',
+    'widget_type' => 'number',
+    'change' => 'Modifier les informations de base',
+    'weight' => '1',
+    'description' => 'Integer value',
+    'default_value' => 
+    array (
+      0 => 
+      array (
+        'value' => '',
+        '_error_element' => 'default_value_widget]['.$name.'][0][value',
+      ),
+    ),
+    'default_value_php' => '',
+    'default_value_widget' => 
+    array (
+      $name.'' => 
+      array (
+        0 => 
+        array (
+          'value' => '',
+          '_error_element' => 'default_value_widget]['.$name.'][0][value',
+        ),
+      ),
+    ),
+    'group' => false,
+    'required' => 0,
+    'multiple' => '1',
+    'min' => '',
+    'max' => '',
+    'prefix' => '',
+    'suffix' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'op' => 'Enregistrer les paramètres du champ',
+    'module' => 'number',
+    'widget_module' => 'number',
+    'columns' => 
+    array (
+      'value' => 
+      array (
+        'type' => 'int',
+        'not null' => false,
+        'sortable' => true,
+      ),
+    ),
+    'display_settings' => 
+    array (
+      'weight' => '1',
+      'parent' => '',
+      'label' => 
+      array (
+        'format' => 'inline',
+      ),
+      'teaser' => 
+      array (
+        'format' => 'fr_0',
+        'exclude' => 0,
+      ),
+      'full' => 
+      array (
+        'format' => 'fr_0',
+        'exclude' => 0,
+      ),
+      4 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      2 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      3 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      5 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+  );
+  return $name;
+}
+
+function int_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$vals = trim($parts[$i]);
+		if(strlen($vals)>1 && $val = intval($vals))
+			$node->{$cck_fieldname}[$i]['value'] = $val;	
+	}
+	return TRUE;
+}
+
+/*------------------ Multi-valued text field  ------------------*/
+function str_multi_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_strs';
+}
+
+function str_multi_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+	
+	
+	$name = str_multi_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+	
+	$content_type['fields'][] = array (
+    'label' => $label,
+    'field_name' => $name,
+    'type' => 'text',
+    'widget_type' => 'text_textfield',
+    'change' => 'Modifier les informations de base',
+    'weight' => '31',
+    'rows' => 5,
+    'size' => '60',
+    'description' => '',
+    'default_value' => 
+    array (
+      0 => 
+      array (
+        'value' => '',
+        '_error_element' => 'default_value_widget]['.$name.'][0][value',
+      ),
+    ),
+    'default_value_php' => '',
+    'default_value_widget' => NULL,
+    'group' => false,
+    'required' => 0,
+    'multiple' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'op' => 'Enregistrer les paramètres du champ',
+    'module' => 'text',
+    'widget_module' => 'text',
+    'columns' => 
+    array (
+      'value' => 
+      array (
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => false,
+        'sortable' => true,
+        'views' => true,
+      ),
+    ),
+    'display_settings' => 
+    array (
+      'label' => 
+      array (
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      4 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      2 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      3 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      5 => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_diaporama' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => 
+      array (
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+  );
+  return $name;
+}
+function str_multi_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$val = trim($parts[$i]);
+		if(strlen($val)>1)
+			$node->{$cck_fieldname}[$i]['value'] = $val;	
+	}
+	return TRUE;
+}
+
+/*------------------ Date field ------------------*/
+function date_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_date';
+}
+
+function date_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+
+	$name = date_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+
+	$content_type['fields'][] = array (
+	    'label' => $label,
+	    'field_name' => $name,
+	    'type' => 'date',
+	    'widget_type' => 'date_popup',
+	    'change' => 'Modifier les informations de base',
+	    'weight' => '-4',
+	    'default_value' => 'blank',
+	    'default_value2' => 'same',
+	    'default_value_code' => '',
+	    'default_value_code2' => '',
+	    'input_format' => 'd/m/Y',
+	    'input_format_custom' => '',
+	    'year_range' => '-3:+3',
+	    'increment' => '1',
+	    'advanced' => 
+	    array (
+	      'label_position' => 'above',
+	      'text_parts' => 
+	      array (
+	        'year' => 0,
+	        'month' => 0,
+	        'day' => 0,
+	        'hour' => 0,
+	        'minute' => 0,
+	        'second' => 0,
+	      ),
+	    ),
+	    'label_position' => 'above',
+	    'text_parts' => 
+	    array (
+	    ),
+	    'description' => '',
+	    'group' => false,
+	    'required' => 0,
+	    'multiple' => '1',
+	    'repeat' => 0,
+	    'todate' => '',
+	    'granularity' => 
+	    array (
+	      'year' => 'year',
+	      'month' => 'month',
+	      'day' => 'day',
+	    ),
+	    'default_format' => 'teaser_date',
+	    'tz_handling' => 'none',
+	    'timezone_db' => '',
+	    'op' => 'Enregistrer les paramètres du champ',
+	    'module' => 'date',
+	    'widget_module' => 'date',
+	    'columns' => 
+	    array (
+	      'value' => 
+	      array (
+	        'type' => 'varchar',
+	        'length' => 20,
+	        'not null' => false,
+	        'sortable' => true,
+	        'views' => true,
+	      ),
+	    ),
+	    'display_settings' => 
+	    array (
+	      'weight' => '-4',
+	      'parent' => '',
+	      'label' => 
+	      array (
+	        'format' => 'hidden',
+	      ),
+	      'teaser' => 
+	      array (
+	        'format' => 'teaser_date',
+	        'exclude' => 0,
+	      ),
+	      'full' => 
+	      array (
+	        'format' => 'teaser_date',
+	        'exclude' => 0,
+	      ),
+	      4 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      2 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      3 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      5 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_resume' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_slideshow' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'token' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	    ),
+	  );
+	 return $name;
+}
+
+function date_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$str = trim(utf8_encode($value));
+	$parts = split('#', $str);
+	for($i=0; $i<count($parts);$i++){
+		$val = trim($parts[$i]);
+		if(strlen($val)>1)
+			$node->{$cck_fieldname}[$i]['value'] = $val;	
+	}
+	return TRUE;
+}
+
+/*------------------ image field ------------------*/
+function img_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_img';
+}
+
+function img_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+
+	$name = img_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+
+	$content_type['fields'][] = array (
+	    'label' => $label,
+	    'field_name' => $name,
+	    'type' => 'filefield',
+	    'widget_type' => 'imagefield_widget',
+	    'change' => 'Modifier les informations de base',
+	    'weight' => '-3',
+	    'file_extensions' => 'png gif jpg jpeg',
+	    'progress_indicator' => 'bar',
+	    'file_path' => 'flux/img',
+	    'max_filesize_per_file' => '',
+	    'max_filesize_per_node' => '',
+	    'max_resolution' => '800x800',
+	    'min_resolution' => 0,
+	    'custom_alt' => 0,
+	    'alt' => '',
+	    'custom_title' => 0,
+	    'title_type' => 'textfield',
+	    'title' => '',
+	    'use_default_image' => 0,
+	    'default_image_upload' => '',
+	    'default_image' => NULL,
+	    'description' => '',
+	    'group' => false,
+	    'required' => 0,
+	    'multiple' => '0',
+	    'list_field' => '0',
+	    'list_default' => 1,
+	    'description_field' => '0',
+	    'op' => 'Enregistrer les paramètres du champ',
+	    'module' => 'filefield',
+	    'widget_module' => 'imagefield',
+	    'columns' => 
+	    array (
+	      'fid' => 
+	      array (
+	        'type' => 'int',
+	        'not null' => false,
+	        'views' => true,
+	      ),
+	      'list' => 
+	      array (
+	        'type' => 'int',
+	        'size' => 'tiny',
+	        'not null' => false,
+	        'views' => true,
+	      ),
+	      'data' => 
+	      array (
+	        'type' => 'text',
+	        'serialize' => true,
+	        'views' => true,
+	      ),
+	    ),
+	    'display_settings' => 
+	    array (
+	      'weight' => '-4',
+	      'parent' => '',
+	      'label' => 
+	      array (
+	        'format' => 'hidden',
+	      ),
+	      'teaser' => 
+	      array (
+	        'format' => 'hqitem_teaser_linked',
+	        'exclude' => 0,
+	      ),
+	      'full' => 
+	      array (
+	        'format' => 'hidden',
+	        'exclude' => 0,
+	      ),
+	      4 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      2 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      3 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      5 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'ubox_resume' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'ubox_slideshow' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'token' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	    ),
+	  );
+	  return $name;
+}
+
+function img_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	$value = trim($value);	
+	return TRUE;
+}
+
+/*------------------ multi-valued image field ------------------*/
+function imgs_gnfieldmap_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_imgs';
+}
+
+function imgs_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel=''){
+
+	$name = imgs_gnfieldmap_cckfieldname($ws_fieldname);
+	
+	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
+
+	$content_type['fields'][] = array (
+	    
+	    'label' => $label,
+	    'field_name' => $name,
+	    'type' => 'filefield',
+	    'widget_type' => 'imagefield_widget',
+	    'change' => 'Modifier les informations de base',
+	    'weight' => '-3',
+	    'file_extensions' => 'png gif jpg jpeg',
+	    'progress_indicator' => 'bar',
+	    'file_path' => 'flux/img',
+	    'max_filesize_per_file' => '',
+	    'max_filesize_per_node' => '',
+	    'max_resolution' => '800x800',
+	    'min_resolution' => 0,
+	    'custom_alt' => 0,
+	    'alt' => '',
+	    'custom_title' => 0,
+	    'title_type' => 'textfield',
+	    'title' => '',
+	    'use_default_image' => 0,
+	    'default_image_upload' => '',
+	    'default_image' => NULL,
+	    'description' => '',
+	    'group' => false,
+	    'required' => 0,
+	    'multiple' => '1',
+	    'list_field' => '0',
+	    'list_default' => 1,
+	    'description_field' => '0',
+	    'op' => 'Enregistrer les paramètres du champ',
+	    'module' => 'filefield',
+	    'widget_module' => 'imagefield',
+	    'columns' => 
+	    array (
+	      'fid' => 
+	      array (
+	        'type' => 'int',
+	        'not null' => false,
+	        'views' => true,
+	      ),
+	      'list' => 
+	      array (
+	        'type' => 'int',
+	        'size' => 'tiny',
+	        'not null' => false,
+	        'views' => true,
+	      ),
+	      'data' => 
+	      array (
+	        'type' => 'text',
+	        'serialize' => true,
+	        'views' => true,
+	      ),
+	    ),
+	    'display_settings' => 
+	    array (
+	      'weight' => '-4',
+	      'parent' => '',
+	      'label' => 
+	      array (
+	        'format' => 'hidden',
+	      ),
+	      'teaser' => 
+	      array (
+	        'format' => 'hqitem_teaser_linked',
+	        'exclude' => 0,
+	      ),
+	      'full' => 
+	      array (
+	        'format' => 'bp_detail_big_default',
+	        'exclude' => 0,
+	      ),
+	      4 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      2 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      3 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      5 => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'ubox_resume' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'ubox_slideshow' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	      'token' => 
+	      array (
+	        'format' => 'image_plain',
+	        'exclude' => 0,
+	      ),
+	    ),
+	  );
+	  return $name;
+}
+
+function imgs_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	
+	$value = trim(utf8_encode($value));
+	
+	if(strlen($value)>0){
+		
+		$str = $value;
+		$parts = split('#', $str);
+		for($i=0; $i<count($parts);$i++){
+			$val = trim($parts[$i]);
+			if(strlen($val)>1){
+			
+				
+				
+				if($val && strlen($val)>4){
+					$response = drupal_http_request("http://www.finisteretourisme.com/syndication/img/".$val);
+					
+					switch ($response->code) {
+						case 301:
+						case 403:
+						case 500:
+			      			watchdog('gn_mapfield', 'Le fichier !fichier n\'a pu être récupéré.', array('!fichier'=>$val), WATCHDOG_WARNING);
+			      		break;
+			      		case 200:
+			      			
+			      			$max_height = 500;
+			      			$max_width = 500;
+			      			
+			      			//dsm($response);
+			      			$respfile = $response->data;
+			      			
+			      			$tempdir = file_directory_temp();
+			      			$tmpfile = tempnam(realpath($tempdir), 'file').$val;
+			      			$fp = fopen($tmpfile, 'wb');
+			      			
+			      			fwrite($fp, $respfile);
+			      			fclose($fp);
+			      			
+			      			$dfile = new stdClass();
+			      			$dfile->filepath = $tmpfile;
+			      			
+			      			$img_infos = image_get_info($tmpfile);
+							
+			      			
+			      			if(count(file_validate_is_image($dfile))<=0){
+			      			
+			      				$dfile->info = $img_infos;
+			      				
+			      				$dir = file_directory_path().'/flux/img';
+				      			
+				      			file_check_directory($dir, TRUE);
+				      			
+				      			file_move($dfile, $dir.'/fl-'.time().'.'.$img_infos['extension']);
+			      				
+			      				if($dfile->info['height']>$max_height || $dfile->info['width']>$max_width){
+			      					$dfile = imageapi_image_scale($dfile, $max_width, $max_height, FALSE);
+			      				}
+				      			
+				      			$file = new stdClass();
+								$file->filename = basename($dfile->filepath);
+								$file->filepath = $dfile->filepath;
+								$file->filemime = $img_infos['mime_type'];
+								$file->filesize = filesize($dfile->filepath);
+								
+								$file->uid = $node->uid;
+								$file->status = FILE_STATUS_PERMANENT;
+								$file->timestamp = time();
+								
+								drupal_write_record('files', $file);
+								
+								$node->{$cck_fieldname}[$i] = array(
+									'fid' => $file->fid,
+									'title' => basename($file->filename),
+									'filename' => $file->filename,
+									'filepath' => $file->filepath,
+									'filesize' => $file->filesize,
+									'mimetype' => $mime,
+									'data' => array(
+										'description' => basename($file->filename),
+									),
+									'list' => 0,
+								);
+				    			
+			      			}else{
+			      				dsm($tmpfile.' n\'est pas une image');
+			      			}
+			      			
+			      		break;
+			      		
+					}
+				}
+			}
+		}
+	}
+	elseif(isset($defaultvals['fid']) && is_numeric($defaultvals['fid'])){
+
+		$file = db_fetch_object(db_query("SELECT * FROM {files} WHERE fid=%d", intval($defaultvals['fid']))); 
+		if($file){
+			$node->{$cck_fieldname}[0] = array(
+				'fid' => $file->fid,
+				'title' => basename($file->filename),
+				'filename' => $file->filename,
+				'filepath' => $file->filepath,
+				'filesize' => $file->filesize,
+				'mimetype' => $file->filemime,
+				'data' => array(
+					'description' => basename($file->filename),
+				),
+				'list' => 0,
+			);
+		}
+	
+	}
+	
+	
+	return TRUE;
+}
+

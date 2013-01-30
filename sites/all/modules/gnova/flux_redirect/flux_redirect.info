@@ -1,0 +1,5 @@
+; $Id: flux_redirect.info,v 1.1 2011/02/17 02:04:11 sun Exp $
+name = Technical flux redirect
+description = "Perform 301 redirect for flux items"
+package = G-nova
+core = 6.x

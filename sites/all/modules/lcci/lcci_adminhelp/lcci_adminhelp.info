@@ -1,0 +1,5 @@
+; $Id: lcci_adminhelp.info,v 1.1 2011/02/28 02:04:11 sun Exp $
+name = Admin helper
+description = "Helper fonctions for easier administration."
+package = LCCI
+core = 6.x

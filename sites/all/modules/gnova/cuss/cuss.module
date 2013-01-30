@@ -1,0 +1,197 @@
+<?php
+
+define(THEME_CT_TYPE, 'custom_theme');
+
+/**
+ * Implementation of hook_perm().
+ */
+function cuss_perm() {
+  return array('administer custom css');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function cuss_menu() {
+  $items = array();
+
+  $items['admin/build/cuss'] = array(
+    'title' => 'Customize theme',
+    'description' => 'Theme customization',
+    'file' => 'cuss_pages.inc',
+    'page callback' => 'page_list_cuss',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('administer custom css'),
+  );
+
+  $items['admin/build/cuss/list'] = array(
+    'title' => t('List custom items'),
+    'description' => 'Configure settings',
+    'file' => 'cuss_pages.inc',
+    'page callback' => 'page_list_cuss',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'access arguments' => array('administer custom css'),
+  );
+
+  $items['admin/build/cuss/add'] = array(
+    'title' => t('Add a custom theme item'),
+    'description' => 'Add a new item',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cuss_edit_form'),
+    'type' => MENU_LOCAL_TASK,
+    'access arguments' => array('administer custom css'),
+  );
+  
+  $items['admin/build/cuss/edit/%'] = array(
+    'title' => t('Add a custom theme item'),
+    'description' => 'Configure an existing item',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cuss_edit_form', 4),
+    'access arguments' => array('administer custom css'),
+  );
+
+  
+  return $items;
+}
+
+function get_cuss_context_settings(){
+	$path = drupal_get_path_alias($_GET['q']);
+	$res = db_query("SELECT * FROM {cuss_pathnid} WHERE active=1");
+	while($row = db_fetch_object($res)){ 
+		$page_match = drupal_match_path($path, $row->path);
+        if ($path != $_GET['q']) {
+          $page_match = $page_match || drupal_match_path($_GET['q'], $row->path);
+        } 
+        if($page_match){
+        	$th = node_load($row->nid);
+        	return $th;
+        }
+	}
+	return FALSE;
+}
+
+
+
+function cuss_edit_form($form_state, $cussid=FALSE){
+	$form = array();
+	
+	$form['activated'] = array(
+		'#type' => 'checkbox',
+		'#title' => t('Activated'),
+	);
+	
+	$form['path'] = array(
+		'#type' => 'textarea',
+		'#rows' => 5,
+		'#title' => t('Applicable path(s)'),
+		'#description' => t('Copier les liens après le nom de domaine et le premier /. Mettre un lien par ligne. Exemple, pour http://www.finisteretourisme.com/decouvrez/saveurs-et-gourmandises-en-finistere, saisir decouvrez/saveurs-et-gourmandises-en-finistere'),
+	);
+	
+	$availthemes = cuss_get_available_themes();
+	$options = array();
+	if(count($availthemes)>0){
+		foreach($availthemes as $th){
+			$options[$th->nid] = $th->title;
+		}
+	}
+	
+	$form['node'] = array(
+		'#type' => 'select',
+		'#title' => t('Select your theme content to apply'),
+		'#options' => $options,
+	);
+	
+	$form['submit'] = array(
+		'#value' => t('Save'),
+		'#type' => 'submit',
+		'#name' => 'save',
+	);
+	
+	$form['cancel'] = array(
+		'#value' => t('Cancel'),
+		'#type' => 'submit',
+		'#name' => 'cancel',
+	);
+	
+	$form['delete'] = array(
+		'#value' => t('Delete'),
+		'#type' => 'submit',
+		'#name' => 'delete',
+	);
+	
+	if($cussid){
+		$form['cussid']=array(
+			'#type'=>'hidden',
+			'#value'=>$cussid,
+		);
+		
+		$cuss = db_fetch_object(db_query("SELECT c.cussid AS cussid, c.nid AS nid, c.active AS active, c.path AS path, n.title AS title FROM {cuss_pathnid} AS c LEFT JOIN {node} AS n ON n.nid=c.nid WHERE c.cussid=%d", $cussid));
+		 if($cuss){
+		 	$form['node']['#default_value'] = $cuss->nid;
+		 	$form['path']['#default_value'] = $cuss->path;
+		 	$form['activated']['#default_value'] = $cuss->active;
+		 }
+	}
+	
+	return $form;
+}
+
+function cuss_edit_form_validate($form, &$form_state){
+	if($form_state['clicked_button']['#name']=='save'){
+		$vals = $form_state['values'];
+		if(strlen($vals['path'])<=0 && $vals['activated']>0){
+			form_set_error('path', t('The path field cannot be empty for an activated custom theme item.'));
+		}	
+	}
+}
+
+function cuss_edit_form_submit($form, &$form_state){
+	$vals = $form_state['values'];
+	
+	if($form_state['clicked_button']['#name']=='save'){
+		if(isset($vals['cussid']) && is_numeric($vals['cussid'])){
+			db_query("UPDATE {cuss_pathnid} SET path='%s', nid=%d, active=%d WHERE cussid=%d", $vals['path'], $vals['node'], $vals['activated'], intval($vals['cussid']));
+		}else{
+			db_query("INSERT INTO {cuss_pathnid} (path, nid, active) VALUES ('%s', %d, %d)", $vals['path'], $vals['node'], $vals['activated']);
+		}
+		drupal_set_message('The custom theme item has been modified.');
+	}elseif($form_state['clicked_button']['#name']=='delete' && isset($vals['cussid']) && is_numeric($vals['cussid'])){
+		db_query("DELETE FROM {cuss_pathnid} WHERE cussid=%d", intval($vals['cussid']));
+	}
+	
+	if (module_exists('boost_clearcache')) {
+	  $paths = preg_split('/[\n]+/', $vals['path']);
+	  if (!empty($paths) && is_array($paths)) {
+	    boost_clearcache_clear($paths);
+	  }
+	}
+	
+	drupal_goto('admin/build/cuss');
+}
+
+/**
+ * Return the cuss list.
+ * Parameter 1 = FLASE => return the whole list
+ */
+function cuss_get_list($activeonly=TRUE){
+	$res=NULL;
+	if($activeonly)
+		$res = db_query("SELECT c.cussid AS cussid, c.nid AS nid, c.path AS path, n.title AS title FROM {cuss_pathnid} AS c LEFT JOIN {node} AS n ON n.nid=c.nid WHERE c.active=1");
+	else
+		$res = db_query("SELECT c.cussid AS cussid, c.nid AS nid, c.path AS path, n.title AS title FROM {cuss_pathnid} AS c LEFT JOIN {node} AS n ON n.nid=c.nid");
+		
+	$items = array();
+	while($item = db_fetch_object($res)){
+		$items[] = $item;
+	}
+	return $items;
+}
+
+function cuss_get_available_themes(){
+	$res = db_query("SELECT nid, title FROM {node} WHERE type='%s'", THEME_CT_TYPE);
+	$retour=array();
+	while($item = db_fetch_object($res)){
+		$retour[]=$item;
+	}
+	return $retour;
+}

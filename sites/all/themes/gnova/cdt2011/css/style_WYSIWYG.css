@@ -1,0 +1,26 @@
+@import url("style_modifiable_par_client.css") screen;
+
+h1, h2, h3, h4, h5, h6{font-family:'NeoSansRegular',Arial,Helvetica,sans-serif;}
+
+h1{ font-size:1.56em;}
+
+h1 a{ font-size:0.48em;}
+
+h2{font-size: 1.25em;}
+
+h2 a{font-size: 0.60em;}
+
+h3, li a, p a{font-size: 1em;}
+
+h4, h5, h6{ font-size:0.88em;}
+
+h4 a, h5 a, h6 a{ font-size:0.86em;}
+
+strong{ font-weight:bold;}
+
+em{ font-style:italic;}
+
+a, ul li, ol li, p, td, span, dd, dt, q{ color:#4a4a4a; font-family:Arial, Helvetica, sans-serif; font-size:0.75em;}
+
+h3, h2 { color:#DD309E; }
+

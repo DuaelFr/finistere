@@ -1,0 +1,14 @@
+.content_right{ background-color:#ededed;padding:10px;}
+
+.content_right h3{ font:1.25em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase;}
+
+.content_right h4{ font:0.75em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase; text-decoration:underline;}
+
+.content_right ul{ padding-bottom:10px;}
+
+.content_right ul li{ list-style-type:none; background: url("../images/sprite.png") no-repeat scroll 0 -260px transparent; padding-left: 14px;}
+
+/*===========================Style Modi client========================*/
+
+.content_right h3, .content_right h4{ color:#DD309E;}
+

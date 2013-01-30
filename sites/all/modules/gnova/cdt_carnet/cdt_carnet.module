@@ -1,0 +1,283 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function cdt_carnet_menu() {
+  $items = array();
+
+  $items['ajax/add-to-carnet/%'] = array(
+    'page callback' => 'cdt_carnet_addnode',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+  );
+  
+  $items['carnet-de-voyage'] = array(
+  	'title' => 'Carnet de voyage',
+    'page callback' => 'page_carnet_de_voyage',
+    'access arguments' => array('access content'),
+  );
+  $items['carnet-de-voyage/%cdt_carnet'] = array(
+  	'title' => 'Carnet de voyage',
+    'page callback' => 'page_carnet_de_voyage',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['bookmarks/clear'] = array(
+  	'title' => 'Clear bookmarks',
+    'page callback' => 'cdt_carnet_clear',
+    'access arguments' => array('access content'),
+  );
+  /* admin & settings */
+  $items['admin/content/adt29/bookmark'] = array(
+    'title'             => "Bookmark Settings",
+    'access arguments' => array('administer bookmark'),
+    'page callback'     => 'drupal_get_form',
+    'page arguments'     => array('cdt_carnet_settings'),
+    'file' => 'cdt_carnet.admin.inc',
+    'type'              => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'weight' => 1
+  );
+  $items['carnet-de-voyage/mail'] = array(
+  	'title'            => t('Envoyer par mail'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('cdt_carnet_mail_form'),
+    'access callback' => TRUE,
+    'type'             => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+function cdt_carnet_load($bid){
+  $query = db_query("SELECT nids FROM {cdt_carnet} WHERE bookmark_id = %d", $bid);
+  $result = db_fetch_object($query);
+  if(!empty($result) && !empty($result->nids)){
+    $_SESSION['carnetnids'] = unserialize($result->nids);
+    $_SESSION['carnetid-share'] = $bid;
+    db_query("UPDATE {cdt_carnet} SET timestamp = %d WHERE bookmark_id = %d", time(), $bid);
+  }else{
+    drupal_set_message("Aucun carnet de voyage n'a été trouvé");
+  }
+}
+
+/**
+ * Implementation of hook_perm
+ */
+function cdt_carnet_perm(){
+	return array('administer bookmark');
+}
+
+function cdt_carnet_cron(){
+  db_query("DELETE FROM {cdt_carnet} WHERE timestamp < %d" . strtotime('-1 month'));
+}
+
+function cdt_carnet_theme(){
+	return array(
+	    'cdt_carnet-list-item' => array(
+	      'arguments' => array('node' => NULL),
+	      'template' => 'cdt_carnet-list-item',
+	    ),
+      'cdt_carnet_mail' => array(
+        'arguments' => array(),
+      ),
+	  );
+}
+
+
+/**
+ * Implementation of hook_token_list
+ */
+function cdt_carnet_token_list($type='all'){
+	$tokens = array();
+
+	if (($type=='all' || $type == 'node' )) {
+    	$tokens['cdt_carnet']['cdt_carnet_message'] = t("Message for bookmark sharing.");
+    }
+
+    return $tokens;
+}
+/**
+ * Implementation of hook_token_values
+ */
+function cdt_carnet_token_values($type, $object = NULL, $options = array()) {
+  global $base_url;
+	$values = array();
+
+	if($type == 'global' && preg_match('/^carnet-de-voyage/', $_GET['q'])){
+    $url = url($base_url . '/' . $_GET['q'], array('absolute'=>TRUE));
+    $values['cdt_carnet_message'] = str_replace('%url', $url, variable_get('cdt_carnet_share_message',''));
+  }
+
+	return $values;
+}
+
+
+function cdt_carnet_addnode($nid){
+	if(!isset($_SESSION['carnetnids'])){
+		$_SESSION['carnetnids']=array();
+		$_SESSION['carnetid']='';
+    $_SESSION['carnetid-share']='';
+	}
+	if($nid && is_numeric($nid) && (!isset($_SESSION['carnetnids']) || !in_array($nid, $_SESSION['carnetnids']))){
+		$_SESSION['carnetnids'][]=$nid;
+	}
+  if(!isset($_SESSION['carnetid']) || empty($_SESSION['carnetid'])){
+    db_query("INSERT INTO {cdt_carnet} (nids, timestamp) VALUES ('%s', %d)", serialize($_SESSION['carnetnids']), time());
+    $_SESSION['carnetid-share'] = $_SESSION['carnetid'] = db_last_insert_id('cdt_carnet', 'bookmark_id');
+  }else{
+    db_query("UPDATE {cdt_carnet} SET nids = '%s', timestamp = %d WHERE bookmark_id = %d", serialize($_SESSION['carnetnids']), time(), $_SESSION['carnetid']);
+  }
+}
+
+function page_carnet_de_voyage(){
+  global $base_url;
+
+	$out='<h1 class="none">'.t('Bookmarks').'</h1>';
+	$out.='<div class="bookmark-description">'.variable_get('cdt_carnet_description', "").'</div>';
+
+	if(isset($_SESSION['carnetnids']) && count($_SESSION['carnetnids'])>0){
+		
+		$nids = $_SESSION['carnetnids'];
+		
+		foreach($nids as $nid){
+			
+			$n = node_load($nid);
+			
+			$out.=theme('cdt_carnet-list-item', $n);
+			
+		}
+
+    // Simple_share module implementation
+
+    if(module_exists('simple_share')){
+
+      $items=array();
+
+      $bid = $_SESSION['carnetid-share'];
+      $url = url($base_url .'/carnet-de-voyage/'.$bid, array('absolute'=>TRUE));
+
+      // Build fake node to share
+      $node = new stdClass();
+      $node->title = variable_get('cdt_carnet_share_title','');
+      $node->body = _cdt_carnet_get_message();
+
+      // Facebook
+      $items[] = theme('simple_share_item', 'facebook', $node, $url);
+      // Twitter
+      $items[] = theme('simple_share_item', 'twitter', $node, $url);
+      // Mail
+      $items[] = theme('cdt_carnet_mail');
+
+      if(count($items)>0){
+        $list = theme('simple_share_items', $items);
+
+        $node->content['simple_share'] = array(
+            '#value' => theme('simple_share-box', t('Share this'), $list),
+            '#weight' => variable_get('social_share_weight', 0),
+        );
+
+        $out .= $list;
+
+      }
+
+    }
+		
+	}
+
+  $out .= '<a class="clear-bookmarks" href="bookmarks/clear">'.t('Clear bookmarks').'</a>';
+	
+	//return t('There is no item in your bookmarks.');
+	return $out;
+}
+
+
+function theme_cdt_carnet_mail(){
+  $link = '';
+
+  if(isset($_SESSION['carnetid-share']) && !empty($_SESSION['carnetid-share'])){
+    $link = l('<img src="'.base_path().drupal_get_path('theme', 'cdt2011').'/images/btn-share-mail.png">', 'carnet-de-voyage/mail', array('html'=>TRUE, 'attributes'=>array('class'=>'social-share-mail')));
+  }
+
+	return $link;
+}
+
+function cdt_carnet_clear(){
+  $_SESSION['carnetnids']=array();
+  drupal_set_message(t('Bookmarks cleared'));
+  drupal_goto('carnet-de-voyage');
+}
+
+
+function cdt_carnet_mail_form(&$form_state){
+
+	$form = array();
+
+	$form['entete'] = array(
+		'#value' => '<h1>'.t('Share by mail').'</h1>',
+	);
+
+
+	$form['to'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Send to'),
+		'#required' => TRUE,
+	);
+	$form['from'] = array(
+		'#type' => 'textfield',
+		'#title' => t('From'),
+		'#required' => TRUE,
+	);
+
+	$form['subject'] = array(
+		'#type' => 'textfield',
+		'#title' => t('Subject'),
+		'#required' => TRUE,
+		'#default_value' => variable_get('cdt_carnet_share_title',''),
+	);
+
+	$form['node'] = array(
+		'#value' => _cdt_carnet_get_message(),
+	);
+
+	$form['message'] = array(
+		'#type' => 'textarea',
+		'#title' => t('Your message'),
+		'#required' => FALSE,
+	);
+
+	$form['submit']=array(
+		'#type' => 'submit',
+		'#value' => t('Send'),
+	);
+
+	return $form;
+}
+
+function cdt_carnet_mail_form_submit($form_id, &$form_state){
+	$vals = $form_state['values'];
+	global $language;
+
+	$cnt = '<div class="personalmessage">'.$vals['message'].'</div>'._cdt_carnet_get_message();
+
+	$params = array(
+	    'subject' => $vals['subject'],
+	    'body' => $cnt,
+	  );
+
+  	if(drupal_mail('simple_share', 'simple_share', $vals['to'], $language, $params, $vals['from'])){
+  		drupal_set_message(t('Your message has been sent.'));
+  	}
+
+	drupal_goto('carnet-de-voyage');
+}
+
+function _cdt_carnet_get_message(){
+  global $base_url;
+
+  $bid = $_SESSION['carnetid-share'];
+  $url = url($base_url .'/carnet-de-voyage/'.$bid, array('absolute'=>TRUE));
+
+  return str_replace('%url', $url, variable_get('cdt_carnet_share_message',''));
+}

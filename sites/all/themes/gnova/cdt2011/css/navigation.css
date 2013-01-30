@@ -1,0 +1,92 @@
+/*===========================Style Menu========================*/
+
+#conteneur_menu{ width:100%; background:url(../images/sprite_repeat.png); height:54px;}
+
+#menu-primary-links{ width:704px; padding-right:280px; margin:0 auto; position:relative; z-index:1000;}
+
+#menu-primary-links li{ float:left;}
+
+#menu-primary-links li:hover, #menu-primary-links .actif{  background:url(../images/sprite_repeat.png) 0 -62px;}
+
+#menu-primary-links li a{font:1.65em/61px 'DaxCondensedRegular', Arial, Helvetica, sans-serif; /*text-transform:uppercase;*/ letter-spacing:-1px; color:#e3e6e8; text-decoration:none; height:54px; display:block; padding:0 33px 0 17px; background:url(../images/sprite.png) no-repeat right -399px;}
+
+/*#menu-primary-links li a{ font:3.11em;}*/
+
+#menu-primary-links li .ssmenu{ position:absolute; z-index:2000; background-color:#FFF; width:368px; border:1px solid #028cc2; padding:20px 0 22px; display:none;}
+
+#menu-primary-links li .snd{ margin-left:367px;}
+
+#menu-primary-links li .ssmenu li{ float:none;}
+
+#menu-primary-links .separator{ text-indent:-9999px; border-right:1px solid #727272;  height: 31px; margin-top: 13px; }
+
+#menu-primary-links li .ssmenu li a{ color:#666; font:0.88em/23px Arial, Helvetica, sans-serif; text-transform:none; height:29px; letter-spacing:normal; background-position:9px -982px; padding:4px 0 0 25px;}
+
+#menu-primary-links li .ssmenu li:hover{ background:none; background-color:#DDD;}
+
+#menu-primary-links li .ssmenu li .ssmenu_img{ position:absolute; top:-1px; right:-1px; display:none; background-color:#FFF; border:1px solid #028cc2; border-left:none; -moz-box-shadow: -2px 0px 10px #555;  -webkit-box-shadow: -2px 0px 10px #555;  box-shadow: -2px 0px 10px #555; }
+	
+#menu-primary-links li .ssmenu li .ssmenu_img li:hover{ background:none;}
+
+#menu-primary-links li .ssmenu li .ssmenu_img .last{ border-top:1px solid #e7e7e7; }
+
+#menu-primary-links li .ssmenu li .ssmenu_img .last img{ padding-top:15px;}
+
+#menu-primary-links li .ssmenu li .ssmenu_img img{ padding:20px 10px 10px 10px;}
+
+/*=======================Fin=Style Menu========================*/
+
+/*=======================BREADCRUMB=======================*/
+
+ #fil_ariane{ height:13px; margin:15px 0;}
+
+#fil_ariane li a{ text-decoration:none; }
+
+#fil_ariane li h1{ border: 0 none; font-family:Arial, Helvetica, sans-serif; font-size: 1em; padding: 0; text-transform:none; margin:0;}
+
+#fil_ariane li h1 a{ letter-spacing:normal; text-transform:none;}
+
+#fil_ariane li { font:0.69em Arial, Helvetica, sans-serif; float:left;}
+
+#fil_ariane .separate{ margin:0 8px;}
+
+/*========================Style Menu Pro========================*/
+
+body.domain-2 #conteneur_menu #menu-primary-links li a{ height: 49px; line-height: 22px; padding-top: 5px; font-size:1.53em; letter-spacing:0;}
+
+body.domain-2 #conteneur_menu #menu-primary-links li .ssmenu li a{ height:29px; line-height:23px; padding-top:4px; font-size:0.88em;}
+
+body.domain-2 #conteneur_menu #menu-primary-links li .ssmenu{ width:auto;}
+
+body.domain-2 #conteneur_menu #menu-primary-links li .ssmenu li{ padding-right:10px;}
+
+body.domain-2 #conteneur_menu #menu-primary-links li a span{ font-size:0.7em; display:block;}
+
+/*====================FIN=Style Menu Pro========================*/
+
+/*========================Pagination========================*/
+
+#pagination{ border:1px solid #ededed; background-image: -moz-linear-gradient(top, #FFFFFF, #f1f1f1); /* Firefox 3.6 */
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, #f1f1f1),color-stop(1, #FFFFFF)); /* Safari & Chrome */
+	filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFFFF', endColorstr='#f1f1f1'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFFFFF', endColorstr='#f1f1f1')"; /* IE8 */
+ width:187px; margin:0 auto; height:21px; position:relative;
+}
+
+#pagination li{ float:left;}
+
+#pagination li a{ font-size:0.88em; padding:5px; text-decoration:none; line-height:21px;}
+
+#pagination li a:hover{ background-color:#9b9b9b; color:#FFF;}
+
+#pagination .custom{ position:absolute; background:url(../images/sprite.png) no-repeat 0px -3895px; }
+
+#pagination .custom a{ height:21px; width:10px;  text-indent:-9990px; display:block;}
+
+#pagination .custom a:hover{ background:none;}
+
+.p_page{ left:-18px;}
+
+.n_page{ right:-18px;}
+
+#pagination .n_page{ background-position:0 -3928px;}

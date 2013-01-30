@@ -1,0 +1,447 @@
+<?php
+define('CONTENTALERT_DATE_FORMAT', 'Y-m-d H:i:s');
+define('CONTENTALERT_DATE_FORMAT_FR', 'd-m-Y H:i:s');
+
+/**
+ * Implementation of hook_perm().
+ */
+function contentalert_perm() {
+  return array('content alert edit', 'administer contentalert');
+}
+
+/**
+ * Implementation of hook_menu().
+ */
+function contentalert_menu(){
+  $items = array();
+
+	$items['admin/settings/contentalert'] = array(
+    'title' => t('Content Alert'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('contentalert_admin_form'),
+    'access arguments' => array('administer contentalert'),
+    'type'             => MENU_NORMAL_ITEM,
+    'file'	=> "contentalert.admin.inc",
+  );
+  
+  return $items;
+}
+
+/**
+ * Implementation of hook_form_alter().
+ */
+function contentalert_form_alter(&$form, $form_state, $form_id) {
+  //allow scheduling on a per-node-type basis
+
+  if ('node_type_form' == $form_id) { // Form for node type settings
+
+    $form['contentalert'] = array(
+      '#type' => 'fieldset',
+      '#title' => 'Alerts',
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#weight' => 35,
+      '#group' => 'additional_settings',
+    );
+
+    $form['contentalert']['contentalert_enable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Enable Content Alert'),
+      '#default_value' => variable_get('contentalert_enable_'. $form['#node_type']->type, 0),
+      '#description' => t('Check this box to enable content alert for this node type.')
+    );
+    
+  }
+
+  // is this a node form?
+  elseif (isset($form['type']['#value']) && $form['type']['#value'] .'_node_form' == $form_id) {
+    if (user_access('content alert edit')) {
+      $contentalert_enabled = variable_get('contentalert_enable_'. $form['type']['#value'], 0) == 1;
+
+      // if scheduling has been enabled for this node type
+      if ($contentalert_enabled) {
+
+        $node = $form['#node'];
+
+        $date_format = variable_get('contentalert_date_format', CONTENTALERT_DATE_FORMAT_FR);
+        $use_date_popup = _contentalert_use_date_popup();
+
+        $internal_date_format = $use_date_popup ? CONTENTALERT_DATE_FORMAT : $date_format;
+
+        // if this is a preview then get the values from the form, not the db
+        if (isset($form_state['values']['op']) && $form_state['values']['op'] == $form_state['values']['preview']) {
+          $defaults = new StdClass;
+          $defaults->contentalert_datetime_tosend = $form_state['values']['contentalert_datetime_tosend'];
+          $defaults->contentalert_user = $form_state['values']['contentalert_uid'];
+          $defaults->contentalert_message = $form_state['values']['contentalert_message'];
+        }
+        elseif (isset($node->nid) && $node->nid > 0) {
+          // load the values if we are viewing an existing node
+          $results = db_fetch_object(db_query('SELECT ca.datetime_tosend, u.name, ca.message FROM {contentalert} ca INNER JOIN {users} u ON u.uid=ca.uid WHERE nid = %d', $node->nid));
+          $defaults = new StdClass;
+          $defaults->contentalert_datetime_tosend = $results->datetime_tosend;
+          $defaults->contentalert_user = $results->name;
+          $defaults->contentalert_message = $results->message;
+        }
+        else {
+          // init standard values
+          $defaults = new StdClass;
+          $defaults->contentalert_datetime_tosend = $defaults->contentalert_user = $defaults->contentalert_message = NULL;
+        }
+
+        // if there is a text value then convert it to a unix timestamp
+        if (isset($defaults->contentalert_datetime_tosend) && $defaults->contentalert_datetime_tosend && !is_numeric($defaults->contentalert_datetime_tosend)) {
+          $defaults->contentalert_datetime_tosend = _contentalert_strtotime($defaults->contentalert_datetime_tosend);
+        }
+
+        $fieldset_extended = (
+          (isset($defaults->contentalert_datetime_tosend) && $defaults->contentalert_datetime_tosend != 0)
+        );
+
+        $form['contentalert_settings'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Alerts'),
+          '#collapsible' => TRUE,
+          '#collapsed' => !$fieldset_extended,
+          '#weight' => 35,
+          '#group' => 'additional_settings',
+          '#attached' => array(
+            'js' => array(
+              'vertical-tabs' => drupal_get_path('module', 'contentalert') . "/contentalert_vertical_tabs.js"
+            ),
+          )
+        );
+
+        $description_format = t('Format: %time.', array('%time' => format_date(time(), 'custom', $date_format)));
+        if ($contentalert_enabled) {
+          $description_blank = ' '.t('Leave blank to disable alert.');
+
+          $form['contentalert_settings']['contentalert_datetime_tosend'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Date to alert'),
+            '#maxlength' => 25,
+            '#required' => FALSE,
+            '#default_value' => isset($defaults->contentalert_datetime_tosend) && $defaults->contentalert_datetime_tosend ? format_date($defaults->contentalert_datetime_tosend, 'custom', $internal_date_format) : '',
+            '#description' => $description_format.$description_blank,
+          );
+          $form['contentalert_settings']['contentalert_uid'] = array(
+            '#type' => 'textfield',
+            '#title' => t('User'),
+            '#autocomplete_path' => 'user/autocomplete',
+            '#required' => FALSE,
+            '#default_value' => isset($defaults->contentalert_user) && $defaults->contentalert_user ? $defaults->contentalert_user : '',
+          );
+          $form['contentalert_settings']['contentalert_message'] = array(
+            '#type' => 'textarea',
+            '#title' => t('Message'),
+            '#required' => FALSE,
+            '#default_value' => isset($defaults->contentalert_message) && $defaults->contentalert_message ? $defaults->contentalert_message : '',
+          );
+        }
+
+        if ($use_date_popup) {
+          // Make this a popup calendar widget if Date Popup module is enabled.
+          if ($contentalert_enabled) {
+            $form['contentalert_settings']['contentalert_datetime_tosend']['#type'] = 'date_popup';
+            $form['contentalert_settings']['contentalert_datetime_tosend']['#date_format'] = $date_format;
+            $form['contentalert_settings']['contentalert_datetime_tosend']['#date_year_range'] = '0:+10';
+            $form['contentalert_settings']['contentalert_datetime_tosend']['#description'] = t('Leave blank to disable alert.');
+            unset($form['contentalert_settings']['contentalert_datetime_tosend']['#maxlength']);
+          }
+        }
+      }
+    }
+  }
+}
+
+
+/**
+ * Implementation of hook_nodeapi().
+ */
+function contentalert_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  // Run $op == load for any user.
+  if ($op == 'load') {
+    $contentalert_enabled = variable_get('contentalert_publish_enable_'. $node->type, 0) == 1;
+    if (isset($node->nid) && $node->nid && $contentalert_enabled) {
+      $result = db_query('SELECT * FROM {contentalert} WHERE nid = %d', $node->nid);
+      if ($result) {
+        $row = db_fetch_array($result);
+        if (isset($row['nid'])) {
+          unset($row['nid']);
+
+          $user = user_load(array('uid'=>$row['uid']));
+
+          $node->contentalert_datetime_tosend = $row['datetime_tosend'];
+          $node->contentalert_uid = $user->name;
+          $node->contentalert_message = $row['message'];
+          $row['contentalert_datetime_tosend'] = $row['datetime_tosend'] ? date(variable_get('date_format_long', 'l, F j, Y - H:i'), $row['datetime_tosend']) : NULL;
+          $row['contentalert_uid'] = $user->name ? $user->name : NULL;
+          $row['contentalert_message'] = $row['contentalert_message'] ? $row['contentalert_message'] : NULL;
+          $node->contentalert = $row;
+        }
+      }
+    }
+  }
+  elseif (user_access('content alert edit')) {
+    switch ($op) {
+      case 'view':
+      case 'validate':
+      case 'presave':
+        // adjust the entered times for timezone consideration.
+        // Note, we must check to see if the value is numeric,
+        // if it is, assume we have already done the strtotime
+        // conversion. This prevents us running strtotime on
+        // a value we have already converted. This is needed
+        // because DRUPAL6 removed 'submit' and added 'presave'
+        // and all this happens at different times.
+
+        $date_format = variable_get('contentalert_date_format', CONTENTALERT_DATE_FORMAT);
+
+        if (isset($node->contentalert_datetime_tosend) && $node->contentalert_datetime_tosend && !is_numeric($node->contentalert_datetime_tosend)) {
+          $publishtime = _contentalert_strtotime($node->contentalert_datetime_tosend);
+
+          if ($publishtime === FALSE) {
+            form_set_error('contentalert_datetime_tosend', t("The 'Date to alert' value does not match the expected format of %time", array('%time' => format_date(time(), 'custom', $date_format))));
+          }
+          elseif ($publishtime && $publishtime < _contentalert_strtotime(time())) {
+            form_set_error('contentalert_datetime_tosend', t("The 'Date to alert' date must be in the future"));
+          }
+          else {
+            $node->contentalert_datetime_tosend = $publishtime;
+          }
+        }
+        break;
+      case 'insert':
+        // only insert into database if we need to (un)publish this node at some date
+        if (isset($node->nid) && $node->nid && (isset($node->contentalert_datetime_tosend) && $node->contentalert_datetime_tosend != NULL)) {
+          $user = user_load(array('name'=>$node->contentalert_uid));
+          $node->contentalert_uid = $user->uid;
+
+          db_query("INSERT INTO {contentalert} (nid, datetime_tosend, uid, message) VALUES (%d, %d, %d, '%s')", $node->nid, $node->contentalert_datetime_tosend, $node->contentalter_uid, $node->contentalter_message);
+        }
+        break;
+      case 'update':
+        if (isset($node->nid) && $node->nid) {
+          $exists = db_result(db_query('SELECT nid FROM {contentalert} WHERE nid = %d', $node->nid));
+
+          $user = user_load(array('name'=>$node->contentalert_uid));
+          $node->contentalert_uid = $user->uid;
+
+          // if this node has already been scheduled, update its record
+          if ($exists) {
+            // only update database if we need to (un)publish this node at some date
+            // otherwise the user probably cleared out the (un)publish dates so we should remove the record
+            if ((isset($node->contentalert_datetime_tosend) && $node->contentalert_datetime_tosend != NULL)) {
+              db_query("UPDATE {contentalert} SET datetime_tosend = %d, uid = %d, message = '%s' WHERE nid = %d", $node->contentalert_datetime_tosend, $node->contentalert_uid, $node->contentalert_message, $node->nid);
+            }
+            else {
+              db_query('DELETE FROM {contentalert} WHERE nid = %d', $node->nid);
+            }
+          }
+          // node doesn't exist, create a record only if the date exist and is not blank
+          elseif (isset($node->contentalert_datetime_tosend) && $node->contentalert_datetime_tosend != NULL) {
+            db_query("INSERT INTO {contentalert} (nid, datetime_tosend, uid, message) VALUES (%d, %d, %d, '%s')", $node->nid, $node->contentalert_datetime_tosend, $node->contentalert_uid, $node->contentalert_message);
+          }
+        }
+        break;
+      case 'delete':
+        if (isset($node->nid) && $node->nid) {
+          db_query('DELETE FROM {contentalert} WHERE nid = %d', $node->nid);
+        }
+        break;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_cron().
+ */
+function contentalert_cron(){
+  // Delete alerts > 1 month ago
+  db_query("DELETE FROM {contentalert} WHERE datetime_tosend < %d", strtotime('-1 month'));
+
+  // Send contentalerts if it isn't sent today yet and mark as sent with timestamp
+  $curtime = time();
+  $req = db_query("SELECT ca.message, ca.uid, ca.nid FROM {contentalert} ca WHERE ca.datetime_tosend <= ".$curtime." AND (DATE(FROM_UNIXTIME(ca.datetime_lastsend)) <> DATE(FROM_UNIXTIME(".$curtime.")) OR ca.datetime_lastsend IS NULL)");
+  while($result = db_fetch_object($req)){
+    _contentalert_sendmail($result);
+  }
+}
+
+/**
+ * Implementation of hook_mail().
+ */
+function contentalert_mail($key, &$message, $params){
+  if($key == 'contentalert_notice'){
+    $data['user'] = $params['user'];
+    $options['language'] = $message['language'];
+    user_mail_tokens($data, $options);
+
+    $langcode = $message['language']->language;
+    $message['body'][] = token_replace_multiple(t(variable_get('contentalert_mail_message', ''), array('langcode' => $langcode)), array('contentalert' => $params['contentalert'], 'node' => $params['node'], 'user' => $params['user']));
+    $message['subject'] = token_replace_multiple(t(variable_get('contentalert_mail_title', ''), array('langcode' => $langcode)), array('contentalert' => $params['contentalert'], 'node' => $params['node'], 'user' => $params['user']));
+  }
+}
+
+/**
+ * Implementation of hook_token_list().
+ */
+function contentalert_token_list($type = 'all') {
+  if ($type == 'contentalert' || $type == 'all') {
+     $tokens = array();
+
+     $tokens['contentalert']['contentalert_message'] = t("Content Alert node message");
+     $tokens['contentalert']['contentalert_username'] = t("Content Alert username to send");
+     $tokens['contentalert']['contentalert_node-link'] = t("Content Alert link to node");
+
+     return $tokens;
+  }
+}
+
+/**
+ * Implementation of hook_token_values().
+ */
+function contentalert_token_values($type, $object = NULL, $options = array()) {
+  if ($type == 'contentalert') {
+
+     $tokens['contentalert_message'] = $object->message;
+     $tokens['contentalert_username'] = $object->name;
+     $tokens['contentalert_node-link'] = url(drupal_lookup_path('alias', 'node/'.$object->nid), array('absolute'=>true));
+
+     return $tokens;
+  }
+}
+
+/**
+ * Do we use the date_popup for date/time selection?
+ */
+function _contentalert_use_date_popup() {
+  return module_exists('date_popup') && variable_get('contentalert_field_type', 'date_popup') == 'date_popup';
+}
+
+
+/**
+ * Converts an english time string ('Y-m-d H:i:s') from the users timezone into an unix timestamp
+ * @param string $str the time string ('Y-m-d H:i:s')
+ * @return the time in unix timestamp representation (utc);
+ * NULL, if $str is NULL, FALSE, empty, or contains only white spaces;
+ * FALSE, if $str is malformed
+ */
+function _contentalert_strtotime($str) {
+  if ($str && trim($str) != "" ) {
+    $date_format = variable_get('contentalert_date_format', CONTENTALERT_DATE_FORMAT);
+
+    if (_contentalert_use_date_popup()) {
+          $date_format = CONTENTALERT_DATE_FORMAT;
+    }
+    $time=_contentalert_strptime(trim($str), $date_format);
+
+    if ($time!==FALSE) {
+      // success
+      $time -= _contentalert_get_user_timezone();
+    }
+  }
+  else {
+    // $str is empty
+    $time = NULL;
+  }
+  return $time;
+}
+
+/**
+ * Parse a time/date as UTC time
+ *
+ * @param string $date The string to parse
+ * @param string $format The format used in $date. See date() (http://www.php.net/manual/en/function.date.php)
+ * specification for format options. Right now only dHhmiaAsyY are supported.
+ * @return the parsed time as a UTC timestamp
+ * @see date()
+ */
+function _contentalert_strptime($date, $format) {
+  # we need to build a regex pattern for the date format
+  $date_entities = array('d', 'H', 'h', 'm', 'i', 'a', 'A', 's', 'y', 'Y', 'n', 'j', 'g', 'G');
+  $date_regex_replacements = array('(\d{2})', '(\d{2})', '(\d{2})', '(\d{2})', '(\d{2})', '([ap]m)', '([AP]M)', '(\d{2})', '(\d{2})', '(\d{4})', '(\d{1,2})', '(\d{1,2})', '(\d{1,2})', '(\d{1,2})');
+  $custom_pattern = str_replace($date_entities, $date_regex_replacements, $format);
+
+  if (!preg_match("#$custom_pattern#", $date, $value_matches)) {
+    return FALSE;
+  }
+
+  if (!preg_match_all("/(\w)/", $format, $entity_matches)) {
+    return FALSE;
+  }
+
+  $results = array('day' => 0, 'hour' => 0, 'month' => 0, 'minute' => 0, 'meridiem' => NULL, 'second' => 0, 'year' => 0);
+  $index = 1;
+  foreach ($entity_matches[1] as $entity) {
+    $value = intval($value_matches[$index]);
+    switch ($entity) {
+      case 'd':
+      case 'j':
+        $results['day'] = $value;
+        break;
+      case 'H':
+      case 'h':
+      case 'g':
+      case 'G':
+        $results['hour'] = $value;
+        break;
+      case 'm':
+      case 'n':
+        $results['month'] = $value;
+        break;
+      case 'i':
+        $results['minute'] = $value;
+        break;
+      case 'a':
+      case 'A':
+        $results['meridiem'] = $value_matches[$index];
+        break;
+      case 's':
+        $results['second'] = $value;
+        break;
+      case 'y':
+      case 'Y':
+        $results['year'] = $value;
+        break;
+    }
+    $index++;
+  }
+  if ((strncasecmp($results['meridiem'], "pm", 2) == 0) && ($results['hour'] <= 12)) {
+    $results['hour'] += 12;
+  }
+
+  $time = gmmktime( $results['hour'], $results['minute'], $results['second'], $results['month'], $results['day'], $results['year'] );
+  return $time;
+}
+
+
+/**
+ * Gets the users timezone if configurable timezones are enabled or otherwise the default timezone of the site
+ *
+ * @return the offset of the users timezone in seconds
+ */
+function _contentalert_get_user_timezone() {
+  global $user;
+  $timezone = variable_get('date_default_timezone', 0);
+  if ((variable_get('configurable_timezones', 1) == 1) && (strlen($user->timezone))) {
+    $timezone = $user->timezone;
+  }
+  return $timezone;
+}
+
+/**
+ * Send alert mail to user
+ */
+function _contentalert_sendmail($data){
+  $node = node_load($data->nid);
+  $user = user_load($data->uid);
+
+  if($node && $user && !empty($user->mail)){
+    $params = array('contentalert' => $data, 'node' => $node, 'user' => $user);
+    drupal_mail('contentalert', 'contentalert_notice', $user->mail, user_preferred_language($user), $params);
+
+    // Update last date sent
+    db_query("UPDATE {contentalert} SET datetime_lastsend = %d WHERE nid=%d", time(), $data->nid);
+  }
+}

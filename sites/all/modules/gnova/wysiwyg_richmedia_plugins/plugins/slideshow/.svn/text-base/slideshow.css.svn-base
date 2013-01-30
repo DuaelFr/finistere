@@ -1,0 +1,36 @@
+.ui-dialog{z-index: 1;
+	border: solid 1px #ddd;
+	padding: 5px;
+	background-color: #fff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
+		need it to be positioned to hold e.g. close button. */
+	position: relative;
+	_position: static;}
+.ui-dialog-title{border-bottom: 1px solid #EEEEEE;
+    cursor: move;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 3px 8px;
+    position: relative;}
+.ui-dialog-titlebar-close{background-image: url("images/sprites.png");
+    background-position: 0 -1022px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 5px;
+    width: 20px;
+    right: 10px;}
+.ui-dialog-content{}
+#wysiwyg-richmedia-slideshow-bundleRecipient{}
+.wysiwyg_richmedia_slideshow_image_fieldset{}
+.wysiwyg_richmedia_slideshow_image_fieldset legend{}
+.wysiwyg_richmedia_slideshow_image_src_container{}
+.wysiwyg_richmedia_slideshow_image_description_container{}
+.wysiwyg_richmedia_slideshow_text_description_container{}
+.wysiwyg_richmedia_slideshow_image_href_container{}

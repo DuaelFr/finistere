@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * Implemenation of hook_install().
+ */
+function ubox_install() {
+  drupal_install_schema('ubox');
+}
+
+/**
+ * Implemenation of hook_uninstall().
+ */
+function ubox_uninstall() {
+  drupal_uninstall_schema('ubox');
+}
+
+/**
+ * Implemenation of hook_schema().
+ */
+function ubox_schema() {
+  $schema = array();
+  $schema['ubox_area'] = array(
+    'description' => 'Stores contents of custom-made blocks.',
+    'fields' => array(
+      'delta' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'description' => "The block's {blocks}.delta.",
+      ),
+      'plugin_key' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => "The plugin responsible for this block.",
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'description' => "Block title.",
+      ),
+      'description' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => '',
+        'description' => 'Block description.',
+      ),
+     'options' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'Block content configuration.',
+      ),
+    ),
+    'primary key' => array('delta'),
+    'export' => array(
+      'key' => 'delta',
+      'identifier' => 'ubox',
+      'api' => array(
+        'owner' => 'ubox',
+        'api' => 'ubox',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+    ),
+  );
+  return $schema;
+}
