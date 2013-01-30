@@ -1,0 +1,161 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function cdt_pages_menu() {
+  $items = array();
+
+  $items['reservez/weekend'] = array(
+    'title' => t('Book a weekend'),
+    'page callback' => 'reservez_sejwe_weekend_main',
+    'file' => 'cdt_pages.pages.inc',
+    'access arguments' => array('access content'),
+  );
+  $items['book/weekend'] = array(
+    'title' => t('Book a weekend'),
+    'page callback' => 'reservez_sejwe_weekend_main_en',
+    'file' => 'cdt_pages.pages.inc',
+    'access arguments' => array('access content'),
+  );
+  $items['reservez/sejour'] = array(
+    'title' => t('Book a SEJOUR'),
+    'page callback' => 'reservez_sejwe_sejour_main',
+    'file' => 'cdt_pages.pages.inc',
+    'access arguments' => array('access content'),
+  );
+  $items['book/trip'] = array(
+    'title' => t('Book a Trip'),
+    'page callback' => 'reservez_sejwe_sejour_main_en',
+    'file' => 'cdt_pages.pages.inc',
+    'access arguments' => array('access content'),
+  );
+  
+  $items['agenda'] = array(
+    'title' => t('Agenda'),
+    'page callback' => 'public_agenda',
+    'file' => 'cdt_pages.pages.inc',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function cdt_pages_theme($existing, $type, $theme, $path) {
+  return array(
+    'cdtpages_sejwe-main' => array(
+      'arguments' => array('title' => NULL, 'topleft' => NULL, 'topright' => NULL, 'bottomleft' => NULL, 'btmleft_title'=>NULL, 'bottomright' => NULL, 'btmright_title'=>NULL, 'lang'=>NULL),
+      'template' => 'templates/cdtpages_sejwe-main',
+    ),
+     'cdtpages_publicagenda' => array(
+      'arguments' => array('title' => NULL, 'top' => NULL, 'middle' => NULL, 'bottom' => NULL, 'nids'=>NULL),
+      'template' => 'templates/cdtpages_publicagenda',
+    ),
+  );
+}
+
+function cdt_pages_form_alter(&$form, &$form_state, $form_id){
+	
+	if(arg(0)=='agenda' && $form_id=='views_exposed_form'){
+		
+		$form['#action']=base_path().arg(0);
+		$form['field_fl_payant_gratuit_tx_value']=array(
+			'#type'=>'select',
+			'#title' => t('Free'),
+			'#options' => array(
+				'' => t('- Select -'),
+				'Gratuite' => t('Yes'),
+				'Payante' => t('No'),
+			),
+		);
+
+    $form['submit']['#value'] = t('Launch search');
+
+		$form['field_fl_date_debut_date_value']['value']['#date_format'] = 'd-m-Y';
+    $form['field_fl_date_fin_date_value_1']['value']['#date_format'] = 'd-m-Y';
+        
+		unset($form['field_fl_date_debut_date_value']['#description']);
+		unset($form['field_fl_date_fin_date_value_1']['#description']);
+	}
+
+  // Affect all Webform forms.
+  if ($form_id == 'webform_client_form_5942') {
+    if(!empty($form['submitted']['bonplan']['#default_value']) || !empty($form['#parameters'][1]['post']['submitted']['bonplan'])){
+      $bonplan = (int) (empty($form['submitted']['bonplan']['#default_value']))? $form['#parameters'][1]['post']['submitted']['bonplan']:$form['submitted']['bonplan']['#default_value'];
+      if($bonplan <> 0){
+        $node = node_load($bonplan);
+        if(isset($node->field_bp_email[0]['value']) && !empty($node->field_bp_email[0]['value'])){
+          $form['#node']->webform['emails'][1]['email'] = $node->field_bp_email[0]['value'];
+          $form['#node']->webform['emails'][1]['subject'] = 'Finistere Tourisme : Demande de disponibilité pour ' . $node->title;
+          $form['submitted']['extra']['#default_value'] .= " " . url($node->path, array('absolute' => TRUE));
+          $form['#node']->webform['redirect_url'] = 'node/5942/done?nid='.$node->nid;
+        }
+      }
+    }
+  }
+  
+  if ($form['#id'] == 'node-form' && $form['nid']['#value']) {
+    // customize node_form title, to show more info
+    drupal_set_title(t("Edit: ") . $form['#node']->title . ' (' . $form['#node']->type . ')');
+
+  }
+}
+
+function cdt_pages_preprocess_page(&$variables){
+  if($variables['node']->type == 'flux_fma'){
+    $variables['content_top'] = l(t('Back to agenda :'), 'agenda', array('attributes'=>array('class'=>'back_link'))) . $variables['content_top'];
+  }
+}
+
+function cdt_pages_preprocess_webform_confirmation($vars) {
+  $node = &$vars['node'];
+  if ($node->nid == 5942) { // Bon plans
+    // Make return link return to bonplan content and not webform
+
+    if(!empty($_GET['nid'])) {
+      $vars['node']->nid = (int) $_GET['nid'];
+    }
+  }
+}
+
+/**
+ * Implements hook_translation_link_alter
+ * Translate and make alias links on locale block
+ * @param $links
+ * @param $path
+ * @return void
+ */
+function cdt_pages_translation_link_alter (&$links, $path) {
+  foreach ($links as $lang=>$link) {
+    $links[$lang]['href'] = drupal_get_path_alias($link['href'], $lang);
+    if (strpos($links[$lang]['href'], 'node/') !== FALSE) {
+      $links[$lang]['href'] = "";
+    }
+  }
+}
+
+//Ajout d'une variable à toutes les vues indiquant le nombre de résultats
+/*
+ * views hook
+ * 
+ * hook_views_pre_render
+ * 
+ * called after view constructed but before it is rendered
+ */
+/*function cdt_pages_views_pre_render(&$view) {
+	$nb = $view->total_rows;
+	if($view->name=='hqflux_search_influx'){
+		$view->style_plugin->display->handler->options['footer'] = $nb.' '.t('results');
+	}
+}*/
+
+/** **************************************************************** **/
+/**
+ * BLOCKS
+ */
+/** **************************************************************** **/
+
+module_load_include('inc', 'cdt_pages', 'cdt_pages.blocks');

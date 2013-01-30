@@ -1,0 +1,18 @@
+@font-face {
+	font-family: 'DaxCondensedRegular';
+	src: url('../police/daxcondensed-regular-webfont.eot');
+}
+
+@font-face {
+	font-family: 'NeoSansRegular';
+	src: url('../police/neo_sans-webfont.eot');
+}
+
+@font-face {
+	font-family: 'DaxCondensedBold';
+	src: url('../police/daxcondensed-bold-webfont.eot');	
+}
+
+#conteneur_right #box_boutique .ruban h2, #conteneur_right #box_img_bon_plan .ruban h2{ 
+filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678,sizingMethod='auto expand'); top:12px; left:8px;
+}

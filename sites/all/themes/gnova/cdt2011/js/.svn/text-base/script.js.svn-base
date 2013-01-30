@@ -1,0 +1,119 @@
+$(document).ready(function(){
+	
+	$('#homehead-toload li').each(function(){
+	var search_url = $('#homehead-toload li:first-child').find(".url");
+	var url = search_url.html();
+	var search_text1 = $('#homehead-toload li:first-child').find(".text1");
+	var text1 = search_text1.html();
+	var search_text2 = $('#homehead-toload li:first-child').find(".text2");
+	var text2 = search_text2.html();
+	
+	$(".diaporama").append('<li><div class="titre_slide">'+text1+'<span>'+text2+'</span></div><img src="'+url+'" alt="slide1" /></li>');
+	
+	$('#homehead-toload li:first-child').remove();
+	});
+	
+	$(".diaporama").diaporama({
+		animationSpeed: "slow",
+		delay:5,
+		controls:false
+	});
+	
+	//Effacer le menu au chargement de la page
+	
+	setTimeout(function(){
+      $(".titre_slide").fadeOut(3000);
+	},1000);
+	
+	
+	//Colorbox de la video
+	
+	$("#img_video").colorbox({iframe:true, innerWidth:425, innerHeight:344});
+
+	
+	//Slide ssmenu
+	//Gestion de l'ouverture et la fermeture du sous-menu
+	$.fn.delay = function(time, callback){
+				jQuery.fx.step.delay = function(){};
+				return this.animate({delay:1}, time, callback);
+			}
+	
+	$('.hover_ssmenu li').hover(
+				function(){
+					$(this).stop(true, false).delay(250, function(){
+						$(this).find('.hoverleft_ssmenu').slideDown("fast");
+					});
+				}, 
+				function(){
+					$(this).stop(true, false).delay(100, function(){
+						$(this).find('.hoverleft_ssmenu').slideUp("fast");
+					});
+				}
+			);
+
+	
+	
+	//Gestion de l'ouverture et la fermeture du sous-menu
+	$(".hoverleft_ssmenu li").hover(function() {
+		$(this).find('.ssmenu_img').data('hover', true).fadeIn("slow");
+	},
+	function(){
+		$(this).find('.ssmenu_img').data('hover', false).fadeOut("slow");
+	});
+	
+	//Apparition et disparition coup de coeur
+	
+	($("#coup_de_coeur")||$("#coup_de_coeur a")).click(function(){
+		$("#coup_de_coeur a").toggleClass('close');
+		$(".box_hidden").slideToggle("slow");
+	});
+	
+	//Slide Image
+	
+	($(".scrollable")||$("#slide_agenda")).scrollable({circular: true});
+
+
+    $("#open_goodies").click(function(){
+		$("#ssmenu_goodies").slideToggle("slow");
+	});
+	
+	// Bons plans Détails Gallery
+	
+	$("ul.g-tabs").tabs(".lien_img");
+
+
+    // Accordions	
+	$("#conteneur_right").tabs("#conteneur_right div.open_level_1", {tabs: 'h2', effect: 'slide', initialIndex: null});
+	
+	// Accordions
+	
+	 $(".open_level_1 li.title > a").click( function () { 
+        // Si le sous-menu était déjà ouvert, on le referme : 
+        if ($(this).next("ul.open_level_2:visible").length != 0) { 
+            $(this).next("ul.open_level_2").slideUp("fast"); 
+        } 
+        // Si le sous-menu est caché, on ferme les autres et on l'affiche : 
+        else { 
+            $(".open_level_1 ul.open_level_2").slideUp("fast"); 
+            $(this).next("ul.open_level_2").slideDown("fast"); 
+        } 
+        // On empêche le navigateur de suivre le lien : 
+        return false; 
+    });    
+	
+
+	
+	//hover agenda bg white
+	$(".box_agenda").hover(function() {
+		$(this).find('.comments').data('hover', true).css({'background-color':'#FFF'});
+	},
+	function(){
+		$(this).find('.comments').data('hover', true).css({'background-color':'#c6e0f8'});
+	});
+	
+	// Tabs Widget
+	
+	$("ul.resa_tabs").tabs("div.panes > div");
+
+
+}); 

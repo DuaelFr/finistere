@@ -1,0 +1,7 @@
+; $Id: cdt_pages.info,v 1.1 2011/02/17 02:04:11 sun Exp $
+name = Carnet de voyage
+description = "Permet de stocker une liste de nodes en session et de l'afficher dans la page carnet de voyage"
+package = G-nova
+core = 6.x
+
+dependencies[] = views

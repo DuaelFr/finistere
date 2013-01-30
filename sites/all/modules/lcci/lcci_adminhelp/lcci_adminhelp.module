@@ -1,0 +1,11 @@
+<?php
+
+function lcci_adminhelp_form_alter(&$form, &$form_state, $form_id){
+	
+	//dsm($form);
+	if($form_id=='system_modules'){
+		$form['#prefix']='<a style="cursor:pointer;" class="lcci-toogle-all-packages">'.t('Toogle all').'</a>';
+		drupal_add_js(drupal_get_path('module', 'lcci_adminhelp').'/js/admin_modules.js');
+	}
+	
+}

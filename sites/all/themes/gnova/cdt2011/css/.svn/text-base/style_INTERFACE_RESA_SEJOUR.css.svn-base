@@ -1,0 +1,158 @@
+.no_abs{ position:relative; float:left; top:0;}
+
+#filters{ margin-bottom:20px;}
+
+#filters label:first-child{ font-size:0.88em; margin-right:0}
+
+#filters label{ font-size:0.69em; font-weight:bold; text-transform:uppercase; margin-right:10px;}
+
+#conteneur_left.decouvrez .ubox_items.blue .ubox_item{ float:none; margin:0;}
+
+#conteneur_left.decouvrez .ubox_items.blue .ubox_item_content h3 a{ font:1.94em 'NeoSansRegular', Arial, Helvetica, sans-serif;  color:#FFF; margin-bottom:10px; display:block;}
+
+#conteneur_left.decouvrez .ubox_items.blue .ubox_item_content .lien_title{ background-position:0 -4469px; float:none; position:relative; top:auto; right:auto; color:white;}
+
+#conteneur_left.decouvrez .box_decouvrez{ position:relative;}
+
+#conteneur_left.decouvrez .box_decouvrez img{ max-width:none;}
+
+#conteneur_left.decouvrez .box_decouvrez .prix span + span + span + span{ position:absolute; color:#dddddd; font-size:0.75em; height:auto; bottom:12px; left:13px;}
+
+#conteneur_left.decouvrez .box_decouvrez .prix{right:365px; position: absolute; top: 133px;}
+
+#conteneur_left.decouvrez .box_decouvrez .prix span{ display:block; float:left;  height:87px;}
+
+#conteneur_left.decouvrez .box_decouvrez p{ margin-top:5px;}
+
+#conteneur_left.decouvrez .box_decouvrez .contenu_decouvrez{ width:313px;}
+
+#conteneur_left.decouvrez .box_decouvrez .contenu_decouvrez div a{ font-weight:bold; text-decoration:none; display:block; margin-top:7px;}
+
+#conteneur_left.decouvrez .box_decouvrez .contenu_decouvrez div img{ border:0; margin:10px 0 0 0;}
+
+/*sejour #274058*/
+
+#conteneur_left.sejour .ubox_items img{ max-width:none; border:7px solid #274058; margin-left:0;}
+
+#conteneur_left.sejour .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#274058; text-transform:none;}
+
+#conteneur_left.sejour .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_sejour.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.sejour .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_37.png) no-repeat; width:6px;}
+
+#conteneur_left.sejour .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_39.png) no-repeat; width:6px;}
+
+#conteneur_left.sejour .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_38.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*light_blue #5bd0da*/
+
+#conteneur_left.light_blue .ubox_items img{ max-width:none; border:7px solid #5bd0da; margin-left:0;}
+
+#conteneur_left.light_blue .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#5bd0da; text-transform:none;}
+
+#conteneur_left.light_blue .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_light_blue.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.light_blue .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_03.png) no-repeat; width:6px;}
+
+#conteneur_left.light_blue .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_05.png) no-repeat; width:6px;}
+
+#conteneur_left.light_blue .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_04.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+
+/*orange #e2b24a*/
+
+#conteneur_left.orange .ubox_items img{ max-width:none; border:7px solid #e2b24a; margin-left:0;}
+
+#conteneur_left.orange .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#e2b24a; text-transform:none;}
+
+#conteneur_left.orange .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_orange.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.orange .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_07.png) no-repeat; width:6px;}
+
+#conteneur_left.orange .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_09.png) no-repeat; width:6px;}
+
+#conteneur_left.orange .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_08.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*pink #e25c9b*/
+
+#conteneur_left.pink .ubox_items img{ max-width:none; border:7px solid #e25c9b; margin-left:0;}
+
+#conteneur_left.pink .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#e25c9b; text-transform:none;}
+
+#conteneur_left.pink .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_pink.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.pink .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_13.png) no-repeat; width:6px;}
+
+#conteneur_left.pink .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_15.png) no-repeat; width:6px;}
+
+#conteneur_left.pink .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_14.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*blue #75b6ff*/
+
+#conteneur_left.blue .ubox_items img{ max-width:none; border:7px solid #75b6ff; margin-left:0;}
+
+#conteneur_left.blue .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#75b6ff; text-transform:none;}
+
+#conteneur_left.blue .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_blue.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.blue .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_16.png) no-repeat; width:6px;}
+
+#conteneur_left.blue .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_18.png) no-repeat; width:6px;}
+
+#conteneur_left.blue .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_17.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*green #a2ba1a*/
+
+#conteneur_left.green .ubox_items img{ max-width:none; border:7px solid #a2ba1a; margin-left:0;}
+
+#conteneur_left.green .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#a2ba1a; text-transform:none;}
+
+#conteneur_left.green .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_green.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.green .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_21.png) no-repeat; width:6px;}
+
+#conteneur_left.green .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_23.png) no-repeat; width:6px;}
+
+#conteneur_left.green .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_22.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*brown #a28b70*/
+
+#conteneur_left.brown .ubox_items img{ max-width:none; border:7px solid #a28b70; margin-left:0;}
+
+#conteneur_left.brown .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#a28b70; text-transform:none;}
+
+#conteneur_left.brown .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_brown.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.brown .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_29.png) no-repeat; width:6px;}
+
+#conteneur_left.brown .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_31.png) no-repeat; width:6px;}
+
+#conteneur_left.brown .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_30.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*purple #9580b9*/
+
+#conteneur_left.purple .ubox_items img{ max-width:none; border:7px solid #9580b9; margin-left:0;}
+
+#conteneur_left.purple .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#9580b9; text-transform:none;}
+
+#conteneur_left.purple .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_purple.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.purple .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_32.png) no-repeat; width:6px;}
+
+#conteneur_left.purple .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_34.png) no-repeat; width:6px;}
+
+#conteneur_left.purple .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_33.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}
+
+/*red #b92724*/
+
+#conteneur_left.red .ubox_items img{ max-width:none; border:7px solid #b92724; margin-left:0;}
+
+#conteneur_left.red .box_decouvrez h2 a{ font:1em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#b92724; text-transform:none;}
+
+#conteneur_left.red .ubox_items.blue .ubox_item_content{ background:url(../images/bg_items_content_red.png); width:300px; bottom:40px; left:7px; padding-left:20px;}
+
+#conteneur_left.red .box_decouvrez .prix .left_b{ background:url(../images/prix_bg_color_24.png) no-repeat; width:6px;}
+
+#conteneur_left.red .box_decouvrez .prix .right_b{ background:url(../images/prix_bg_color_26.png) no-repeat; width:6px;}
+
+#conteneur_left.red .box_decouvrez .prix .middle_b{ background:url(../images/prix_bg_color_25.png) repeat-x; font-size:2.81em; color:#FFF; font-weight:bold; line-height:75px;}

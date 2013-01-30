@@ -1,0 +1,11 @@
+name = Custom Search
+description = Customize the default search, change labels, default texts, ordering, and display content types and taxonomy selectors.
+core = 6.x
+package = Custom Search
+dependencies[] = search
+; Information added by drupal.org packaging script on 2011-10-20
+version = "6.x-1.x-dev"
+core = "6.x"
+project = "custom_search"
+datestamp = "1319112279"
+

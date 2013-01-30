@@ -1,0 +1,484 @@
+<?php
+// $Id$
+
+include_once('ubox.features.inc');
+
+/**
+ * Implementation of hook_menu().
+ */
+function ubox_menu() {
+  $items = array();
+  ctools_include('plugins');
+  $plugins = ctools_get_plugins('ubox', 'plugins');
+
+  foreach ($plugins as $key => $info) {
+    if (isset($info['title'])) {
+      $items['admin/build/block/ubox-area-add/'. $key] = array(
+        'title' => 'Add '. strtolower($info['title']),
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('ubox_area_add_form', 4),
+        'access arguments' => array('administer ubox area'),
+        'type' => MENU_LOCAL_TASK,
+        'file' => 'ubox_area.admin.inc',
+      );
+    }
+  }
+  $items['admin/build/block/configure/ubox/%ubox_area/delete'] = array(
+    'title' => 'Delete userfriendly box',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ubox_area_delete_form', 5),
+    'access arguments' => array('administer blocks'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ubox_area.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Access check for whether current user should be able to administer ubox.
+ */
+function ubox_access_admin() {
+  return user_access('administer ubox area');
+}
+
+/**
+ * Implementation of hook_theme().
+ */
+function ubox_theme($existing, $type, $theme, $path) {
+	$themes = array(
+    'ubox_area_box' => array(
+      'arguments' => array('block' => NULL),
+      'template' => 'ubox_area',
+    )
+  );
+	module_load_include('inc', 'content', 'includes/content.crud');
+	$field = content_field_instance_read(array('type_name'=>"ubox", 'field_name'=>"field_ubox_template"));
+	foreach(explode("\n", $field[0]['allowed_values']) as $allowed_values){
+		$allowed_value = explode("|", $allowed_values);
+		$themes['ubox_box_'.$allowed_value[0]] = array(
+    	'arguments' => array('ubox' => NULL),
+    	'template' => 'ubox_box_'.$allowed_value[0],
+    );
+	}
+  return $themes;
+}
+
+/**
+ *	Implementation of hook_content_build_modes()
+ */
+function ubox_content_build_modes() {
+
+	module_load_include('inc', 'content', 'includes/content.crud');
+	$field = content_field_instance_read(array('type_name'=>"ubox", 'field_name'=>"field_ubox_template"));
+	foreach(explode("\n", $field[0]['allowed_values']) as $allowed_values){
+		$allowed_value = explode("|", $allowed_values);
+		$buildmodes['ubox_'.$allowed_value[0]] = array(
+    	'title' => t('UserFriendly Box '.$allowed_value[1]),
+      'views style' => TRUE	,
+    );
+	}
+ return array(
+   'ubox' => array(
+     'title' => t('UserFriendly Box'),
+     'build modes' => $buildmodes,
+   ),
+ );
+}
+
+/**
+* Implementation of hook_nodeapi().
+*/
+function ubox_nodeapi(&$node, $op, $teaser = NULL, $page = NULL) {
+	if($op=='presave'){
+		if($node->type == "ubox"){
+			
+			/* Create imagecache presets if not exist
+			 * Load existing preset
+			 */
+
+			$presetName = $node->field_ubox_region[0]['value'] . "-" . str_replace(',','_',$node->field_ubox_proportionsdisplay[0]['value']) . "-" . $node->field_ubox_itemsnb[0]['value'] . "-ubox_" . $node->field_ubox_template[0]['value'];
+			$preset = imagecache_preset_by_name($presetName);
+			// If no presets, create it
+			if(empty($preset)){
+			  $imagecachepreset = imagecache_preset_save(array('presetname' => $presetName));
+			  // Action
+			  $imagecacheaction = new stdClass ();
+			  $imagecacheaction->presetid = $imagecachepreset['presetid'];
+			  $imagecacheaction->module = 'imagecache';
+			  $imagecacheaction->action = 'imagecache_scale_and_crop';
+			  $imagecacheaction->data = array('width' => '700', 'height' => '240' );
+			  drupal_write_record('imagecache_action', $imagecacheaction);
+			}
+		}
+	}
+	if($op=='view'){
+		if($node->build_mode && 'ubox_' == substr($node->build_mode, 0, 5)){
+			foreach($node->content as $cle=>$field){
+				preg_match("/^field_/", $cle, $matches);
+				if($matches[0]){
+					/* regexp return $matches[1] which determine which display
+					 * is define in build-mode content-type
+					 */
+					preg_match("/.*(_.+)$/", $field['field']['items'][0]['#theme'], $matches);
+					
+					if($matches[1] == "_plain"){
+						$format = "_default";
+					}else{
+						$format = $matches[1];
+					}
+					
+					/*
+					 *	Options are availables to choose wich imagecache variable to get
+					 *	$node->ubox_proportionsdisplay
+					 *	$node->ubox_region
+					 *	$node->build_mode
+					 *
+					 *	Put a hook to make this editable by other modules function of options
+					 */
+					$options = $node->ubox_region . "-" . str_replace(',','_',$node->ubox_proportionsdisplay) . "-" . $node->ubox_nbitems . "-" . $node->build_mode;
+					
+					$node->content[$cle]['field']['items'][0]['#theme'] = "imagecache_formatter_".$options.$format;
+					$node->content[$cle]['field']['items'][0]['#formatter'] = $options.$format;
+				}
+					
+			}
+			// truncate body
+			$node->content['body']['#value'] = (strlen($node->content['body']['#value'])>65 ? truncate_utf8(strip_tags($node->content['body']['#value']), 65, TRUE, TRUE) : strip_tags($node->content['body']['#value']));
+		}
+	}
+  if($op == 'insert' || $op == 'update' || $op == 'delete'){
+    if($node->type=='ubox'){ // Mise à jour du cache de boost
+      $pages = preg_replace(array('/(\r\n?|\n)/', '/(^|\|)\\\\<front\\\\>($|\|)/'), array('|', '\1'. preg_quote(variable_get('site_frontpage', 'node'), '/') .'\2'), $node->field_ubox_pages[0]['value']);
+      $pages = explode('|', $pages);
+
+      $pagestmp = $pages;
+      foreach($pagestmp as $i=>$page){
+        if(strrpos($page, '*') !== FALSE){
+          $page = str_replace('*', '%', $page);
+          unset($pages[$i]);
+          $query = db_query("SELECT dst FROM {url_alias} WHERE src LIKE '%s' OR dst LIKE '%s'", $page, $page);
+          while($res = db_fetch_object($query)){
+            $pages[] = $res->dst;
+          }
+        }
+      }
+
+      if(module_exists('boost') && variable_get('boost_enabled', 0)){
+        boost_cache_expire_derivative($pages, true, true);
+      }
+    }
+  }
+}
+
+/**
+* Implementation of hook_nodeapi().
+*/
+function ubox_delete(&$node) {
+  db_query('DELETE FROM {content_field_ubox_existingcontent} WHERE field_ubox_existingcontent_nid = %d', $node->nid);
+}
+
+
+/**
+* Valid permissions for this module
+* @return array An array of valid permissions for the ubox module
+*/
+function ubox_perm() {
+  return array('administer ubox area');
+} // function ubox_perm()
+
+/**
+* Implementation of hook_block().
+* @param string $op one of "list", "view", "save" and "configure"
+* @param integer $delta code to identify the block
+* @param array $edit only for "save" operation
+*/
+function ubox_block($op = 'list', $delta = 0, $edit = array()) {
+  switch ($op) {
+    case 'list':
+      $ubox_area = ubox_area_load();
+      $blocks = array();
+      foreach ($ubox_area as $box) {
+        $blocks[$box->delta]['info'] = $box->description;
+        // Not worth caching.
+        $blocks[$box->delta]['cache'] = BLOCK_NO_CACHE;
+      }
+
+      return $blocks;
+
+    case 'configure':
+      if ($delta && strpos($delta, 'ubox_area_add__') !== 0) {
+        if ($box = ubox_area_load($delta)) {
+            $form = ubox_area_box_form(array('ubox_area' => $box));
+            unset($form['submit']);
+            return $form;
+        }
+      }
+      break;
+
+    case 'save':
+      $edit['delta'] = $delta;
+      $ubox_area = ubox_area_factory($edit['plugin_key'], $edit);
+      $ubox_area->save();
+      break;
+
+    case 'view':
+
+      ctools_include('export');
+
+      // If the 'add' box was requested, replace the delta with a unique delta.
+      if (strpos($delta, 'ubox_area_add__') === 0) {
+        ctools_include('form');
+        $plugin_key = str_replace('ubox_area_add__', '', $delta);
+        $identifier = 'ubox_area';
+        $hash = ubox_area_create_hash($identifier);
+        $delta = $identifier . "-" . $hash;
+        $box = ubox_area_factory($plugin_key, array('delta' => $delta));
+        $form_state = array('ubox_area' => $box, 'plugin_key' => $plugin_key, 'custom_action' => TRUE, 'no_redirect' => TRUE);
+        $form = ctools_build_form('ubox_area_box_form', $form_state);
+        $block['delta'] = $delta;
+        $block['content'] = '';
+        $block['editing'] = $form;
+        $block['content'] = theme('ubox_area_box', $block);
+        $plugin = ctools_get_plugins('ubox', 'plugins', $plugin_key);
+        $block['subject'] = t('Add custom !title', array('!title' => strtolower($plugin['title'])));
+        return $block;
+      }
+      elseif ($ubox_area = ubox_area_load($delta)) {
+        // Generate content and provide an editing form if user has proper
+        // permissions.
+        $block = $ubox_area->render();
+        $block['content'] = theme('ubox_area_box', $block);
+        // Avoid that block module overrides title and set both subject and title.
+        $block['title'] = $block['subject'];
+        if(!empty($block['content']))
+	        return $block;
+      }
+      break;
+  }
+} // function ubox
+
+/**
+ * Instantiate box object.
+ *
+ * @param $plugin_key
+ *   The string id of the ubox plugin.
+ * @param $values
+ *   The values to set on the box.
+ *
+ * @return a ubox_area object.
+ */
+function ubox_area_factory($plugin_key, $values = array()) {
+  module_load_include('inc', 'ubox', 'plugins/ubox_area_box');
+  return ubox_area_box::factory($plugin_key, $values);
+}
+
+/**
+ * Load a ubox area.
+ */
+function ubox_area_load($delta = NULL) {
+  module_load_include('inc', 'ubox', 'plugins/ubox_area_box');
+  if (isset($delta)) {
+    $ubox_area = ubox_area_box::load($delta);
+    drupal_alter('ubox_area_load', $ubox_area, $delta);
+    return $ubox_area;
+  }
+  ctools_include('export');
+  $ubox = array();
+  foreach (ctools_export_load_object('ubox_area') as $ubox_area) {
+    $ubox_area = ubox_area_box::load($ubox_area->delta);
+    drupal_alter('ubox_area_load', $ubox_area, $delta);
+    $ubox[$ubox_area->delta] = $ubox_area;
+  }
+  return $ubox;
+}
+
+/**
+ * Reset ubox load caches.
+ */
+function ubox_area_load_reset() {
+  ubox_area_box::reset();
+}
+
+/**
+ * Common element of the ubox area box form
+ */
+function ubox_area_box_form($form_state) {
+  $ubox_area = $form_state['ubox_area'];
+  $form = array();
+  // For hook_block('save').
+  $form['plugin_key'] = array(
+    '#type' => 'value',
+    '#value' => $ubox_area->plugin_key,
+  );
+  $form['delta'] = array(
+    '#type' => 'value',
+    '#value' => $ubox_area->delta,
+  );
+  $form['description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Box area description'),
+    '#default_value' => $ubox_area->description,
+    '#maxlength' => 64,
+    '#description' => t('A brief description of your userfriendly box area.'),
+    '#required' => TRUE,
+    '#weight' => -19,
+  );
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Box area title'),
+    '#maxlength' => 64,
+    '#description' => t('The title of the box as shown to the user.'),
+    '#default_value' => $ubox_area->title,
+    '#weight' => -18,
+  );
+  $form['options'] = $ubox_area->options_form();
+  $form['options']['#weight'] = -17;
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  if (!empty($form_state['custom_action'])) {
+    $form['#action'] = url($_GET['q'], array('query' => array(
+      'ubox_area_delta' => $ubox_area->delta,
+      'plugin_key' =>  $form_state['plugin_key'],
+    )));
+  }
+
+  return $form;
+}
+
+/**
+ * Submit handler for the inline form.
+ */
+function ubox_area_box_form_submit($form, $form_state) {
+  $ubox_area = ubox_area_factory($form_state['values']['plugin_key'], $form_state['values']);
+
+  $ubox_area->save();
+}
+
+/**
+ * Implementation of hook_form_alter for block_admin_configure.
+ */
+function ubox_form_block_admin_configure_alter(&$form, &$form_state) {
+  if ($form['module']['#value'] == 'ubox') {
+    $ubox_area = ubox_area_load($form['delta']['#value']);
+    if (($ubox_area->export_type & EXPORT_IN_DATABASE) && ($ubox_area->export_type & EXPORT_IN_CODE)) {
+      $form['revert'] = array(
+        '#type' => 'submit',
+        '#value' => t('Revert'),
+        '#submit' => array('ubox_block_delete_submit'),
+      );
+    }
+    elseif (!($ubox_area->export_type & EXPORT_IN_CODE)) {
+      $form['delete'] = array(
+        '#type' => 'submit',
+        '#value' => t('Delete'),
+        '#submit' => array('ubox_block_delete_submit'),
+      );
+    }
+  }
+}
+
+// Submit handler for box deletion.
+function ubox_block_delete_submit($form, &$form_state) {
+  drupal_goto('admin/build/block/configure/ubox/'. $form_state['values']['delta'] .'/delete');
+}
+
+/**
+ * Alters the block admin form to add delete links next to ubox blocks.
+ */
+function ubox_form_block_admin_display_form_alter(&$form, $form_state) {
+  foreach (element_children($form) as $i) {
+    if (isset($form[$i]['module']['#value']) && $form[$i]['module']['#value'] == 'ubox') {
+      $delta = $form[$i]['delta']['#value'];
+      if (strpos($delta, 'ubox_area_add__') !== 0) {
+        $ubox_area = ubox_area_load($delta);
+        if (($ubox_area->export_type & EXPORT_IN_DATABASE) && ($ubox_area->export_type & EXPORT_IN_CODE)) {
+          $form[$i]['delete'] = array(
+            '#value' => l(t('revert'), 'admin/build/block/configure/ubox/'. $delta .'/delete'),
+          );
+        }
+        elseif (!($ubox_area->export_type & EXPORT_IN_CODE)) {
+          $form[$i]['delete'] = array(
+            '#value' => l(t('delete'), 'admin/build/block/configure/ubox/'. $delta .'/delete'),
+          );
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_api().
+ */
+function ubox_ctools_plugin_api($module, $api) {
+  if ($module == 'ubox' && $api == 'plugins') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implementation of hook_ctools_plugin_plugins().
+ */
+function ubox_ctools_plugin_plugins() {
+  return array(
+    'cache' => TRUE,
+    'use hooks' => TRUE,
+  );
+}
+
+/**
+ * Implementation of hook_ubox_plugins().
+ */
+function ubox_ubox_plugins() {
+  $info = array();
+  $path = drupal_get_path('module', 'ubox') .'/plugins';
+  $info['ubox_area'] = array(
+    'handler' => array(
+      'class' => 'ubox_area_box',
+      'file' => 'ubox_area_box.inc',
+      'path' => $path,
+    ),
+  );
+  $info['simple'] = array(
+    'title' => 'Userfriendly Box area',
+    'handler' => array(
+      'parent' => 	'ubox_area',
+      'class' => 'ubox_area_simple',
+      'file' => 'ubox_area_simple.inc',
+      'path' => $path,
+    ),
+  );
+  return $info;
+}
+
+
+/**
+ * Implementation of hook_features_pipe_MODULE_alter().
+ */
+function ubox_features_pipe_block_alter(&$more, $data, $export) {
+  foreach ($data as $bid) {
+    $split = explode('-', $bid);
+    $module = array_shift($split);
+    $delta = implode('-', $split);
+
+    if ($module == 'ubox') {
+      $more['ubox'][] = $delta;
+    }
+  }
+}
+
+/**
+ * Create a hash for a block id.
+ */
+function ubox_area_create_hash($identifier) {
+  global $user;
+  $ubox = ubox_block('list');
+  $hash = dechex(crc32($user->sid . microtime()));
+  while (isset($ubox["{$identifier}-{$hash}"])) {
+    $hash = dechex(crc32($user->sid . microtime()));
+  }
+  return $hash;
+}

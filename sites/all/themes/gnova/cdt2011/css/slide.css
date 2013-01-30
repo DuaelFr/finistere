@@ -1,0 +1,30 @@
+/*=========================Style Slide CONTENU========================*/
+  .scrollable { position:relative; overflow:hidden; width: 636px; height: 274px; margin-bottom:10px; }
+  
+  .scrollable .ubox { width:20000em; position:absolute; }
+  
+  .ubox .ubox_items { float:left; position:relative;}
+  
+  .browse{ font:3.19em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#FFF; cursor:pointer; margin-top:106px;}
+  
+  .page_type .browse{ color:#CCC;} 
+  
+  .prev, .next, .scrollable{ float:left;}
+  
+  /*=====================Fin=Style Slide CONTENU========================*/
+  
+  /*===========================Style Slide RIGHT========================*/
+	#conteneur_right .scrollable{ position:relative; overflow:hidden; width: 276px; height: 238px; }
+  
+    .scrollable .items { width:20000em; position:absolute; }
+  
+    .items .img_bon_plan { float:left; position:relative; }
+  
+    #conteneur_right .browse{cursor:pointer; background:url(../images/sprite.png) no-repeat 0 0; display:block; width:24px; height:20px; position:absolute; margin-top:0; float:none; z-index:1;}
+	
+	#conteneur_right .next{ background-position:0 -1215px; top:15px; right:15px;}
+	
+	#conteneur_right .prev{ background-position:-28px -1215px; top:15px; left:208px;}
+	
+	/*=======================FIN=Style Slide RIGHT========================*/
+	

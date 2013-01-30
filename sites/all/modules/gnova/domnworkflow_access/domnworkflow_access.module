@@ -1,0 +1,82 @@
+<?php
+
+/*
+*  ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+* 
+* ATTENTION : Ici, on joue avec un poids de gestion des droits de 99, cela veut dire que la gestion des droits
+* faite ici override quasiment toutes celles des autres modules !
+* 
+* ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !
+*/
+
+
+
+/**
+ * Implementation of hook_node_domaingrants().
+ *
+ * Supply the workflow access grants. We are simply using
+ * roles as access lists, so rids translate directly to gids.
+ */
+function domnworkflow_access_domaingrants(&$grants, $account, $op) {
+  global $_domain;
+ // dsm($_domain);
+  
+  $domain_role_arr = array();
+  $roleids = array_keys($account->roles);
+  
+  foreach($roleids as $rid){
+  	$domain_role_arr[]=$rid.$_domain['domain_id'];
+  }
+  //dsm($domain_role_arr);
+  $grants['domnworkflow_access'] = $domain_role_arr;
+  $grants['domnworkflow_access_owner'] = array($account->uid.$_domain['domain_id']);
+  
+}
+
+/**
+ * Implementation of hook_domainrecords
+ * 
+ * Permet d'ajouter ses propres règles en fonction des sorties de domain.
+ * Ici, on charge la conf de workflow et pour chaque item de worflow et chaque 
+ * item de domain, on applique la règle "&" à view, update et delete.
+ * Deux realm spécifiques permettent de prendre en compte les realm de domain et workflow 
+ * ce dernier distingue le créateur du node des autres utilisateurs (gérés par rôles)
+ * 
+ * Le gid est une concaténation du role-id (ou de l'uid selon le cas) et de l'id du domaine.
+ * le hook_domaingrants ci-dessus travaille selon le même schéma pour que la correspondance 
+ * puisse être faite par la fonction node_access.
+ */
+function domnworkflow_access_domainrecords(&$grants, $node){
+	
+	//Si grants de domain dit oui et que workflow dit non, la réponse est non.
+	
+	$sid = db_result(db_query("SELECT sid FROM {workflow_node} WHERE nid = %d", $node->nid));
+
+	// We have state information about this node, so get permissions for this state.
+	if (is_numeric($sid)) {
+		
+		$result = db_query("SELECT * FROM {workflow_access} WHERE sid = %d", $sid);
+		while ($w_grant = db_fetch_object($result)) {
+			
+			//Si le dom-grant a un gid 0 et un de ses 
+			
+			//On parcours la liste des dom-grants
+			//Pour chacun, on regarde si le wor-grant est faux, on met le 
+			
+			for($i=0; $i<count($grants); $i++){
+				if($grants[$i]['realm']=='domain_id'){
+					$new_grants = array(
+				        'realm'        => ($w_grant->rid == -1) ? 'domnworkflow_access_owner' : 'domnworkflow_access',
+				        'gid'          => ($w_grant->rid == -1) ? $node->uid.$grants[$i]['gid'] : $w_grant->rid.$grants[$i]['gid'],
+				        'grant_view'   => (($w_grant->grant_view=='0' || $grants[$i]['grant_view']==FALSE) ? FALSE : TRUE),
+				        'grant_update' => (($w_grant->grant_update=='0' || $grants[$i]['grant_update']==FALSE) ? FALSE : TRUE),//$w_grant->grant_update,
+				        'grant_delete' => (($w_grant->grant_delete=='0' || $grants[$i]['grant_delete']==FALSE) ? FALSE : TRUE),//$w_grant->grant_delete,
+				        'priority'     => 99,
+				    );
+				    $grants[] = $new_grants;   
+				}	
+			}	
+		}
+	}
+}
+

@@ -1,0 +1,6 @@
+core = "6.x"
+description = "Rich media Plugins for Wysiwyg"
+name = "Wysiwyg Rich Media plugins"
+package = "G-nova"
+
+dependencies[] = jquery_ui

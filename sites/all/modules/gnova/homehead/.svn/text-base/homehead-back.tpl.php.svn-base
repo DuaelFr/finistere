@@ -1,0 +1,28 @@
+<ul style="display:none;" id="homehead-toload">
+	<?php if($items and count($items)>0): ?>
+		
+		<?php foreach($items as $item) : ?>
+			<li>
+				<span class="url"><?php print $item['url']; ?></span>
+				
+				<?php if(isset($item['text1'])): ?>
+					<span class="text1"><?php print $item['text1']; ?></span>
+				<?php endif; ?>
+				
+				<?php if(isset($item['text2'])): ?>
+					<span class="text2"><?php print $item['text2']; ?></span>
+				<?php endif; ?>
+			</li>
+		<?php endforeach; ?>
+		
+	<?php endif; ?>
+</ul>
+
+
+<ul class="diaporama">
+
+	<?php print $first; ?>
+
+</ul>
+
+<div id="triskell"></div>

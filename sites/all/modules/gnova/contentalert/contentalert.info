@@ -1,0 +1,4 @@
+name = Content Alert
+description = "Send mail alert to user about a content"
+package = Mail
+core = 6.x

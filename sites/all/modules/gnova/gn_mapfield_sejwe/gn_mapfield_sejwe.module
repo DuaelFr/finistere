@@ -1,0 +1,363 @@
+<?php
+
+require_once(drupal_get_path('module', 'pathauto').'/pathauto.inc');
+
+/**
+ * Implementation of hook_perm().
+ */
+function gn_mapfield_sejwe_perm() {
+  return array('administer sejwe');
+}
+/**
+ * Implementation of hook_menu().
+ */
+function gn_mapfield_sejwe_menu() {
+  $items = array();
+
+  $items['admin/flux/sejwe'] = array(
+    'title' => 'Edit Wekend ',
+    'type' => MENU_LOCAL_TASK,
+    'description' => 'Configure settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('sejwe_settings_form'),
+    'access arguments' => array('administer sejwe'),
+  );
+
+  return $items;
+}
+
+function gn_mapfield_sejwe_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL){
+	if(preg_match('/sejwe_info/i', $node->type)){
+		if($op=='presave'){
+			foreach($node->taxonomy as $vid => $tids){
+				$vname = db_result(db_query("SELECT name FROM {vocabulary} WHERE vid=%d", $vid));
+				if(preg_match('/B2917/i', $vname)){
+					foreach($tids as $tid => $val){
+						$res = db_query("SELECT td.* FROM {term_hierarchy} AS tp LEFT JOIN {term_data} AS td ON tp.parent=td.tid WHERE tp.tid=%d", $tid);
+						$tp = db_fetch_object($res);
+						if($tp){
+							if(preg_match('/TYPE/i', $tp->name)){
+								$node->field_sejwe_typetid[0]['value']=intval($tid);
+							}elseif(preg_match('/THEME/i', $tp->name)){
+								$node->field_sejwe_themetid[0]['value']=intval($tid);
+							}
+						}
+					}
+				}
+			}
+		}//Fin if($op=='presave
+		elseif($op=='view'){
+			drupal_add_css(drupal_get_path('theme', 'cdt2011').'/css/style_INTERFACE_RESA_OFFER_LIST.css');
+			drupal_add_css(drupal_get_path('theme', 'cdt2011').'/css/style_INTERFACE_RESA_SEJOUR.css');
+			
+			if(!empty($node->field_sejwe_typetid[0]['value']) && empty($node->field_sejwe_themetid[0]['value'])){
+        // get view, and set display & other default values
+        $view_name = 'reservez_sejwe_by_theme';
+        $view_display = 'default';
+
+        $view = views_get_view($view_name);
+        $view->set_display($view_display);
+
+        $filter = 'nid';
+
+        $view->set_arguments(array($node->field_sejwe_typetid[0]['value']));
+
+        $node->content['reservez_sejwe_by_theme_node_content_1']['#value'] = $view->render();
+
+        $view->destroy();
+      }
+		}
+	}
+	elseif(preg_match('/B2917/i', $node->type)){
+		if($op=='view'){
+			
+			drupal_add_css(drupal_get_path('theme', 'cdt2011').'/css/style_INTERFACE_RESA_WE.css');
+						
+			//Maintenant on cherche le node flux info qui a ce type et ce theme
+			if($node->field_fl_typetid_termtid[0]['value'] && $node->field_fl_themetid_termtid[0]['value']){
+				
+				$res = db_query("
+				SELECT field_sejwe_cssclass_value FROM {content_type_sejwe_infos} 
+				WHERE field_sejwe_typetid_value=%d 
+				AND field_sejwe_themetid_value=%d",
+				intval($node->field_fl_typetid_termtid[0]['value']), intval($node->field_fl_themetid_termtid[0]['value']));
+				
+				if($fetch = db_fetch_array($res)){
+					$node->cssclass = $fetch['field_sejwe_cssclass_value'];
+				}
+				
+			}
+
+      $vars['list_theme_sejwe_by_theme'] = '';
+
+      if($a4){ // Affichage de type page
+
+        // Affichage d'une vue des week ends ou sejours du meme type et theme sur une page de sejour ou week end
+
+        foreach($node->taxonomy as $term){
+          foreach(taxonomy_get_parents($term->tid) as $parent){
+            if($parent->name == 'THEME'){
+              $termTheme = $term;
+            }elseif($parent->name == 'TYPE'){
+              $termType = $term;
+            }
+          };
+
+        }
+        //$th_view = views_get_view('reservez_sejwe_by_theme');
+		    //$node->list_theme_sejwe_by_theme = 	$th_view->execute_display('default', array($termTheme->tid, $termType->tid));
+
+        // get view, and set display & other default values
+          $view_name = 'reservez_sejwe_by_theme_onsejwe';
+          $view_display = 'default';
+
+          $view = views_get_view($view_name);
+          $view->set_display($view_display);          
+
+
+          $filter = 'nid';
+          $item = $view->get_item('default', 'filter', $filter);
+          $item['value'] = array( // force filter value
+            'value' => array($node->nid => $node->nid),
+          );
+          $view->set_item('default', 'filter', $filter, $item);
+
+          $view->set_arguments(array($termTheme->tid, $termType->tid));
+          $view->pager['items_per_page'] = 3;
+
+          $view->display_handler->set_option('header', '<h3>' . t('Others') . ' ' . $termType->name . ' "' . $termTheme->name . '"</h3>');
+          $view->display_handler->set_option('header_format', FILTER_HTML_ESCAPE);
+
+          $class = $view->display_handler->get_option('css_class');
+          $view->display_handler->set_option('css_class', $class . " " . $node->cssclass);
+
+          $node->list_theme_sejwe_by_theme = $view->render();
+
+          $view->destroy();
+
+      }
+		}
+	}
+}
+
+/**
+ * Implementation of hook_token_list
+ */
+function gn_mapfield_sejwe_token_list($type='all'){
+	$tokens = array();
+
+	if (($type=='all' || $type == 'node' )) {
+    	$tokens['node']['sejwe-type-name'] = t("Name of WeekEnd and Sejour Type.");
+    	$tokens['node']['sejwe-theme-name'] = t("Name of WeekEnd and Sejour Theme.");
+    	$tokens['node']['sejwe-type-url'] = t("Url of WeekEnd and Sejour Type.");
+    	$tokens['node']['sejwe-theme-url'] = t("Url of WeekEnd and Sejour Theme.");
+    }
+
+    return $tokens;
+} // gn_mapfield_sejwe_token_list
+
+/**
+ * Implementation of hook_token_values
+ */
+function gn_mapfield_sejwe_token_values($type, $object = NULL, $options = array()) {
+  global $language;
+	$values = array();
+
+  // Init values to not display token if no results found
+  $values['sejwe-type-name'] = '';
+  $values['sejwe-theme-name'] = '';
+  $values['sejwe-type-url'] = '';
+  $values['sejwe-theme-url'] = '';
+
+	if($type=='node' && $object->type == 'flux_b2917' || $object->type == 'sejwe_infos'){
+
+    $node = $object;
+
+    $terms = array();
+
+    foreach($node->taxonomy as $term){
+      $terms[$term->tid] = $term->tid;
+    }
+
+    $listterms = implode(',',$terms);
+
+    if(!empty($listterms)){
+
+      // Récupération des sejwe correspondant au theme.
+      $sql = "SELECT n.nid, n.title FROM {node} n INNER JOIN {content_type_sejwe_infos} ctsi ON ctsi.vid=n.vid WHERE ctsi.field_sejwe_typetid_value IN (".$listterms.") AND ctsi.field_sejwe_themetid_value IN (".$listterms.") AND (n.language='%s' OR n.language='')";
+      $query = db_query($sql, $language->language);
+
+      if($result = db_fetch_object($query)){
+
+        // Traitement des thèmes
+        $values['sejwe-theme-name'] = $result->title;
+        $values['sejwe-theme-url'] = drupal_get_path_alias('node/'.$result->nid, $language->language);
+
+      }
+
+    }
+    
+    // NOT really good
+    // @TODO: make administration for this
+    if(isset($node->taxonomy['286'])){ // Weekend FR
+      $values['sejwe-type-url'] = 'reservez/weekend';
+      $values['sejwe-type-name'] = $node->taxonomy['286']->name;
+    }elseif(isset($node->taxonomy['285'])){ // Sejour FR
+      $values['sejwe-type-url'] = 'sejours';
+      $values['sejwe-type-name'] = $node->taxonomy['285']->name;
+    }elseif(isset($node->taxonomy['3079'])){ // Weekend EN
+      $values['sejwe-type-url'] = 'book/weekend';
+      $values['sejwe-type-name'] = $node->taxonomy['3079']->name;
+    }elseif(isset($node->taxonomy['3078'])){ // Sejour EN
+      $values['sejwe-type-url'] = 'trip';
+      $values['sejwe-type-name'] = $node->taxonomy['3078']->name;
+    }
+
+	}
+
+	return $values;
+} // gn_mapfield_sejwe_token_values
+
+function gn_mapfield_sejwe_theme_registry_alter(&$theme_registry) {
+ $theme_registry['views_view_fields__sejwe_forecast_notreidee_weekend']['preprocess functions'][] = 'gn_mapfield_sejwe_preprocess_views_view_fields__sejwe_forecast_notreidee_weekend';
+}
+
+function gn_mapfield_sejwe_preprocess_views_view_fields__sejwe_forecast_notreidee_weekend(&$vars){
+  if($vars['fields']['field_fl_typetid_termtid_value']->content && $vars['fields']['field_fl_themetid_termtid_value']->content){
+
+    $res = db_query("
+    SELECT field_sejwe_cssclass_value FROM {content_type_sejwe_infos}
+    WHERE field_sejwe_typetid_value=%d
+    AND field_sejwe_themetid_value=%d",
+    intval($vars['fields']['field_fl_typetid_termtid_value']->content), intval($vars['fields']['field_fl_themetid_termtid_value']->content));
+
+    if($fetch = db_fetch_array($res)){
+      $vars['cssclass'] = $fetch['field_sejwe_cssclass_value'];
+    }
+
+  }
+}
+
+
+function gn_mapfield_sejwe_fluxgetfields($identifiant){
+	if(preg_match('/B2917/i', $identifiant)){
+		return array(
+			'THEMETID' => array('systemfieldname' => 'THEMETID'),
+			'TYPETID' => array('systemfieldname' => 'TYPETID'),
+			'CSSCLASS' => array('systemfieldname' => 'cssclass'),
+		);
+	}
+}
+
+
+function gn_mapfield_sejwe_flux_alterdata(&$node){
+	
+	if(preg_match('/B2917/i', $node->type)){
+		
+		$node->field_fl_specific_class[0]['value'] = pathauto_cleanstring($node->field_fl_theme_strs[0]['value']);
+		
+		if(isset($node->field_fl_type_tx[0]['value']) && strlen($node->field_fl_type_tx[0]['value'])>0){
+			$term = taxonomy_get_term_by_name($node->field_fl_type_tx[0]['value']);
+			if(is_array($term) && count($term)>0){
+				foreach($term as $k => $v){
+					if(preg_match('/B2917/i', $v->description)){
+						$node->field_fl_typetid_termtid[0]['value'] = intval($v->tid);
+						break;
+					}
+				}
+			}
+		}
+		
+		if(isset($node->field_fl_theme_tx[0]['value']) && strlen($node->field_fl_theme_tx[0]['value'])>0){
+			$term = taxonomy_get_term_by_name($node->field_fl_theme_tx[0]['value']);
+			if(is_array($term) && count($term)>0){
+				foreach($term as $k => $v){
+					if(preg_match('/B2917/i', $v->description)){
+						$node->field_fl_themetid_termtid[0]['value'] = intval($v->tid);
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+
+}
+
+function gn_mapfield_sejwe_fluxfieldinfos(){
+	return array(
+		'gnmapfieldsejwe_term_tid' => 'Corresponding term tid',
+	);
+}
+
+
+function gnmapfieldsejwe_term_tid_cckfieldname($ws_fieldname){
+	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_termtid';
+}
+function gnmapfieldsejwe_term_tid_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel='', $fixedcckfieldname=NULL){
+	int_gnfieldmap_fluxfieldcreate($content_type, $ws_fieldname, $cck_fieldlabel, gnmapfieldsejwe_term_tid_cckfieldname($ws_fieldname));
+}
+function gnmapfieldsejwe_term_tid_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
+	return TRUE;
+}
+
+
+
+
+
+/**
+ * Configuration settings form.
+ */
+function sejwe_settings_form() {
+	$form = array();
+	
+	$fluxExists = db_result(db_query("SELECT count(*) FROM {node_type} WHERE type='flux_B2917'"));
+	if($fluxExists <=0){
+		drupal_set_message('Le flux weekends et séjours n\'est pas correctement configuré : le type de contenu \'flux_B2917\' n\'a pas été trouvé', 'error');
+		return;
+	}
+	
+	//Récupérer le vocabulaire du flux
+	$vocs = taxonomy_get_vocabularies('flux_B2917');
+	$vids = array_keys($vocs);
+	
+	$typetid = NULL;
+	$themetid = NULL;
+	
+	$res = db_query("SELECT * FROM {term_data} WHERE vid=%d AND (name='%s' OR name='%s')", 'TYPE', 'THEME');
+	while($term = db_fetch_object($res)){
+		if($term->name=='TYPE'){
+			$typetid=$term->tid;
+		}elseif($term->name=='THEME'){
+			$themetid = $term->tid;
+		}
+	}
+	
+	$themes = taxonomy_get_children($themetid);
+	$types = taxonomy_get_children($typetid);
+	
+	foreach($themes as $tid => $term){
+		$thoptions[$tid]=$term->name;
+	}
+	
+	foreach($types as $tid => $term){
+		$tyoptions[$tid]=$term->name;
+	}
+	
+	$form = system_settings_form($form);
+	
+	$form['typetid'] = array(
+		'#title' => t('Terme "type"'),
+		'#type' => 'select',
+		'#options' => $tyoptions,
+	);
+	
+	// Uncomment and update the callback to override the default system settings submit handler.
+	$form['#submit'] = array('sejwe_settings_form_submit');
+	
+	return $form;
+}
+
+function sejwe_settings_form_submit(){
+
+}

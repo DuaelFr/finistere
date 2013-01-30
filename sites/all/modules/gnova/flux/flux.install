@@ -1,0 +1,436 @@
+<?php
+function flux_install(){
+
+  $content_type_infos = content_types('flux');
+  
+  if(count($content_type_infos['tables'])<=0){
+  	create_flux_ct();
+  }
+	drupal_install_schema('flux');
+	drupal_set_message('Le module flux a bien été installé');
+}
+
+function flux_uninstall(){
+	variable_del('flux_sync_data_cache');
+	variable_del('flux_url');
+	variable_del('flux_last_sync');
+	drupal_uninstall_schema('flux');
+	drupal_set_message('Le module flux a bien été désinstallé');
+}
+
+function flux_schema() {
+	$schema['flux_fieldsettings']=array(
+	
+		'description' => t('Per flux per field settings'),
+		
+		'fields' => array(
+			'bordereau_id' => array(
+				'type' => 'varchar',
+				'length' => 20,
+				'not null' => TRUE,
+			),
+			
+			'required' => array(
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			
+			'staticfield' => array(
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			
+			'fieldname' => array(
+				'description' => t('The field name in the WS'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => TRUE,
+			),
+			
+			'cckfieldname' => array(
+				'description' => t('The field name in CCK'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => FALSE,
+			),
+			
+			'fieldfunction' => array(
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => TRUE,
+			),
+			
+			'label' => array(
+				'description' => t('The label to apply to the cck field'),
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+			),
+			
+			
+		),
+		
+		'unique keys' => array(
+			'fluxidfieldname' => array('bordereau_id', 'fieldname'),
+		),
+	);
+	
+	
+	$schema['flux_display']=array(
+	
+		'description' => t('Per flux per field settings'),
+		
+		'fields' => array(
+		
+			'bordereau_id' => array(
+				'type' => 'varchar',
+				'length' => 20,
+				'not null' => TRUE,
+			),
+			
+			'cckfieldname' => array(
+				'description' => t('The field name in CCK'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => TRUE,
+			),
+			
+			'label' => array(
+				'description' => t('Custom label'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => FALSE,
+			),
+			
+			'hide' => array(
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			
+			'after' => array(
+				'description' => t('the cck fieldname after whome display the value'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => FALSE,
+			),
+			
+			'disptype' => array(
+				'description' => t('the display type'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => FALSE,
+				'default' => '<none>',
+			),
+			
+			'zone' => array(
+				'description' => t('Where to display this field'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => FALSE,
+				'default' => '<default>',
+			),
+			
+			'single' => array(
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			
+			'weight' => array(
+				'type' => 'int',
+				'unsigned' => FALSE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			
+		),
+		
+		'unique keys' => array(
+			'fluxidcckfieldname' => array('bordereau_id', 'cckfieldname'),
+		),
+	);
+	
+	
+	return $schema;
+}
+
+function create_flux_ct(){
+ module_load_include('inc', 'install_profile_api', 'contrib/content_copy');
+  
+  
+	$content['type']  = array (
+	  'name' => 'Flux',
+	  'type' => 'flux',
+	  'description' => 'Define Tourinsoft idModule',
+	  'title_label' => 'Title',
+	  'body_label' => '',
+	  'min_word_count' => '0',
+	  'help' => '',
+	  'node_options' => 
+	  array (
+	    'status' => true,
+	    'promote' => false,
+	    'sticky' => false,
+	    'revision' => false,
+	  ),
+	  'language_content_type' => '0',
+	  'upload' => '0',
+	  'old_type' => 'flux',
+	  'orig_type' => '',
+	  'module' => 'node',
+	  'custom' => '1',
+	  'modified' => '1',
+	  'locked' => '0',
+	  'comment' => '0',
+	  'comment_default_mode' => '4',
+	  'comment_default_order' => '1',
+	  'comment_default_per_page' => '50',
+	  'comment_controls' => '3',
+	  'comment_anonymous' => 0,
+	  'comment_subject_field' => '1',
+	  'comment_preview' => '1',
+	  'comment_form_location' => '0',
+	  'print_display' => 0,
+	  'print_display_comment' => 0,
+	  'print_display_urllist' => 0,
+	  'print_mail_display' => 0,
+	  'print_mail_display_comment' => 0,
+	  'print_mail_display_urllist' => 0,
+	  'print_pdf_display' => 0,
+	  'print_pdf_display_comment' => 0,
+	  'print_pdf_display_urllist' => 0,
+	  'scheduler_publish_enable' => 0,
+	  'scheduler_publish_touch' => 0,
+	  'scheduler_publish_required' => 0,
+	  'scheduler_publish_revision' => 0,
+	  'scheduler_unpublish_enable' => 0,
+	  'scheduler_unpublish_required' => 0,
+	  'scheduler_unpublish_revision' => 0,
+	  'i18n_newnode_current' => 0,
+	  'i18n_required_node' => 0,
+	  'i18n_lock_node' => 0,
+	  'i18n_node' => 1,
+	);
+	$content['fields']  = array (
+	  0 => 
+	  array (
+	    'label' => 'Identifiant',
+	    'field_name' => 'field_flux_identifiant',
+	    'type' => 'text',
+	    'widget_type' => 'text_textfield',
+	    'change' => 'Modifier les informations de base',
+	    'weight' => '-3',
+	    'rows' => 5,
+	    'size' => '60',
+	    'description' => '',
+	    'default_value' => 
+	    array (
+	      0 => 
+	      array (
+	        'value' => '',
+	        '_error_element' => 'default_value_widget][field_flux_identifiant][0][value',
+	      ),
+	    ),
+	    'default_value_php' => '',
+	    'default_value_widget' => NULL,
+	    'group' => false,
+	    'required' => 1,
+	    'multiple' => '0',
+	    'text_processing' => '0',
+	    'max_length' => '',
+	    'allowed_values' => '',
+	    'allowed_values_php' => '',
+	    'op' => 'Enregistrer les paramètres du champ',
+	    'module' => 'text',
+	    'widget_module' => 'text',
+	    'columns' => 
+	    array (
+	      'value' => 
+	      array (
+	        'type' => 'text',
+	        'size' => 'big',
+	        'not null' => false,
+	        'sortable' => true,
+	        'views' => true,
+	      ),
+	    ),
+	    'display_settings' => 
+	    array (
+	      'label' => 
+	      array (
+	        'format' => 'above',
+	        'exclude' => 0,
+	      ),
+	      'teaser' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'full' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      4 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      2 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      3 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      5 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_resume' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_slideshow' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'token' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	    ),
+	  ),
+	  1 => 
+	  array (
+	    'label' => 'IdModule',
+	    'field_name' => 'field_flux_idmodule',
+	    'type' => 'text',
+	    'widget_type' => 'text_textfield',
+	    'change' => 'Modifier les informations de base',
+	    'weight' => '-2',
+	    'rows' => 5,
+	    'size' => '60',
+	    'description' => '',
+	    'default_value' => 
+	    array (
+	      0 => 
+	      array (
+	        'value' => '',
+	        '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
+	      ),
+	    ),
+	    'default_value_php' => '',
+	    'default_value_widget' => 
+	    array (
+	      'field_flux_idmodule' => 
+	      array (
+	        0 => 
+	        array (
+	          'value' => '',
+	          '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
+	        ),
+	      ),
+	    ),
+	    'group' => false,
+	    'required' => 1,
+	    'multiple' => '0',
+	    'text_processing' => '0',
+	    'max_length' => '',
+	    'allowed_values' => '',
+	    'allowed_values_php' => '',
+	    'op' => 'Enregistrer les paramètres du champ',
+	    'module' => 'text',
+	    'widget_module' => 'text',
+	    'columns' => 
+	    array (
+	      'value' => 
+	      array (
+	        'type' => 'text',
+	        'size' => 'big',
+	        'not null' => false,
+	        'sortable' => true,
+	        'views' => true,
+	      ),
+	    ),
+	    'display_settings' => 
+	    array (
+	      'label' => 
+	      array (
+	        'format' => 'above',
+	        'exclude' => 0,
+	      ),
+	      'teaser' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'full' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      4 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      2 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      3 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      5 => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_resume' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'ubox_slideshow' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	      'token' => 
+	      array (
+	        'format' => 'default',
+	        'exclude' => 0,
+	      ),
+	    ),
+	  ),
+	);
+	$content['extra']  = array (
+	  'title' => '-5',
+	  'revision_information' => '0',
+	  'author' => '1',
+	  'options' => '2',
+	  'comment_settings' => '3',
+	  'menu' => '-4',
+	  'path' => '5',
+	  'print' => '4',
+	);
+	install_content_copy_import_from_file($content);
+}
