@@ -1,5 +1,0 @@
-; $Id: cdtsearch.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = CDT Search main
-description = "Provide specific search for cdt contents"
-package = G-nova
-core = 6.x

@@ -1,6 +1,0 @@
-; $Id: views_taxo_childrenoptions.info,v 1.1 2009/12/22 03:59:52 mikeker Exp $
-name = Dynamic taxo children options
-description = Allow to select all children of a parent term in exposed view forms
-core = 6.x
-package = G-nova
-dependencies[] = views

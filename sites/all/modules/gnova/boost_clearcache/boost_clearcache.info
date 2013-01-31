@@ -1,6 +1,0 @@
-name = Boost clear cache
-description = "Clear cache pages using a list of url"
-package = Caching
-core = 6.x
-
-dependencies[] = boost

@@ -1,6 +1,0 @@
-name = Export Reports
-description = "Export Drupal reports"
-dependencies[] = "customreports"
-dependencies[] = "dblog"
-package = G-nova
-core = 6.x

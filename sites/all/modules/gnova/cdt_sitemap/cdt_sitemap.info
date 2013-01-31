@@ -1,5 +1,0 @@
-; $Id: cdt_sitemap.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Sitemap for CDT
-description = "Provides CDT specific sitemap."
-package = G-nova
-core = 6.x

@@ -1,6 +1,0 @@
-; $Id: gn_mapfield_sejwe.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Gnova Map field for WE & Sejour
-description = "Specific stuff for weekend & sejours"
-package = G-nova
-core = 6.x
-dependencies[] = flux
