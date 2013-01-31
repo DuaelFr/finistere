@@ -1,0 +1,223 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function flux_tourinsoft_menu() {
+  $items = array();
+
+  $items['node/%node/update_tourinsoft'] = array(
+    'title' => 'Update Tourinsoft data',
+    'page callback' => 'flux_tourinsoft_updatetourinsoft',
+    'page arguments' => array(1),
+    'access callback' => 'flux_tourinsoft_updatetourinsoft_access',
+    'access arguments' => array('Update tourinsoft node', 1),
+    'weight' => 10,
+    'file' => 'flux_tourinsoft.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['node/%node/info_tourinsoft'] = array(
+    'title' => 'Info Tourinsoft data',
+    'page callback' => 'flux_tourinsoft_infotourinsoft',
+    'page arguments' => array(1),
+    'access callback' => 'flux_tourinsoft_updatetourinsoft_access',
+    'access arguments' => array('Info tourinsoft data', 1),
+    'weight' => 10,
+    'file' => 'flux_tourinsoft.pages.inc',
+    'type' => MENU_LOCAL_TASK,
+    'options' => array('attributes' => array('target'=>'_blank')),
+  );
+  $items['admin/flux/deleteproducts'] = array(
+    'title' => 'Delete products',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('flux_tourinsoft_deleteproducts_form'),
+    'access arguments' => array('Delete Tourinsoft products'),
+    'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
+    'file' => 'flux_tourinsoft.admin.inc',
+    'weight' => 21,
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_perm
+ */
+function flux_tourinsoft_perm(){
+	return array('Update tourinsoft node', 'Info tourinsoft data', 'Delete Tourinsoft products');
+}
+
+/**
+ * Implementation of hook_cron
+ */
+function flux_tourinsoft_cron(){
+  $nodes = array();
+	$productsdelete = variable_get('flux_tourinsoft_productsdelete', "");
+	if(!empty($productsdelete)){
+
+    $products = explode(',', $productsdelete);
+    foreach($products as $key=>$product) {
+      $products[$key] = trim($product);
+    }
+
+    if(!empty($products)) {
+      // Make cron runned with admin role
+      global $user;
+      $original_user = $user;
+      $old_state = session_save_session();
+      session_save_session(FALSE); // D7: use drupal_save_session(FALSE);
+      $user = user_load(array('uid' => 1)); // D7: use user_load(1);
+
+      $placeholders = db_placeholders($products, 'varchar');
+      $query = db_query("SELECT n.nid
+        FROM {node} n
+        INNER JOIN {content_field_fl_techid_tx} cfftt ON n.nid=cfftt.nid
+        WHERE cfftt.field_fl_techid_tx_value IN ($placeholders)", $products);
+
+      while($result = db_fetch_object($query)) {
+        $nodes[] = $result->nid;
+      }
+      flux_tourinsoft_batch_deletenodes($nodes);
+
+      // Come back to original user role (anonymous if run by crontab)
+      $user = $original_user;
+      session_save_session($old_state); // // D7: use drupal_save_session($old_state);
+    }
+
+    if(empty($nodes)) {
+      variable_set('flux_tourinsoft_productsdelete', "");
+    }
+
+	}
+
+}
+
+function flux_tourinsoft_node($nid){
+  return node_load($nid);
+}
+
+function flux_tourinsoft_updatetourinsoft_access($string, $node){
+  global $user;
+
+  if(isset($node->field_fl_techid_tx) && isset($node->field_fl_id_module_tx) && isset($node->field_fl_id_bordereau_tx)){
+    return user_access($string, $user);
+  }
+  return FALSE;
+}
+
+/**
+ * Implementation of hook_node_operations
+ */
+function flux_tourinsoft_node_operations() {
+  $operations = array(
+    'flux_tourinsoft_force_update' => array(
+      'label' => t('Force update flux'),
+      'callback' => 'flux_tourinsoft_force_update',
+    ),
+  );
+  return $operations;
+}
+
+function flux_tourinsoft_force_update($nodes) {
+  $placeholders = db_placeholders($nodes);
+  $query = db_query("SELECT n.nid, n.type, n.title FROM {node} n WHERE n.nid IN ($placeholders)", $nodes);
+  $nodes_flux = array();
+  $nodes = array();
+  while($result = db_fetch_object($query)) {
+    if($result->type == 'flux') { // Only take care of flux content type nodes
+      $nodes_flux[] = $result->nid;
+    }
+    else {
+      drupal_set_message(t("Some nodes aren't flux content type so they are ignored", 'error'));
+    }
+  }
+
+  // get tourinsoft nodes from selected flux
+  if(!empty($nodes_flux)) {
+    $placeholders = db_placeholders($nodes_flux);
+    $query = db_query("SELECT n.nid
+      FROM {node} n
+      INNER JOIN {content_field_fl_nid_tx} cffnt ON n.nid=cffnt.nid
+      WHERE cffnt.field_fl_nid_tx_value IN ($placeholders) LIMIT 0,15", $nodes_flux);
+    while($result = db_fetch_object($query)) {
+      $nodes[$result->nid] = $result->nid;
+    }
+  }
+  
+  $batch = array(
+    'operations' => array(
+      array('_flux_tourinsoft_force_update_batch_process', array($nodes)),
+    ),
+    'finished' => '_flux_tourinsoft_force_update_batch_finished',
+    'title' => t('Processing'),
+    // We use a single multi-pass operation, so the default
+    // 'Remaining x of y operations' message will be confusing here.
+    'progress_message' => '',
+    'error_message' => t('The update has encountered an error.'),
+  );
+  batch_set($batch);
+}
+
+function _flux_tourinsoft_force_update_batch_process($nodes, &$context) {
+  module_load_include('inc', 'flux_tourinsoft', 'flux_tourinsoft.pages');
+  
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+
+    $context['sandbox']['max'] = count($nodes);
+    $context['sandbox']['nodes'] = $nodes;
+  }
+
+  // Process nodes by groups of 5.
+  $count = min(5, count($context['sandbox']['nodes']));
+  for ($i = 1; $i <= $count; $i++) {
+    // For each nid, load the node, reset the values, and save it.
+    $nid = array_shift($context['sandbox']['nodes']);
+
+    $node = _flux_tourinsoft_force_update_helper($nid);
+    
+    // Store result for post-processing in the finished callback.
+    $context['results'][] = l($node->title, 'node/' . $node->nid);
+
+    // Update our progress information.
+    $context['sandbox']['progress']++;
+  }
+
+  // Inform the batch engine that we are not finished,
+  // and provide an estimation of the completion level we reached.
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+function _flux_tourinsoft_force_update_batch_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('The update has been performed.'));
+    drupal_set_message(format_plural(count($results), '1 item successfully processed:', '@count items successfully processed:'));
+  }
+  else {
+    drupal_set_message(t('An error occurred and processing did not complete.'), 'error');
+    $message = format_plural(count($results), '1 item successfully processed:', '@count items successfully processed:');
+    $message .= theme('item_list', $results);
+    drupal_set_message($message);
+  }
+}
+
+function _flux_tourinsoft_force_update_helper($nid) {
+  $node = node_load($nid);
+  // Call update tourinsoft node function
+  _flux_tourinsoft_updatetourinsoft($node);
+
+  return $node;
+}
+
+function flux_tourinsoft_batch_deletenodes(&$nodes) {
+
+  if(!empty($nodes)) {
+    for($i=0;$i<25;$i++) {
+      $nid = array_shift($nodes);
+      node_delete($nid);
+    }
+  }
+  
+}

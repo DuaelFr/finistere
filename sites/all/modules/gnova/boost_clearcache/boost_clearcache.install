@@ -1,0 +1,38 @@
+<?php
+/**
+ * Implemenation of hook_install().
+ */
+function boost_clearcache_install() {
+  drupal_install_schema('boost_clearcache');
+}
+
+/**
+ * Implemenation of hook_uninstall().
+ */
+function boost_clearcache_uninstall() {
+  drupal_uninstall_schema('boost_clearcache');
+}
+
+/**
+ * Implemenation of hook_schema().
+ */
+function boost_clearcache_schema() {
+  $schema = array();
+  $schema['boost_clearcache'] = array(
+    'description' => 'Hash for clear boost cache on all domains.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => "id of boost_clearcache.",
+      ),
+      'paths' => array(
+        'type' => 'text',
+				'not null' => FALSE,
+        'description' => "Paths to clear.",
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}

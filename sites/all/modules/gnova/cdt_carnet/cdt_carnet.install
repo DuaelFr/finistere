@@ -1,0 +1,49 @@
+<?php
+
+function cdt_carnet_install(){
+  
+	drupal_install_schema('cdt_carnet');
+	drupal_set_message('Le module cdt_carnet a bien été installé');
+}
+
+function cdt_carnet_uninstall(){
+	variable_del('cdt_carnet_description');
+	variable_del('cdt_carnet_share_title');
+	variable_del('cdt_carnet_share_message');
+	drupal_uninstall_schema('cdt_carnet');
+	drupal_set_message('Le module cdt_carnet a bien été désinstallé');
+}
+
+function cdt_carnet_schema() {
+	$schema['cdt_carnet']=array(
+	
+		'description' => 'cdt_carnet bookmarking nodes',
+		
+		'fields' => array(
+      'bookmark_id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+
+      'nids' => array(
+        'description' => 'array of nids serialized',
+        'type' => 'text',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+
+      'timestamp' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Unix timestamp of when event occurred.',
+      ),
+		),
+
+    'primary key' => array('bookmark_id'),
+
+	);
+	
+	return $schema;
+}

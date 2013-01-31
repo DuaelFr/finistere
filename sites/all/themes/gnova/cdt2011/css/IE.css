@@ -1,0 +1,66 @@
+body{-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(opacity=99)";
+filter:progid:DXImageTransform.Microsoft.Alpha(opacity=99);}
+
+@font-face {
+	font-family: 'DaxCondensedRegular';
+	src: url('../police/daxcondensed-regular-webfont.eot');
+}
+
+@font-face {
+	font-family: 'NeoSansRegular';
+	src: url('../police/neo_sans-webfont.eot');
+}
+
+@font-face {
+	font-family: 'DaxCondensedBold';
+	src: url('../police/daxcondensed-bold-webfont.eot');	
+}
+
+#conteneur_right .ruban h2, #conteneur_right .ruban h2{ 
+
+}
+
+
+iframe{ border:0 !important; }
+
+/*Style Widget, apparamment bug sur script affichage du widget*/
+
+#OSRecherche{ background-color:#ededed; padding:10px;}
+
+.OsCritP{ font-size:0.68em; font-weight:bold; margin:5px 0; }
+
+.bons_plans .uboxpb_items .OsLogoOs a img{ border:0;}
+
+.OsAgesEnfant, #OsCritCont_Enfnbpers{ float:left;}
+
+#OsCritAgesEnfant2399{ margin-left:10px;}
+
+#OSRecherche a{ background:none; padding:0;}
+
+#OsCrit_btnrech_2399{ clear:both; padding-top:10px;}
+
+#OsCritCont_btnrech #OsBtnEnvoi2399{ background: url("../images/sprite.png") no-repeat scroll 0 -2319px transparent;
+    border: 0 none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 0.88em;
+    height: 38px;
+    margin:0;
+    text-transform: uppercase;
+    width: 187px; display:block; line-height:38px; text-align:center; padding-left:0;}
+	
+#OsCritCont_btnrech #OsBtnEnvoi2399:hover{background-position: 0 -2361px; text-decoration:none;}
+
+.OsRadioDuree{ margin-left:0;}
+
+.OsSelAgeEnfant{ margin-right:10px;}
+
+.OsImgDateDebut img{ background:url(../images/calendar_widget.png) no-repeat; width:20px; height:23px; border:0!important; float:left;}
+
+#OsCritCont_date select{ margin:4px 0 0 10px;}
+
+.bons_plans .all .uboxbp_content .ui-tabs-nav { margin:0;}
+
+.bons_plans .all .uboxbp_content .ui-tabs-nav #OsA_OSRecherche_OsOnglet0{ font:bold 1.1em Arial, Helvetica, sans-serif; text-transform:uppercase;}
+
+

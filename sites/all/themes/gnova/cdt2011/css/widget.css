@@ -1,0 +1,69 @@
+.bons-plans-list #OSRecherche{ width:auto;}
+
+#OSRecherche{ width:320px;}
+
+#OSRecherche select{ width:100%; margin-bottom:10px;}
+
+#OSRecherche .OsJourDebut, #OSRecherche .OsMoisDebut, #OSRecherche .OsAnDebut, #OSRecherche .OsCritBlocSelJour, #OSRecherche .OsNbEnfants, #OSRecherche .OsSelAgeEnfant{ width:auto; margin:0;}
+
+.OsCritP{ font-size:0.68em; font-weight:bold; padding:5px 0; }
+
+.bons_plans .uboxpb_items .OsLogoOs a img{ border:0;}
+
+#OsCritAgesEnfant2399{ margin-left:10px;}
+
+#OSRecherche a{ background:none; padding:0;}
+
+#OsCrit_btnrech_2399{ clear:both; padding-top:10px;}
+
+#Os25810-1214 #OsCritCont_btnrech .OsBtnEnvoi{ width:288px; height:39px; background: url("../images/sprite.png") no-repeat scroll -6px -4281px transparent; text-decoration:none; margin-bottom:10px;}
+
+#Os25810-1214 #OsCritCont_btnrech .OsBtnEnvoi:hover{ background-position:-6px -4326px; }
+
+#OsCritCont_btnrech .OsBtnEnvoi{ background: url("../images/sprite.png") no-repeat scroll 0 -2319px transparent;
+    border: 0 none;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-size: 0.88em;
+    height: 38px;
+    margin:0;
+    text-transform: uppercase;
+    width: 187px; display:block; line-height:38px; text-align:center; padding-left:0;}
+	
+	
+	
+#OsCritCont_btnrech .OsBtnEnvoi:hover{background-position: 0 -2361px; text-decoration:none;}
+
+
+
+#OSRecherche .accordion-entete a{ background:#ededed url("../images/sprite.png") no-repeat scroll right -3283px; height:52px; font-size:1em; display:block; font-weight:bold; line-height:52px; color:#03a8ea; text-decoration:none; text-transform:uppercase; border:1px solid #FFF; margin-bottom:5px;     -moz-box-shadow: 0 0 4px #999;
+-webkit-box-shadow: 0 0 4px #999; box-shadow: 0 0 4px #999; position:relative;
+
+}
+
+#OSRecherche span{ display:block; margin-bottom:5px;}
+
+#OSRecherche ul{ margin-bottom:10px;}
+
+#OSRecherche ul li{ font-size:0.68em; font-weight:bold;}
+
+#OSRecherche .accordion-entete a span{ margin-left:10px; font-size:1em;}
+
+#OSRecherche .accordion-entete.accordion-section-encours a{ border-bottom:0; margin:0; background:#ededed url("../images/sprite.png") no-repeat scroll right -3224px;}
+
+#OSRecherche .accordion-contenu{ background-color:#ededed; padding:5px; border:1px solid #FFF; border-top:0; margin-bottom:5px; -moz-box-shadow: 0 0 4px #999;
+-webkit-box-shadow: 0 0 4px #999; box-shadow: 0 0 4px #999;}
+
+.OsRadioDuree{ margin-left:0;}
+
+#OSRecherche .OsSelAgeEnfant{ margin:5px 10px 0 0;}
+
+.OsImgDateDebut img{ background:url(../images/calendar_widget.png) no-repeat; width:20px; height:23px; border:0!important; float:left;}
+
+#OSRecherche #OsCritCont_date select{ margin:4px 0 0 5px;}
+
+#OsLAccA_OSRecherche_OsOnglet0{}
+
+.bons_plans .all .uboxbp_content .ui-tabs-nav { margin:0;}
+
+.bons_plans .all .uboxbp_content .ui-tabs-nav #OsA_OSRecherche_OsOnglet0{ font:bold 1.1em Arial, Helvetica, sans-serif; text-transform:uppercase;}

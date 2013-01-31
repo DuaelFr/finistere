@@ -1,0 +1,440 @@
+<?php
+/**
+ * 
+ * 
+ * MODULE permettant l'intégration et l'intéraction d'une GMap
+ * sur une page donnée.
+ * 
+ * Intégration des éléments:
+ * 	- Markers: Drupal.settings.markers (Array)
+ * 		Elts: (Objects)
+ * 			- latitude : latitude du marker
+ * 			- longitude : longitude du marker
+ * 			- title : title RAW du marker (optionnel)
+ * 			- html : HTML à intégrer dans l'infowindow du marker
+ * 		Ex: la latitude du premier marker doit se trouver dans Drupal.settings.markers[0].latitude
+ * 	- KMLs: Drupal.settings.kml (Array)
+ * 		Elts:
+ * 			- Aucun: L'URL du KML est fournie de manière ABSOLUE
+ * 			  		 ex: Drupal.settings.kml[0] = 'http://example.com/fichier.kml';
+ * 
+ * Fonction JS de reloading de la map: reloadMarkers()
+ * Utile lors d'une mise à jour
+ * des variables dans Drupal.settings par exemple.
+ * Met à jour les markers ET les KMLs.
+ * 
+ * 
+ */
+
+
+function interactivemap_menu() {
+  $items = array();
+
+  /* admin & settings */
+  $items['admin/content/adt29'] = array(
+    'title' => "ADT29",
+    'access arguments' => array('administer interactivemap'),
+    'page callback'     => 'drupal_get_form',
+    'page arguments'     => array('interactivemap_settings'),
+    'file' => 'interactivemap.admin.inc',
+    'type'							=> MENU_NORMAL_ITEM | MENU_CALLBACK,
+  );
+  $items['admin/content/adt29/carte-interactive'] = array(
+    'title'             => "Interactivemap Settings",
+    'access arguments' => array('administer interactivemap'),
+    'page callback'     => 'drupal_get_form',
+    'page arguments'     => array('interactivemap_settings'),
+    'file' => 'interactivemap.admin.inc',
+    'type'              => MENU_DEFAULT_LOCAL_TASK | MENU_CALLBACK,
+    'weight' => 1
+  );
+
+  $items['carte-interactive'] = array(
+    'title' => 'Carte du Finistère', 
+    'description' => 'La carte interactive du CDT', 
+    'page callback' => 'interactivemap_pagemap', 
+	'type' => MENU_NORMAL_ITEM,
+	'access callback' => TRUE
+  );
+
+  $items['carteint-ajax/carte-interactive'] = array(
+    'page callback' => 'interactivemap_ajaxmarkers', 
+	'type' => MENU_CALLBACK,
+	'access callback' => TRUE
+  );
+
+  $items['carteint-ajax/autocomplete/city'] = array(
+    'page callback' => 'interactivemap_autocomplete_city',
+    'type' => MENU_CALLBACK,
+    'access callback' => TRUE
+  );
+  
+  return $items;
+}
+/**
+ * Implementation of hook_perm
+ */
+function interactivemap_perm(){
+	return array('administer interactivemap');
+}
+
+function interactivemap_autocomplete_city($city){
+  // create the SQL to query the node table
+  $sql = "SELECT DISTINCT(lower(l.city)) AS city FROM {location} l  WHERE LOWER(l.city) LIKE LOWER('%%%s%%') ORDER BY l.city ASC";
+
+  // query the database
+  $resource = db_query($sql, $city);
+
+  // loop through the results and create an associative array
+  $results = array();
+  while ($row = db_fetch_array($resource)) $results[ucwords($row['city'])] = ucwords($row['city']);
+
+  // output the results in javascript
+  print drupal_to_js($results);
+
+  // exit, to prevent your results form hitting the theme layer
+  exit();
+}
+
+function interactivemap_autocompletecity_form() {
+  $form = array();
+
+  $form['city'] = array(
+    '#type' => 'textfield',
+    '#autocomplete_path' => 'carteint-ajax/autocomplete/city',
+    '#attributes' => array('title'=>t('Search in a city')),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Launch search'),
+  );
+  
+  return $form;
+}
+
+
+function interactivemap_theme($existing, $type, $theme, $path){
+	return array(
+		'intmap_node' => array(
+	      'arguments' => array('node' => NULL),
+	    ),
+	);
+}
+
+/* Implémentation de la fonction de callback de la page
+ * contenant la map sur laquelle on va interagir...
+ */
+ 
+ function interactivemap_pagemap() {
+ 	
+ 	drupal_set_title(t('Interactive map'));
+ 
+ 	drupal_add_js(drupal_get_path('module', 'interactivemap') . '/interactivemap.js');
+ 	drupal_add_css(drupal_get_path('theme', 'cdt2011').'/css/style_CARTE.css');
+ 	$out='';
+ 	
+ 	$out.='<h1>'.t('Interactive map').'</h1>';
+
+	$form = drupal_get_form('interactivemap_autocompletecity_form');
+	$out .= $form;
+
+  $description = variable_get('interactivemap_description', "");
+  if(!empty($description)){
+    $out .= '<div class="content">' . $description . '</div>';
+  }
+ 	
+	$out.=interactivemap_generatemap();
+	
+	$nodes = array();
+	
+	if(isset($_GET['nid']) && !empty($_GET['nid'])){
+		$node = node_load($_GET['nid']);
+		$nodes[$node->nid]=$node;
+	}
+	if(isset($_GET['nids'])){
+		if(preg_match('/[0-9]+\-[0-9]+/', $_GET['nids'])){
+			$nids = explode('-', $_GET['nids']);
+			foreach($nids as $nid){
+				$node = node_load($nid);
+				$nodes[$node->nid]=$node;
+			}
+		}else{
+			$node = node_load($_GET['nids']);
+			$nodes[$node->nid]=$node;
+		}
+		
+	}
+	if(isset($_GET['termand']) && !empty($_GET['termand'])){
+		$view = views_get_view('tech_map_view_termsand');
+		$view->set_arguments(array($_GET['termand']));
+		$view->preview();
+		if(count($view->result)>0){
+			foreach($view->result as $item){
+				if(!isset($nodes[$item->nid])){
+					$node = node_load($item->nid);
+					$nodes[$node->nid]=$node;
+				}
+			}
+		}
+	}
+	
+	if(isset($_GET['fluxparentterm']) && !empty($_GET['fluxparentterm'])){
+		$fluxparentterm = $_GET['fluxparentterm'];
+		if(preg_match('/[0-9]+\-[0-9]+/', $fluxparentterm)){
+			$tids = split('-', $fluxparentterm);
+		}else{
+			$tids=array($fluxparentterm);
+		}
+		//if(is_numeric($fluxparentterm)){
+		
+			$res = interactivemap_taxonomy_select_nodes($tids, 'or', 0, FALSE);
+			while($item = db_fetch_object($res)){
+				if(!isset($nodes[$item->nid])){
+					$node = node_load($item->nid);
+					$nodes[$node->nid]=$node;
+				}
+			}
+		//}	
+	}
+	
+	$kmls = array();
+	if(isset($_GET['loadkml']) && !empty($_GET['loadkml'])){
+		$kml = $_GET['loadkml'];
+		$kmls[] = $kml;
+	}
+
+	$markers = array();
+	foreach($nodes as $nid => $node){
+		$markers[]=array(
+			'latitude' => $node->locations[0]['latitude'],
+			'longitude' => $node->locations[0]['longitude'],
+			//'title' => utf8_decode($node->title),
+			'html' => theme('intmap_node', $node),
+			'nid' => $node->nid,
+		);
+	}
+	
+	drupal_add_js(array('markers'=>$markers, 'kml'=>$kmls), 'setting');
+	
+	return $out;
+}
+ 
+function interactivemap_ajaxmarkers(){
+	
+	$nodes=array();
+
+  $city = $_GET['city'];
+	
+	if(isset($_GET['nid']) && !empty($_GET['nid'])){
+		$node = node_load($_GET['nid']);
+		$nodes[$node->nid]=$node;
+	}
+	if(isset($_GET['nids'])){
+		if(preg_match('/[0-9]+\-[0-9]+/', $_GET['nids'])){
+			$nids = explode('-', $_GET['nids']);
+			foreach($nids as $nid){
+				$node = node_load($nid);
+				$nodes[$node->nid]=$node;
+			}
+		}else{
+			$node = node_load($_GET['nids']);
+			$nodes[$node->nid]=$node;
+		}
+		
+	}
+	if(isset($_GET['termand']) && !empty($_GET['termand'])){
+		$view = views_get_view('tech_map_view_termsand');
+		$view->set_arguments(array($_GET['termand']));
+		$view->preview();
+		if(count($view->result)>0){
+			foreach($view->result as $item){
+				if(!isset($nodes[$item->nid])){
+					$node = node_load($item->nid);
+					$nodes[$node->nid]=$node;
+				}
+			}
+		}
+	}
+	
+	if(isset($_GET['fluxparentterm']) && !empty($_GET['fluxparentterm'])){
+		$fluxparentterm = $_GET['fluxparentterm'];
+		if(preg_match('/[0-9]+\-[0-9]+/', $fluxparentterm)){
+			$fluxparentterms = explode('-', $fluxparentterm);
+		}else{
+			$fluxparentterms=array($fluxparentterm);
+		}
+    foreach($fluxparentterms as $fpterm){
+      if(preg_match('/[0-9]+ [0-9]+/', $fpterm)){ // Gestion du cas où on envoi un multiple term
+        foreach(explode(' ', $fpterm) as $fpt){
+          $tids[] = $fpt;
+        }
+      }else{
+        $tids[]=$fpterm;
+      }
+    }
+		//if(is_numeric($fluxparentterm)){
+		
+			$res = interactivemap_taxonomy_select_nodes($tids, 'or', 0, FALSE);
+			while($item = db_fetch_object($res)){
+				if(!isset($nodes[$item->nid])){
+					$node = node_load($item->nid);
+          $nodetid = '';
+          foreach($fluxparentterms as $fpterm){
+            if(preg_match('/[0-9]+ [0-9]+/', $fpterm)){ // Gestion du cas où on envoi un multiple term
+              foreach(explode(' ', $fpterm) as $fpt){
+                if(array_key_exists($fpt, $node->taxonomy)){
+                  $nodetid = str_replace(" ", "_", $fpterm);
+                }
+              }
+            }elseif(array_key_exists($fpterm, $node->taxonomy)){
+              $nodetid = $fpterm;
+            }
+          }
+          if(!empty($nodetid)){
+            $node->marker = base_path() . drupal_get_path('module', 'interactivemap').'/flags/tid/'. $nodetid .'.png';
+          }else{
+            $node->marker = base_path() . drupal_get_path('module', 'interactivemap').'/markerfix2.png';
+          }
+					$nodes[$node->nid]=$node;
+				}
+			}
+		//}	
+	}
+	
+	$markers = array();
+	if(count($nodes)>0){
+		foreach($nodes as $node){
+      if(_interactivemap_checkcity($city, $node)){
+	      if($node->locations[0]['latitude'] != '0.000000' && $node->locations[0]['longitude'] != '0.000000'){
+	        $markers[]=array(
+	          'latitude' => $node->locations[0]['latitude'],
+	          'longitude' => $node->locations[0]['longitude'],
+	          'title' => $node->title,
+	          'html' => theme('intmap_node', $node),
+	          'nid' => $node->nid,
+	          'image' => $node->marker,
+	        );
+	      }
+	    }
+		}
+		
+	}
+	return drupal_json(array('markerstoadd'=>$markers));
+	
+}
+
+function _interactivemap_checkcity($city, $node){
+  if(!empty($city)){
+    if(strcasecmp($city, $node->location['city']) != 0){
+      return false;
+    }
+  }
+  return true;
+}
+
+ 
+function theme_intmap_node($node){
+	$out='';
+	$out.='<div class="box_google_maps">';
+	$out.='<span class="m_border">';
+	$out.='<h4>'.l(strip_tags($node->title), drupal_lookup_path('alias', 'node/'.$node->nid)).'</h4>';
+	if(isset($node->field_fl_photos_imgs[0]['filepath'])){
+		$out.=l(theme('imagecache', 'intmap_img', base_path().$node->field_fl_photos_imgs[0]['filepath']), drupal_lookup_path('alias', 'node/'.$node->nid), array('html'=>TRUE));
+	}
+	$out.='<p>'.truncate_utf8(strip_tags($node->body), 200, TRUE, TRUE).'</p>';
+	$out.='<p><strong>'.l(t('Learn more').'...', drupal_lookup_path('alias', 'node/'.$node->nid)).'</strong></p>';
+	$out.='<p>> ' . l(t('Add bookmark'), 'ajax/add-to-carnet/'.$node->nid, array('attributes'=>array('class'=>'add-to-carnet-btn'))) . '</p>';
+	$out.='<p>> '. l(t('Itinerary from this point'),'http://maps.google.fr/maps?f=d&source=s_d&saddr='.urlencode($node->locations[0]['latitude'].', '.$node->locations[0]['longitude'].' ('.$node->title.')'), array('attributes'=>array('target'=>'_blank'))).'</p>';
+	$out.='</span>';
+	$out.='</div>';
+	return $out;
+}
+ 
+ /*
+  * Fonction de génération de la map.
+  * Passage à la généricité: travailler sur cette fct
+  */
+ function interactivemap_generatemap() {
+	$map = array();
+	$latitude = 48.28319289548349;
+	$longitude = -4.15283203125;
+	$markername = null;
+	$zoom = 8; 
+	$width = '690px'; 
+	$height = '400px';
+	$settings = array(
+		'id' => 'interactivemap',
+		'latitude' => $latitude,   // Center the map
+		'longitude' => $longitude, // on the marker.
+	);
+	if ($zoom != 'default') {
+		$settings['zoom'] = $zoom;
+	}
+	if ($width != 'default') {
+		$settings['width'] = $width;
+	}
+	if ($height != 'default') {
+		$settings['height'] = $height;
+	}
+	
+	if ($autoshow) {
+		$settings['markers'][0]['autoclick'] = TRUE;
+	}
+	
+	if (!empty($map)) {
+		$settings = array_merge($settings, $map);
+	}
+	
+	return theme('gmap',array('#settings' => $settings));
+ }
+
+/**
+ * Copy of taxonomy_select_nodes drupal function to change db_query_range to db_query
+ *
+ */
+function interactivemap_taxonomy_select_nodes($tids = array(), $operator = 'or', $depth = 0, $pager = TRUE, $order = 'n.sticky DESC, n.created DESC') {
+  if (count($tids) > 0) {
+    // For each term ID, generate an array of descendant term IDs to the right depth.
+    $descendant_tids = array();
+    if ($depth === 'all') {
+      $depth = NULL;
+    }
+    foreach ($tids as $index => $tid) {
+      $term = taxonomy_get_term($tid);
+      $tree = taxonomy_get_tree($term->vid, $tid, -1, $depth);
+      $descendant_tids[] = array_merge(array($tid), array_map('_taxonomy_get_tid_from_term', $tree));
+    }
+
+    if ($operator == 'or') {
+      $args = call_user_func_array('array_merge', $descendant_tids);
+      $placeholders = db_placeholders($args, 'int');
+      $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid WHERE tn.tid IN (' . $placeholders . ') AND n.status = 1 ORDER BY ' . $order;
+      $sql_count = 'SELECT COUNT(DISTINCT(n.nid)) FROM {node} n INNER JOIN {term_node} tn ON n.vid = tn.vid WHERE tn.tid IN (' . $placeholders . ') AND n.status = 1';
+    }
+    else {
+      $joins = '';
+      $wheres = '';
+      $args = array();
+      foreach ($descendant_tids as $index => $tids) {
+        $joins .= ' INNER JOIN {term_node} tn' . $index . ' ON n.vid = tn' . $index . '.vid';
+        $wheres .= ' AND tn' . $index . '.tid IN (' . db_placeholders($tids, 'int') . ')';
+        $args = array_merge($args, $tids);
+      }
+      $sql = 'SELECT DISTINCT(n.nid), n.sticky, n.title, n.created FROM {node} n ' . $joins . ' WHERE n.status = 1 ' . $wheres . ' ORDER BY ' . $order;
+      $sql_count = 'SELECT COUNT(DISTINCT(n.nid)) FROM {node} n ' . $joins . ' WHERE n.status = 1 ' . $wheres;
+    }
+    $sql = db_rewrite_sql($sql);
+    $sql_count = db_rewrite_sql($sql_count);
+    if ($pager) {
+      $result = pager_query($sql, variable_get('default_nodes_main', 10), 0, $sql_count, $args);
+    }
+    else {
+      $result = db_query($sql, $args);
+    }
+  }
+
+  return $result;
+}
+
+
+?>

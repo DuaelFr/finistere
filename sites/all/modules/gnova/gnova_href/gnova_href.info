@@ -1,0 +1,8 @@
+; $Id: gnova_href.info,v 1.1 2011/02/17 02:04:11 sun Exp $
+name = Hierarchical node reference management
+description = "Provide simple computed cached back references"
+package = G-nova
+core = 6.x
+dependencies[] = nodereference
+dependencies[] = views
+dependencies[] = i18ntaxonomy

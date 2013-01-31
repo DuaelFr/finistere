@@ -1,0 +1,25 @@
+/*========================Style Home========================*/
+
+#conteneur_left h2 a span{ position:absolute; top:0; right:0;}
+
+#prix_resa{ position:absolute; top:0; right:0;}
+
+#conteneur_right #box_reserver li a{  height: 53px;}
+
+#mentions_legales li a{ margin-left:0;}
+
+/*====================FIN=Style Home========================*/
+
+/*========================Style Decouvrez========================*/
+
+#conteneur_left .box_decouvrez .contenu_decouvrez ul li{ background-position:0 -256px;}
+
+#conteneur_left .box_decouvrez .contenu_decouvrez ul li:hover {background-position: 0 -2048px;}
+
+#slide_ss_categories #recherche_evenement{ background-position:466px -712px; }
+
+#conteneur #conteneur_left .dernier_niveau h2{ position:relative;}
+
+#conteneur #conteneur_left .dernier_niveau h2 a{ position: absolute; top:0; right:0;}
+
+/*===================FIN==Style Decouvrez========================*/

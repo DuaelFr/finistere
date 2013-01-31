@@ -1,0 +1,41 @@
+<?php 
+
+function gnova_href_install() {
+  // Create my tables.
+  drupal_install_schema('gnova_href');
+}
+
+function gnova_href_uninstall() {
+  // Drop my tables.
+  drupal_uninstall_schema('gnova_href');
+}
+
+
+
+function gnova_href_schema() {
+	$schema['gn_href_menuimgs']=array(
+		'description' => t('lie un lien à des images'),
+		'fields' => array(
+			'path' => array(
+				'description' => t('The system path of the node'),
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => TRUE,
+			),
+			'imgs' => array(
+				'description' => t(''),
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+			),
+		),
+		'unique keys' => array(
+			'uniquepath' => array('path'),
+		),
+	);
+	return $schema;
+}
+
+
+
+

@@ -42,7 +42,7 @@ function workflow_access_node_access_records($node) {
       ); 
     }
   }
-  
+
   return $grants;
 }
 

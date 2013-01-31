@@ -1,0 +1,63 @@
+<?php 
+
+function cuss_install() {
+  // Create my tables.
+  $res = drupal_install_schema('cuss');
+  drupal_set_message('Le module CUSS a bien été installé.');
+}
+
+function cuss_uninstall() {
+  // Drop my tables.
+  $res=drupal_uninstall_schema('cuss');
+  drupal_set_message('Le module CUSS a bien été désinstallé.');
+}
+
+
+function cuss_schema() {
+	$schema['cuss_pathnid']=array(
+	
+		'description' => t('Cache table for cuss'),
+		
+		'fields' => array(
+			'cussid' => array(
+				'type' => 'serial',
+				'unsigned' => TRUE,
+			),
+			
+			'path' => array(
+				'description' => t('The system path of the page'),
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+			),
+			
+			'nid' => array(
+				'description' => t('The theme nid'),
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			
+			'active' => array(
+				'description' => t('Is it activated'),
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+		),
+		
+		'unique keys' => array(
+			'cussunikpath' => array('path'),
+		),
+		'primary key' => array('cussid'),
+	);
+	return $schema;
+}
+
+
+function cuss_update_1(&$sandbox){
+	$ret = array();
+	$ret[] = drupal_install_schema('cuss');
+	return $ret;
+}

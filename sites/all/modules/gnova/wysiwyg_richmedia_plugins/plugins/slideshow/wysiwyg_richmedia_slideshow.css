@@ -1,0 +1,62 @@
+#wysiwyg-richmedia-slideshow-bundleRecipient{}
+.wysiwyg_richmedia_slideshow_image_fieldset{border: 1px solid #EEEEEE;
+    font-size: 12px;
+    margin: 10px 0;
+    padding: 10px;}
+.wysiwyg_richmedia_slideshow_image_fieldset legend{font-size: 12px;
+    font-style: italic;color: #999999;text-transform: uppercase;}
+.wysiwyg_richmedia_slideshow_image_src_container{}
+.wysiwyg_richmedia_slideshow_image_description_container{}
+.wysiwyg_richmedia_slideshow_text_description_container{}
+.wysiwyg_richmedia_slideshow_image_href_container{}
+
+.ui-dialog .buttons{padding: 5px;}
+.ui-dialog .buttons .form-submit{margin: 5px;}
+
+.ui-dialog{z-index: 1;
+	border: solid 1px #ddd;
+	padding: 5px;
+	background-color: #fff;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+	/* 'cke_dialog' element has been fixed positioned in all but IE6, while we
+		need it to be positioned to hold e.g. close button. */
+	position: relative;
+	_position: static;}
+.ui-dialog-title{border-bottom: 1px solid #EEEEEE;
+    cursor: move;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 3px 8px;
+    position: relative;}
+.ui-dialog-titlebar-close{
+		background-image: url("images/sprites.png");
+    background-position: 0 -1022px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    height: 20px;
+    position: absolute;
+    text-align: center;
+    top: 5px;
+    width: 20px;
+    right: 10px;
+    text-indent:-9999px}
+.ui-widget-overlay {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: url(images/overlay.png) repeat-x scroll 50% 50% #AAAAAA;
+    opacity: .3;filter:Alpha(Opacity=30);
+}
+.ui-dialog .ui-dialog-titlebar { padding: .5em .3em .3em 1em; position: relative;  } 
+.ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
+.ui-dialog .ui-dialog-content { border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+.ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
+.ui-dialog .ui-dialog-buttonpane button { float: right; margin: .5em .4em .5em 0; cursor: pointer; padding: .2em .6em .3em .6em; line-height: 1.4em; width:auto; overflow:visible; }
+.ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+.ui-draggable .ui-dialog-titlebar { cursor: move; }

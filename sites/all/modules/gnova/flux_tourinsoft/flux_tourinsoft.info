@@ -1,0 +1,6 @@
+; $Id: flux_tourinsoft.info,v 1.1 2011/02/17 02:04:11 sun Exp $
+name = Tourinsoft flux particularities
+description = "Perform actions to tourinsoft webservices"
+dependencies[] = "flux"
+package = G-nova
+core = 6.x

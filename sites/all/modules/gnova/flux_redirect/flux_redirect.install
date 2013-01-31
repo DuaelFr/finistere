@@ -1,0 +1,44 @@
+<?php
+
+
+function flux_redirect_install() {
+  // Create my tables.
+  $res = drupal_install_schema('flux_redirect');
+  drupal_set_message('Le module flux_redirect a bien été installé.');
+}
+
+function flux_redirect_uninstall() {
+  // Drop my tables.
+  $res=drupal_uninstall_schema('flux_redirect');
+  drupal_set_message('Le module flux_redirect a bien été désinstallé.');
+}
+
+function flux_redirect_schema(){
+	$schema['flux_nid_id']=array(
+		
+		'fields' => array(
+		
+			'nid' => array(
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			
+			'ficheid' => array(
+				'type' => 'varchar',
+				'length' => 80,
+				'not null' => TRUE,
+			),
+			
+		),
+		
+		'unique keys' => array(
+			'uniqnid' => array('nid'),
+			'uniqficheid' => array('ficheid'),
+		),
+		
+		'primary key' => array('nid', 'ficheid'),
+		
+	);
+	return $schema;
+}
