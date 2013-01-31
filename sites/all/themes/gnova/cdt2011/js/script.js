@@ -1,4 +1,5 @@
 Drupal.behaviors.cdt2011 = function (context){
+  var debug = false;
 
 	$('#homehead-toload li').each(function(){
 	var search_url = $('#homehead-toload li:first-child').find(".url");
@@ -190,5 +191,14 @@ function loadscript(sScriptSrc, oCallback) {
   }
   oHead.appendChild(oScript);
 }
+
+  if (debug) {
+    $('img').each(function() {
+      var img = $(this);
+      if (img.attr('src').indexOf('http://local.finisteretourisme.com') == 0) {
+        img.attr('src', img.attr('src').replace('local.finisteretourisme.com', 'www.finisteretourisme.com'));
+      }
+    });
+  }
 
 }
