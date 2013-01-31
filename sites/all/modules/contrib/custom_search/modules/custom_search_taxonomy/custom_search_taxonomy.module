@@ -102,7 +102,7 @@ function custom_search_taxonomy_form_alter(&$form, $form_state, $form_id) {
     break;
 
     case 'block_admin_configure':
-      if ($form['module']['#value'] == 'custom_search_blocks') {
+      if (isset($form['module']) && $form['module']['#value'] == 'custom_search_blocks') {
 
         $delta = $form['delta']['#value'];
 
