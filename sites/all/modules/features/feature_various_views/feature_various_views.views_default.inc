@@ -1822,6 +1822,72 @@ function feature_various_views_views_default_views() {
     'block_1' => 'block_1',
     'default' => 0,
   ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_4');
+  $handler->override_option('offset', 12);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_5');
+  $handler->override_option('offset', 15);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_6');
+  $handler->override_option('offset', 18);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_7');
+  $handler->override_option('offset', 21);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_8');
+  $handler->override_option('offset', 24);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
+  $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_9');
+  $handler->override_option('offset', 27);
+  $handler->override_option('attachment_position', 'after');
+  $handler->override_option('inherit_arguments', TRUE);
+  $handler->override_option('inherit_exposed_filters', FALSE);
+  $handler->override_option('inherit_pager', FALSE);
+  $handler->override_option('render_pager', TRUE);
+  $handler->override_option('displays', array(
+    'block_1' => 'block_1',
+    'default' => 0,
+  ));
 
   $views[$view->name] = $view;
 
