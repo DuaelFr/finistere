@@ -372,7 +372,7 @@ function domain_configure_form_submit($form, &$form_state) {
   }
   $subdomain = $form_state['values']['domain_root'];
   // Insert query or update query?
-  $count = db_result(db_query("SELECT COUNT(domain_id) FROM {domain} WHERE domain_id = 0"));
+  $count = db_result(db_query("SELECT 1 FROM {domain} WHERE domain_id = 0"));
   if ($count > 0) {
     db_query("UPDATE {domain} SET subdomain = '%s', sitename = '%s', scheme = '%s', valid = 1 WHERE domain_id = 0", $form_state['values']['domain_root'], $form_state['values']['domain_sitename'], $form_state['values']['domain_scheme']);
   }
@@ -451,10 +451,10 @@ function domain_form($form_state, $domain = array(), $arguments = array()) {
   );
   $form['domain_id'] = array('#type' => 'value', '#value' => $domain['domain_id']);
   if (!variable_get('domain_allow_non_ascii', FALSE)) {
-    $description = t('Can only contain lowercase alphanumeric characters, dashes and a colon (if using alternative ports).');
+    $description = t('Must contain only dots, lowercase alphanumeric characters, dashes and a colon (if using alternative ports).');
   }
   else {
-    $description = t('Can contain lowercase alphanumeric and ASCII characters, dashes and a colon (if using alternative ports).');
+    $description = t('Must contain only dots, lowercase alphanumeric and ASCII characters, dashes and a colon (if using alternative ports).');
   }
   $form['domain']['subdomain'] = array(
     '#type' => 'textfield',
@@ -463,7 +463,7 @@ function domain_form($form_state, $domain = array(), $arguments = array()) {
     '#maxlength' => 80,
     '#required' => TRUE,
     '#default_value' => $domain['subdomain'],
-    '#description' => t('The allowed domain, using the full <em>path.example.com</em> format. Leave off the http:// and the trailing slash and do not include any paths.') . ' ' . $description
+    '#description' => t('The allowed domain, using the full <em>path.example.com</em> format.') . '<br />' . t('Leave off the http:// and the trailing slash and do not include any paths.') . '<br />' . $description
   );
   $form['domain']['sitename'] = array(
     '#type' => 'textfield',
