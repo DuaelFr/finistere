@@ -8,28 +8,7 @@
     var options = $.extend(defaults, options);
 
     // Affiche l'élément suivant
-    var goTo = function(obj, i, options) {
-      if ($(".titre_slide:hidden")) {
-        $(".titre_slide").fadeIn("slow");
-      }
-
-      $(obj).find(".titre_slide").fadeOut(3000);
-
-      $(obj).find("li.active").fadeOut(options.animationSpeed);
-
-      $(obj).find("li.active").removeClass("active");
-      $(obj).find("li").get(i).addClass("active");
-      $(obj).find("li.active").fadeIn(options.animationSpeed);
-    };
-
-    // Affiche l'élément suivant
     var nextElt = function(obj, options) {
-      if ($(".titre_slide:hidden")) {
-        $(".titre_slide").fadeIn("slow");
-      }
-
-      $(obj).find(".titre_slide").fadeOut(3000);
-
       $(obj).find("li.active").fadeOut(options.animationSpeed);
 
       if (!$(obj).find("li.active").is(":last-child")) {
@@ -45,6 +24,7 @@
     // Affiche l'élément précédent
     var prevElt = function(obj, options) {
       $(obj).find("li.active").fadeOut(options.animationSpeed);
+
       if (!$(obj).find("li.active").is(":first-child")) {
         $(obj).find("li.active").prev().addClass("active").next().removeClass("active");
         $(obj).find("li.active").fadeIn(options.animationSpeed);
@@ -63,7 +43,17 @@
         }, (options.delay * 1000));
         var sens = "right";
         var pause = false;
+
+        // Hide all slides
         $(obj).find("li").hide();
+
+        // Hide empty titles
+        $(obj).find("li .titre_slide").each(function() {
+          if ($(this).text().trim() == '') {
+            $(this).hide();
+          }
+        });
+
         $(obj).find("li:first-child").addClass("active").fadeIn(options.animationSpeed);
 
         // Controls

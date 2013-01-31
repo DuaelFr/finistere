@@ -162,10 +162,22 @@ border-top-right-radius: 5px;
 
 	.diaporama li img{ display:block; margin:0 auto 0 -146px;}
 
-	.diaporama li .titre_slide{ position: absolute; text-align: right; font:2.50em 'DaxCondensedRegular', Arial, Helvetica, sans-serif; color:#FFF; top:250px; left:202px; text-shadow:3px 3px 5px #111; text-align:left; filter:progid:DXImageTransform.Microsoft.Shadow(color='#111111', Direction=135, Strength=5);
-  zoom: 1;}
+	.diaporama li .titre_slide{
+    position: absolute;
+    text-align: right;
+    font-family: 'DaxCondensedRegular', Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
+    padding: .5em 10px;
+    color:#FFF;
+    right: 0;
+    top: 335px;
+    text-align: right;
+    min-width: 260px;
+    max-width: 639px;
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNgYGBIAwAAawBn5vZwQgAAAABJRU5ErkJggg==) repeat top left;
+  }
 
-	.diaporama li .titre_slide span{ font-size:90px; display:block; margin-left:30px; }
+	.diaporama li .titre_slide span { display:block; font-size: 0.7em; }
 
 	.diaporama li .titre_slide strong{ font-family: 'DaxCondensedBold', Arial, Helvetica, sans-serif;}
 

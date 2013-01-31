@@ -19,13 +19,6 @@ Drupal.behaviors.cdt2011 = function (context){
 		controls:true
 	});
 
-	//Effacer le menu au chargement de la page
-
-	setTimeout(function(){
-      $(".titre_slide").fadeOut(3000);
-	},1000);
-
-
 	//Ajout à la volée du picto lecture
 
 	$("#ubox_box_89 .ubox_item_content #img_video").append('<span class="play"></span>');
