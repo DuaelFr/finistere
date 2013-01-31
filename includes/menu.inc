@@ -1,5 +1,4 @@
 <?php
-// $Id: menu.inc,v 1.255.2.38 2010/12/09 11:57:18 goba Exp $
 
 /**
  * @file
@@ -49,8 +48,9 @@
  * Access to the callback functions is also protected by the menu system.
  * The "access callback" with an optional "access arguments" of each menu
  * item is called before the page callback proceeds. If this returns TRUE,
- * then access is granted; if FALSE, then access is denied. Menu items may
- * omit this attribute to use the value provided by an ancestor item.
+ * then access is granted; if FALSE, then access is denied. Default local task
+ * menu items (see next paragraph) may omit this attribute to use the value
+ * provided by the parent item.
  *
  * In the default Drupal interface, you will notice many links rendered as
  * tabs. These are known in the menu system as "local tasks", and they are
@@ -72,7 +72,7 @@
  */
 
 /**
- * @name Menu flags
+ * @defgroup menu_flags Menu flags
  * @{
  * Flags for use in the "type" attribute of menu items.
  */
@@ -90,8 +90,10 @@ define('MENU_IS_LOCAL_TASK', 0x0080);
  */
 
 /**
- * @name Menu item types
+ * @defgroup menu_item_types Menu item types
  * @{
+ * Definitions for various menu item types.
+ *
  * Menu item definitions provide one of these constants, which are shortcuts for
  * combinations of the above flags.
  */
@@ -135,7 +137,7 @@ define('MENU_DEFAULT_LOCAL_TASK', MENU_IS_LOCAL_TASK | MENU_LINKS_TO_PARENT);
  */
 
 /**
- * @name Menu status codes
+ * @defgroup menu_status_codes Menu status codes
  * @{
  * Status codes for menu callbacks.
  */
@@ -150,9 +152,9 @@ define('MENU_SITE_OFFLINE', 4);
  */
 
 /**
- * @Name Menu tree parameters
+ * @defgroup menu_tree_parameters Menu tree parameters
  * @{
- * Menu tree
+ * Parameters for a menu tree.
  */
 
  /**
@@ -1699,9 +1701,6 @@ function menu_rebuild() {
     return FALSE;
   }
 
-  // Encapsulate the rebuild in a transaction.
-  db_query('BEGIN');
-
   $menu = menu_router_build(TRUE);
   _menu_navigation_links_rebuild($menu);
   // Clear the menu, page and block caches.
@@ -1715,9 +1714,6 @@ function menu_rebuild() {
     variable_del('menu_rebuild_needed');
   }
   lock_release('menu_rebuild');
-  
-  db_query('COMMIT');
-  
   return TRUE;
 }
 
@@ -2280,14 +2276,7 @@ function _menu_router_build($callbacks) {
   // First pass: separate callbacks from paths, making paths ready for
   // matching. Calculate fitness, and fill some default values.
   $menu = array();
-  $unique_paths = array();
   foreach ($callbacks as $path => $item) {
-    // If this is a duplicate path (case insensitive) then ignore this
-    // callback item.
-    if (in_array(strtolower($path), $unique_paths)) {
-      continue;
-    }
-    $unique_paths[] = strtolower($path);
     $load_functions = array();
     $to_arg_functions = array();
     $fit = 0;
