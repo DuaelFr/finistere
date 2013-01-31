@@ -1,5 +1,0 @@
-; $Id: cdt_formalter.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Specific form-alters
-description = "Modify specific forms"
-package = G-nova
-core = 6.x

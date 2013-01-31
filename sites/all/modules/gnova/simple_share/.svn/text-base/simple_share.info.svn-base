@@ -1,5 +1,0 @@
-; $Id: simple_share.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Simple share
-description = "THEMEABLE share buttons"
-package = G-nova
-core = 6.x
