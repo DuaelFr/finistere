@@ -1,0 +1,3 @@
+<?php
+
+include_once('feature_various_views.features.inc');
