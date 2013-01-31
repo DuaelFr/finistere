@@ -23,7 +23,7 @@ box.domain-default.front{background-color: #000000;}
 -moz-border-radius-topleft: 5px;
 -moz-border-radius-topright: 5px;
 border-top-left-radius: 5px;
-border-top-right-radius: 5px; 
+border-top-right-radius: 5px;
 -moz-box-shadow: 0px 0px 8px #222; /* for Firefox 3.5+ */
 	-webkit-box-shadow: 0px 0px 8px #222; /* for Safari and Chrome */
 	box-shadow: 0px 0px 8px #222; /* for opera */
@@ -87,7 +87,7 @@ border-top-right-radius: 5px;
 
 #conteneur_doc_mobile{border-top:1px dashed #000; margin-top:20px; position:relative; width:698px;}
 
-#conteneur_doc_mobile .text_doc h3 a{ font:1.5em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#000; letter-spacing:-1px; text-decoration:none; margin-bottom:10px;} 
+#conteneur_doc_mobile .text_doc h3 a{ font:1.5em 'NeoSansRegular', Arial, Helvetica, sans-serif; color:#000; letter-spacing:-1px; text-decoration:none; margin-bottom:10px;}
 
 #conteneur_doc_mobile .text_doc{ width:175px; float:left; font:0.75em Arial, Helvetica, sans-serif; color:#454545; }
 
@@ -124,28 +124,28 @@ border-top-right-radius: 5px;
 .front #ubox_box_89 .ubox_items{ float:none; margin:10px auto; width:220px;}
 
 .front #ubox_box_89 h3{ margin-top:5px;}
-	
+
 .front #ubox_box_89 h3, .front #ubox_box_89 h4{color: #454545;
     font: 1.13em 'DaxCondensedRegular',Arial,Helvetica,sans-serif;
     margin-left: 14px;
-    text-transform: none;}	
-	
+    text-transform: none;}
+
  .front #ubox_box_89 h4{   font-size: 0.88em;
     text-transform: none;}
-	
+
 .front #ubox_box_89 p{font: 0.63em/16px Arial,Helvetica,sans-serif;
     }
-	
+
 .front #ubox_box_98{}
 
 .front #ubox_box_12335{ background-color: black;}
 
-/*.front #ubox_box_98 img{ margin:0 auto;}	
+/*.front #ubox_box_98 img{ margin:0 auto;}
 
 .front #ubox_box_98 .ubox_items{ width:276px; margin:5px auto 0;}
 
 .front #ubox_box_98 .ubox_item{ margin:0 5px;}
-	
+
 .front #ubox_box_98 .ubox_item h3{ position:absolute; font-size:1.200em; width:100%;}
 
 .front #ubox_box_98 .ubox_item h3 a{ text-transform:none; bottom:-22px;}
@@ -155,35 +155,35 @@ border-top-right-radius: 5px;
 .front #ubox_box_2609{ background-color: black;}
 
 /*===========================Style Slide========================*/
-	
-	.diaporama { height: 418px; position: absolute; width: 100%; top:0; }
-	
-	.diaporama li{ overflow:hidden; position:absolute; width:100%;}
-	
-	.diaporama li img{ display:block; margin:0 auto 0 -146px;}
-	
-	.diaporama li .titre_slide{ position: absolute; text-align: right; font:2.50em 'DaxCondensedRegular', Arial, Helvetica, sans-serif; color:#FFF; top:250px; left:202px; text-shadow:3px 3px 5px #111; text-align:left; filter:progid:DXImageTransform.Microsoft.Shadow(color='#111111', Direction=135, Strength=5); 
-  zoom: 1;}
-	
-	.diaporama li .titre_slide span{ font-size:90px; display:block; margin-left:30px; }
-	
-	.diaporama li .titre_slide strong{ font-family: 'DaxCondensedBold', Arial, Helvetica, sans-serif;}
-	
-	.diaporama_controls {clear: both; margin: 3px 0; overflow: hidden; padding: 5px; position: absolute; top: 0; right:12px; }
-	
-	.diaporama_controls .btns { float: right; }
-	
-	.diaporama_controls .prev { background: url(../images/sprite.png) no-repeat -69px 0 transparent; }
-	
-	.diaporama_controls .play { background: url(../images/sprite.png) no-repeat 3px 1px transparent; }
-	
-	.diaporama_controls .pause { background: url(../images/sprite.png) no-repeat -27px 1px transparent; }
-	
-	.diaporama_controls .next { background: url(../images/sprite.png) no-repeat -56px 0 transparent; }
 
-	.diaporama_controls a { display: inline-block; font-weight: normal; height: 13px; margin: 0 3px;text-indent: -9999px; width: 10px; }
-	
-	
+	.diaporama { height: 418px; position: absolute; width: 100%; top:0; }
+
+	.diaporama li{ overflow:hidden; position:absolute; width:100%;}
+
+	.diaporama li img{ display:block; margin:0 auto 0 -146px;}
+
+	.diaporama li .titre_slide{ position: absolute; text-align: right; font:2.50em 'DaxCondensedRegular', Arial, Helvetica, sans-serif; color:#FFF; top:250px; left:202px; text-shadow:3px 3px 5px #111; text-align:left; filter:progid:DXImageTransform.Microsoft.Shadow(color='#111111', Direction=135, Strength=5);
+  zoom: 1;}
+
+	.diaporama li .titre_slide span{ font-size:90px; display:block; margin-left:30px; }
+
+	.diaporama li .titre_slide strong{ font-family: 'DaxCondensedBold', Arial, Helvetica, sans-serif;}
+
+	.diaporama_controls {clear: both; overflow: hidden; padding: 5px; position: absolute; bottom: 0px; left: 50%; }
+
+	.diaporama_controls .btns { }
+
+	.diaporama_controls .prev { background: url(../images/sprite.png) no-repeat -137px -5090px transparent; }
+
+	.diaporama_controls .play { display: none; }
+
+	.diaporama_controls .pause { display: none; }
+
+	.diaporama_controls .next { background: url(../images/sprite.png) no-repeat -337px -5090px transparent; }
+
+	.diaporama_controls a { display: inline-block; font-weight: normal; margin: 0 3px;text-indent: -9999px; width: 26px; height: 26px; }
+
+
 /*=======================Fin=Style Slide========================*/
 
 .scrollable .ubox-items{ float:left; position:relative;}

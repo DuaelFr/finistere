@@ -16,7 +16,7 @@ Drupal.behaviors.cdt2011 = function (context){
 	$(".diaporama").diaporama({
 		animationSpeed: "slow",
 		delay:5,
-		controls:false
+		controls:true
 	});
 
 	//Effacer le menu au chargement de la page
