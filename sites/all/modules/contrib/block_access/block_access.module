@@ -1,5 +1,5 @@
 <?php
-// $Id: block_access.module,v 1.2.2.3 2010/10/21 13:22:04 lambic Exp $
+// $Id: block_access.module,v 1.1.2.2 2010/05/12 17:26:02 lambic Exp $
 /* 
  * @file block_access.module
  * This module handles access permissions for the block admin page.
@@ -36,6 +36,7 @@ define('BLOCK_ACCESS_MENU_DELETE',   'admin/build/block/delete');
 define('BLOCK_ACCESS_MENU_CONFIG',   'admin/build/block/configure');
 define('BLOCK_ACCESS_FORM_ADMIN',    'block_admin_display_form');
 define('BLOCK_ACCESS_FORM_CONFIG',   'block_admin_configure');
+define('BLOCK_ACCESS_FORM_ADD',      'block_add_block_form');
 
 /*
  * Implementation of hook_init()
@@ -103,25 +104,22 @@ function block_access_menu_alter(&$items) {
  *  @return array An array of valid permissions for the block_access module
  */
 function block_access_perm() {
-
   // All the "All blocks" level permissions
-  $access = array(
-    t(BLOCK_ACCESS_ADMIN),
-    t(BLOCK_ACCESS_CREATE),
-    t(BLOCK_ACCESS_ALL_VIEW),
-    t(BLOCK_ACCESS_ALL_MOVE),
-    t(BLOCK_ACCESS_ALL_ENABLE),
-    t(BLOCK_ACCESS_ALL_DISABLE),
-    t(BLOCK_ACCESS_ALL_CONFIG),
-    t(BLOCK_ACCESS_ALL_DELETE),
-    t(BLOCK_ACCESS_ALL_CONFIG_LANG),
-    t(BLOCK_ACCESS_ALL_CONFIG_SPEC),
-    t(BLOCK_ACCESS_ALL_CONFIG_USER),
-    t(BLOCK_ACCESS_ALL_CONFIG_ROLE),
-    t(BLOCK_ACCESS_ALL_CONFIG_PAGE),
+  return array(
+    BLOCK_ACCESS_ADMIN,
+    BLOCK_ACCESS_CREATE,
+    BLOCK_ACCESS_ALL_VIEW,
+    BLOCK_ACCESS_ALL_MOVE,
+    BLOCK_ACCESS_ALL_ENABLE,
+    BLOCK_ACCESS_ALL_DISABLE,
+    BLOCK_ACCESS_ALL_CONFIG,
+    BLOCK_ACCESS_ALL_DELETE,
+    BLOCK_ACCESS_ALL_CONFIG_LANG,
+    BLOCK_ACCESS_ALL_CONFIG_SPEC,
+    BLOCK_ACCESS_ALL_CONFIG_USER,
+    BLOCK_ACCESS_ALL_CONFIG_ROLE,
+    BLOCK_ACCESS_ALL_CONFIG_PAGE,
   );
-
-  return $access;
 }
 
 /*
@@ -154,38 +152,38 @@ function block_access_user_access($module, $delta, $perm) {
  * Helpers for each permission
  */
 function block_access_can_view($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_VIEW))
+  return user_access(BLOCK_ACCESS_ALL_VIEW)
       || block_access_user_access($module, $delta, 'view');
 }
 
 function block_access_can_delete($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_DELETE)) 
+  return user_access(BLOCK_ACCESS_ALL_DELETE) 
       || block_access_user_access($module, $delta, 'delete');
 }
 
 function block_access_can_enable($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_ENABLE))
+  return user_access(BLOCK_ACCESS_ALL_ENABLE)
       || block_access_user_access($module, $delta, 'enable');
 }
 
 function block_access_can_disable($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_DISABLE))
+  return user_access(BLOCK_ACCESS_ALL_DISABLE)
       || block_access_user_access($module, $delta, 'disable');
 }
 
 function block_access_can_move($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_MOVE))
+  return user_access(BLOCK_ACCESS_ALL_MOVE)
       || block_access_user_access($module, $delta, 'move');
 }
 
 // If any of the config perms are on, give access
 function block_access_can_config($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG))
-      || user_access(t(BLOCK_ACCESS_ALL_CONFIG_LANG))
-      || user_access(t(BLOCK_ACCESS_ALL_CONFIG_SPEC))
-      || user_access(t(BLOCK_ACCESS_ALL_CONFIG_USER))
-      || user_access(t(BLOCK_ACCESS_ALL_CONFIG_ROLE))
-      || user_access(t(BLOCK_ACCESS_ALL_CONFIG_PAGE))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG)
+      || user_access(BLOCK_ACCESS_ALL_CONFIG_LANG)
+      || user_access(BLOCK_ACCESS_ALL_CONFIG_SPEC)
+      || user_access(BLOCK_ACCESS_ALL_CONFIG_USER)
+      || user_access(BLOCK_ACCESS_ALL_CONFIG_ROLE)
+      || user_access(BLOCK_ACCESS_ALL_CONFIG_PAGE)
       || block_access_user_access($module, $delta, 'config') 
       || block_access_user_access($module, $delta, 'config_lang')
       || block_access_user_access($module, $delta, 'config_spec')
@@ -195,27 +193,27 @@ function block_access_can_config($module, $delta) {
 }
 
 function block_access_can_config_lang($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG_LANG))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG_LANG)
       || block_access_user_access($module, $delta, 'config_lang');
 }
 
 function block_access_can_config_spec($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG_SPEC))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG_SPEC)
       || block_access_user_access($module, $delta, 'config_spec'); 
 }
 
 function block_access_can_config_user($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG_USER))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG_USER)
       || block_access_user_access($module, $delta, 'config_user');
 }
 
 function block_access_can_config_role($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG_ROLE))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG_ROLE)
       || block_access_user_access($module, $delta, 'config_role');
 }
 
 function block_access_can_config_page($module, $delta) {
-  return user_access(t(BLOCK_ACCESS_ALL_CONFIG_PAGE))
+  return user_access(BLOCK_ACCESS_ALL_CONFIG_PAGE)
       || block_access_user_access($module, $delta, 'config_page');
 }
 
@@ -253,10 +251,13 @@ function block_access_check_perms(&$form, $key, $block) {
       }
     }
     else {
-      // Disable the region selection and weight if the user can't move the block
+      // Unset the regions in the region selection if the user can't move the block
       if (!block_access_can_move($module, $delta)) {
-        $form[$key]['region']['#disabled'] = TRUE;
-        $form[$key]['weight']['#disabled'] = TRUE;
+        foreach($form[$key]['region']['#options'] as $option => $value) {
+          if ($option != BLOCK_REGION_NONE && $option != $form[$key]['region']['#default_value']) {
+            unset($form[$key]['region']['#options'][$option]);
+          }
+        }
       }
       // Remove the <none> option from the select list if the user can't disable the block
       if (!block_access_can_disable($module, $delta)) {
@@ -323,7 +324,7 @@ function block_access_form_alter(&$form, &$form_state, $form_id) {
     $form['#submit'][] = 'block_access_admin_display_submit';
   }
   // Or the other form we're interested in
-  elseif ($form_id == BLOCK_ACCESS_FORM_CONFIG) {
+  elseif ($form_id == BLOCK_ACCESS_FORM_CONFIG || $form_id == BLOCK_ACCESS_FORM_ADD) {
 
     $role_options = user_roles();
     $module = $form['module']['#value'];
@@ -372,7 +373,7 @@ function block_access_fieldset(&$form, $role_options, $perm, $module, $delta = n
     '#title' => t('Set permission for specific roles'),
     '#default_value' => $default_role_options,
     '#options' => $role_options,
-    '#description' => t('Set this permission for the selected role(s). If no roles are set then module defaults will be used.'),
+    '#description' => t('Set this permission for the selected role(s). If no roles are set the option will be available to all.'),
   );
 }
 
