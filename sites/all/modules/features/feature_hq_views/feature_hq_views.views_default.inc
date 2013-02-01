@@ -1910,10 +1910,20 @@ function feature_hq_views_views_default_views() {
     ),
   ));
   $handler->override_option('sorts', array(
-    'delta_1' => array(
-      'id' => 'delta_1',
-      'table' => 'node_data_field_fl_categorie_strs',
-      'field' => 'delta',
+    'field_fl_adherent_cdt_tx_value' => array(
+      'order' => 'DESC',
+      'delta' => -1,
+      'id' => 'field_fl_adherent_cdt_tx_value',
+      'table' => 'node_data_field_fl_adherent_cdt_tx',
+      'field' => 'field_fl_adherent_cdt_tx_value',
+      'relationship' => 'none',
+    ),
+    'random' => array(
+      'order' => 'ASC',
+      'id' => 'random',
+      'table' => 'views',
+      'field' => 'random',
+      'relationship' => 'none',
     ),
   ));
   $handler->override_option('filters', array(
@@ -2203,29 +2213,6 @@ function feature_hq_views_views_default_views() {
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
   $handler = $view->new_display('block', 'Hôtels', 'block_2');
-  $handler->override_option('sorts', array(
-    'field_fl_adherent_cdt_tx_value' => array(
-      'order' => 'DESC',
-      'delta' => -1,
-      'id' => 'field_fl_adherent_cdt_tx_value',
-      'table' => 'node_data_field_fl_adherent_cdt_tx',
-      'field' => 'field_fl_adherent_cdt_tx_value',
-      'override' => array(
-        'button' => 'Utiliser la valeur par défaut',
-      ),
-      'relationship' => 'none',
-    ),
-    'delta_1' => array(
-      'order' => 'DESC',
-      'id' => 'delta_1',
-      'table' => 'node_data_field_fl_categorie_strs',
-      'field' => 'delta',
-      'override' => array(
-        'button' => 'Utiliser la valeur par défaut',
-      ),
-      'relationship' => 'none',
-    ),
-  ));
   $handler->override_option('filters', array(
     'term_node_tid_depth' => array(
       'operator' => 'or',
