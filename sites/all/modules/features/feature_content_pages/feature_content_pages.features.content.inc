@@ -967,6 +967,116 @@ block_73|EN ORG Offices de tourisme',
     ),
   );
 
+  // Exported field: field_hqitem_parents_other
+  $fields['hqitem-field_hqitem_parents_other'] = array(
+    'field_name' => 'field_hqitem_parents_other',
+    'type_name' => 'hqitem',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'nodereference',
+    'required' => '0',
+    'multiple' => '1',
+    'module' => 'nodereference',
+    'active' => '1',
+    'referenceable_types' => array(
+      'hqitem' => 'hqitem',
+      'bon_plan' => 0,
+      'flux_asc' => 0,
+      'flux_b0018' => 0,
+      'flux_b2917' => 0,
+      'flux_cca' => 0,
+      'flux_fma' => 0,
+      'flux_hlo' => 0,
+      'flux_hot' => 0,
+      'flux_hpa' => 0,
+      'flux_loi' => 0,
+      'flux_org' => 0,
+      'flux_pcu' => 0,
+      'flux_pna' => 0,
+      'flux_res' => 0,
+      'flux_vil' => 0,
+      'enete_accueil' => 0,
+      'flux' => 0,
+      'hpa' => 0,
+      'interstitiel' => 0,
+      'page' => 0,
+      'redirect_content' => 0,
+      'custom_theme' => 0,
+      'ubox' => 0,
+      'video' => 0,
+      'sejwe_infos' => 0,
+      'webform' => 0,
+      'event' => 0,
+    ),
+    'advanced_view' => '--',
+    'advanced_view_args' => '',
+    'widget' => array(
+      'autocomplete_match' => 'contains',
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'nid' => NULL,
+          '_error_element' => 'default_value_widget][field_hqitem_parents_other][0][nid][nid',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Contenu parent secondaire',
+      'weight' => '3',
+      'description' => 'Choisissez les contenus parents secondaires de celui-ci. De champ ne devrait pas être rempli si le précédent est vide.',
+      'type' => 'nodereference_autocomplete',
+      'module' => 'nodereference',
+    ),
+  );
+
   // Exported field: field_hqitem_poids
   $fields['hqitem-field_hqitem_poids'] = array(
     'field_name' => 'field_hqitem_poids',
@@ -1536,6 +1646,7 @@ block_73|EN ORG Offices de tourisme',
   // Included for use with string extractors like potx.
   t('Cacher le partage réseaux');
   t('Contenu parent');
+  t('Contenu parent secondaire');
   t('Custom Design');
   t('Encart droit');
   t('Fichier attaché');
