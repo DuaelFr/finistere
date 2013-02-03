@@ -1874,10 +1874,12 @@ function feature_various_views_views_default_views() {
   ));
   $handler->override_option('title', 'Prochainement en finistère');
   $handler->override_option('items_per_page', 3);
+  $handler->override_option('offset', 0);
   $handler = $view->new_display('block', 'Bloc', 'block_1');
   $handler->override_option('block_description', 'Prochainement en finistère');
   $handler->override_option('block_caching', -1);
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_1');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 3);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1889,6 +1891,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_2');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 6);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1900,6 +1903,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_3');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 9);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1911,6 +1915,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_4');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 12);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1922,6 +1927,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_5');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 15);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1933,6 +1939,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_6');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 18);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1944,6 +1951,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_7');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 21);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1955,6 +1963,7 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_8');
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 24);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
@@ -1966,6 +1975,8 @@ function feature_various_views_views_default_views() {
     'default' => 0,
   ));
   $handler = $view->new_display('attachment', 'Fichier attaché', 'attachment_9');
+  
+  $handler->override_option('items_per_page', 3);
   $handler->override_option('offset', 27);
   $handler->override_option('attachment_position', 'after');
   $handler->override_option('inherit_arguments', TRUE);
