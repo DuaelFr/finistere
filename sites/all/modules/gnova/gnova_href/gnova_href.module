@@ -161,7 +161,7 @@ function gnova_href_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             //------- GESTION DE L'AFFICHAGE DES LISTES DE FICHES DES FLUX ----------------------
             //Si il ne s'agit pas d'une liste d'items de flux
             if(substr($viewName, 0, 7)!='hqflux_'){
-              $view->set_arguments(array($node->nid));
+              $view->set_arguments(array($node->nid, $node->nid));
             }
             //Si il s'agit d'une liste de fiches (flux) sans filtrage
             elseif($viewName=='hqflux_display_list_as_hqchild' && isset($node->field_hqitem_fluxtid[0]['value']) && is_numeric($node->field_hqitem_fluxtid[0]['value'])){
