@@ -11,16 +11,8 @@ function feature_content_pages_content_default_fields() {
     'field_name' => 'field_hidesimpleshare',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '25',
+      'weight' => '27',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -34,6 +26,14 @@ function feature_content_pages_content_default_fields() {
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -94,16 +94,8 @@ function feature_content_pages_content_default_fields() {
     'field_name' => 'field_hq_file',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '22',
+      'weight' => '24',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -117,6 +109,14 @@ function feature_content_pages_content_default_fields() {
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -172,16 +172,8 @@ function feature_content_pages_content_default_fields() {
     'field_name' => 'field_hq_view_name',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '5',
+      'weight' => '7',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'default',
         'exclude' => 0,
@@ -196,6 +188,14 @@ function feature_content_pages_content_default_fields() {
       ),
       'ubox_ruban_slideshow' => array(
         'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'label' => array(
@@ -255,16 +255,8 @@ hqflux_search_influx|Recherche dans un flux',
     'field_name' => 'field_hqitem_childrenlist_title',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '7',
+      'weight' => '10',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -278,6 +270,14 @@ hqflux_search_influx|Recherche dans un flux',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -338,16 +338,8 @@ hqflux_search_influx|Recherche dans un flux',
     'field_name' => 'field_hqitem_connexlist_title',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '8',
+      'weight' => '11',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -361,6 +353,14 @@ hqflux_search_influx|Recherche dans un flux',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -421,16 +421,8 @@ hqflux_search_influx|Recherche dans un flux',
     'field_name' => 'field_hqitem_fluxdisplay',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '6',
+      'weight' => '8',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'default',
         'exclude' => 0,
@@ -445,6 +437,14 @@ hqflux_search_influx|Recherche dans un flux',
       ),
       'ubox_ruban_slideshow' => array(
         'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'label' => array(
@@ -572,16 +572,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_fluxtid',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '6',
+      'weight' => '9',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'default',
         'exclude' => 0,
@@ -596,6 +588,14 @@ block_73|EN ORG Offices de tourisme',
       ),
       'ubox_ruban_slideshow' => array(
         'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'label' => array(
@@ -709,16 +709,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_menuimg',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '11',
+      'weight' => '14',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -732,6 +724,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -798,14 +798,6 @@ block_73|EN ORG Offices de tourisme',
     'display_settings' => array(
       'weight' => '-3',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -819,6 +811,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -883,16 +883,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_parent',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '1',
+      'weight' => '2',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -906,6 +898,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -972,47 +972,48 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_parents_other',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'label' => array(
-        'format' => 'above',
+      'weight' => '3',
+      'parent' => '',
+      'ubox_resume' => array(
+        'format' => 'hidden',
         'exclude' => 0,
       ),
+      'ubox_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      'label' => array(
+        'format' => 'hidden',
+      ),
       'teaser' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       'full' => array(
-        'format' => 'default',
+        'format' => 'hidden',
         'exclude' => 0,
       ),
       '4' => array(
         'format' => 'default',
         'exclude' => 0,
       ),
-      '2' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
       '5' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'ubox_resume' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'ubox_slideshow' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'ubox_ruban' => array(
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'ubox_ruban_slideshow' => array(
         'format' => 'default',
         'exclude' => 0,
       ),
@@ -1082,16 +1083,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_poids',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '9',
+      'weight' => '12',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -1105,6 +1098,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -1165,16 +1166,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_primimg',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '4',
+      'weight' => '6',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -1188,6 +1181,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -1252,16 +1253,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_rightbox',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => 0,
+      'weight' => '-1',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'hidden',
         'exclude' => 0,
@@ -1275,6 +1268,14 @@ block_73|EN ORG Offices de tourisme',
         'exclude' => 0,
       ),
       'ubox_ruban_slideshow' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
         'format' => 'hidden',
         'exclude' => 0,
       ),
@@ -1335,16 +1336,8 @@ block_73|EN ORG Offices de tourisme',
     'field_name' => 'field_hqitem_teaserimg',
     'type_name' => 'hqitem',
     'display_settings' => array(
-      'weight' => '3',
+      'weight' => '5',
       'parent' => '',
-      '2' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
-      '3' => array(
-        'format' => 'hidden',
-        'exclude' => 0,
-      ),
       'ubox_resume' => array(
         'format' => 'image_plain',
         'exclude' => 1,
@@ -1360,6 +1353,14 @@ block_73|EN ORG Offices de tourisme',
       'ubox_ruban_slideshow' => array(
         'format' => 'image_plain',
         'exclude' => 1,
+      ),
+      '2' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'hidden',
+        'exclude' => 0,
       ),
       'label' => array(
         'format' => 'hidden',
