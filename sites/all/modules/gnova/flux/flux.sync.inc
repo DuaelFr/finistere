@@ -383,6 +383,9 @@ class Synchronisation {
       //Suppression des doublons
       repair_term_node($vocabs[$fl->identifiant . ($en ? '_en' : '')]['vid']);
 
+      //Nettoyage des termes vides
+      clean_term_node($vocabs[$fl->identifiant . ($en ? '_en' : '')]['vid']);
+
     }
     else {
       if (!isset($vocabs[$fl->identifiant . ($en ? '_en' : '')])) {
