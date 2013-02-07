@@ -3,112 +3,125 @@ module_load_include('inc', 'flux', 'flux.sync');
 module_load_include('php', 'flux', 'nusoap/lib/nusoap');
 module_load_include('inc', 'flux', 'flux.api');
 
-function get_display_zones(){
-	return array('<none>'=>'-Aucune-', 'presentationzone'=>'Présentation', 'beforeaddress' => 'Before address', 'addresszone' => 'Address zone', 'zone1' => 'Zone 1', 'zone2'=>'Zone 2');
+function get_display_zones() {
+  return array(
+    '<none>'           => '-Aucune-',
+    'presentationzone' => 'Présentation',
+    'beforeaddress'    => 'Before address',
+    'addresszone'      => 'Address zone',
+    'zone1'            => 'Zone 1',
+    'zone2'            => 'Zone 2'
+  );
 }
-function get_display_type(){
-	return array('<none>'=>'-Aucun-', 'inline'=>'Inline');
+
+function get_display_type() {
+  return array('<none>' => '-Aucun-', 'inline' => 'Inline');
 }
 
 /**
  * Implementation of hook_perm
  */
-function flux_perm(){
-	return array('Administer flux settings', 'Force flux update', 'Administer flux display', 'Override fixed display settings', 'Administer flux content types');
+function flux_perm() {
+  return array(
+    'Administer flux settings',
+    'Force flux update',
+    'Administer flux display',
+    'Override fixed display settings',
+    'Administer flux content types'
+  );
 }
 
 /**
  * Implementation of hook_menu
  */
 function flux_menu() {
-	$items = array();
-	$items['admin/flux'] = array(
-    'title' => t('Flux'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_admin_form'),
+  $items                               = array();
+  $items['admin/flux']                 = array(
+    'title'            => t('Flux'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_admin_form'),
     'access arguments' => array('Administer flux settings'),
     'type'             => MENU_NORMAL_ITEM,
   );
-	$items['admin/flux/settings'] = array(
-    'title' => t('Flux Settings'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_admin_form'),
+  $items['admin/flux/settings']        = array(
+    'title'            => t('Flux Settings'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_admin_form'),
     'access arguments' => array('Administer flux settings'),
     'type'             => MENU_NORMAL_ITEM | MENU_DEFAULT_LOCAL_TASK,
   );
-	$items['admin/flux/synchronisation'] = array(
-    'title' => t('Flux Synchronisation'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_admin_synchronisation_form'),
+  $items['admin/flux/synchronisation'] = array(
+    'title'            => t('Flux Synchronisation'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_admin_synchronisation_form'),
     'access arguments' => array('Force flux update'),
     'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
   );
-  $items['admin/flux/list'] = array(
-    'title' => t('Flux content type list'),
-    'page callback' => 'fluxfields_flux_list',
+  $items['admin/flux/list']            = array(
+    'title'            => t('Flux content type list'),
+    'page callback'    => 'fluxfields_flux_list',
     'access arguments' => array('Administer flux display'),
     'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-    'file'	=> "fluxfields_admin_pages.inc",
+    'file'             => "fluxfields_admin_pages.inc",
   );
-  $items['admin/flux/updateproduct'] = array(
-    'title' => t('Update Specific Product'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_updateproduct_form'),
+  $items['admin/flux/updateproduct']   = array(
+    'title'            => t('Update Specific Product'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_updateproduct_form'),
     'access arguments' => array('administer site'),
     'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-    'weight' => 4,
+    'weight'           => 4,
   );
-  $items['admin/flux/test'] = array(
-    'title' => t('Test webservice'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_testwebserivce_form'),
+  $items['admin/flux/test']            = array(
+    'title'            => t('Test webservice'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_testwebserivce_form'),
     'access arguments' => array('administer site'),
     'type'             => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-    'weight' => 5,
+    'weight'           => 5,
   );
-  $items['admin/flux/edit/%'] = array(
-    'title' => t('Edit'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('flux_fluxfields_form', 3),
+  $items['admin/flux/edit/%']          = array(
+    'title'            => t('Edit'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('flux_fluxfields_form', 3),
     'access arguments' => array('Administer flux content types'),
     'type'             => MENU_CALLBACK,
-    'file'	=> "fluxfields_admin_pages.inc",
+    'file'             => "fluxfields_admin_pages.inc",
   );
-  $items['admin/flux/displayedit/%'] = array(
-    'title' => t('Edit'),
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('field_display_settings_form', 3),
+  $items['admin/flux/displayedit/%']   = array(
+    'title'            => t('Edit'),
+    'page callback'    => 'drupal_get_form',
+    'page arguments'   => array('field_display_settings_form', 3),
     'access arguments' => array('Administer flux display'),
     'type'             => MENU_CALLBACK,
-    'file'	=> "fluxfields_admin_pages.inc",
+    'file'             => "fluxfields_admin_pages.inc",
   );
-  
+
   $items['admin/flux/repairvoc/%'] = array(
-    'title' => t('Repair vocabulary'),
-    'page callback' => 'repair_nodes_page',
-    'page arguments' => array(3),
+    'title'            => t('Repair vocabulary'),
+    'page callback'    => 'repair_nodes_page',
+    'page arguments'   => array(3),
     'access arguments' => array('Administer flux display'),
     'type'             => MENU_CALLBACK,
-    'file'	=> "fluxfields_admin_pages.inc",
+    'file'             => "fluxfields_admin_pages.inc",
   );
-  
+
   return $items;
 }
-
 
 
 /**
  * Implementation of hook_cron
  */
-function flux_cron(){
-	$cache = variable_get("flux_sync_data_cache", "");
+function flux_cron() {
+  $cache = variable_get("flux_sync_data_cache", "");
 
   $datetime = variable_get("flux_last_sync", mktime(0, 0, 0, '01', '01', '1900'));
 
-  if(date('Ymd', $datetime) <> date('Ymd')){
+  if (date('Ymd', $datetime) <> date('Ymd')) {
     $sync = new Synchronisation();
     $sync->init();
-    if($sync->retreive_sync){
+    if ($sync->retreive_sync) {
       $datetime = "";
     }
     $sync->sync($datetime);
@@ -120,19 +133,20 @@ function flux_cron(){
  * Implementation of hook_theme
  */
 function flux_theme() {
-	$retour = array(
-		'flux_fluxfields_form' => array('arguments' => array('form' => NULL),),
-		'field_display_settings_form' => array('arguments' => array('form' => NULL),),
-		'flux_multifield_inline' => array('arguments' => array('element' => NULL),),
-		/*'fluxfield_zone' => array('arguments' => array('element' => NULL),),*/
-	);
-	
-	foreach(get_display_type() as $type){
-		if($type!='<none>')
-			$retour['flux_diaplaytype_'.$type] = array('arguments' => array('element' => NULL),);
-	}
-	
-	return $retour;
+  $retour = array(
+    'flux_fluxfields_form'        => array('arguments' => array('form' => NULL),),
+    'field_display_settings_form' => array('arguments' => array('form' => NULL),),
+    'flux_multifield_inline'      => array('arguments' => array('element' => NULL),),
+    /*'fluxfield_zone' => array('arguments' => array('element' => NULL),),*/
+  );
+
+  foreach (get_display_type() as $type) {
+    if ($type != '<none>') {
+      $retour['flux_diaplaytype_' . $type] = array('arguments' => array('element' => NULL),);
+    }
+  }
+
+  return $retour;
 }
 
 /**
@@ -149,233 +163,250 @@ function flux_theme() {
  * @param $a4
  *   - For "view", passes in the $page parameter from node_view().
  * @return
- *   This varies depending on the operation.
+ *     This varies depending on the operation.
  *   - The "presave", "insert", "update", "delete", "print" and "view"
  *     operations have no return value.
  *   - The "load" operation should return an array containing pairs
  *     of fields => values to be merged into the node object.
  */
 function flux_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
-	switch ($op) {
-		case 'view':
-			if(substr($node->type,0, 5)=='flux_'){
-				//$items = _content_sort_items($field, $items);
-				
-				$identifiant = $node->field_fl_id_bordereau_tx[0]['value'];
-				
-				$confList = flux_fieldsmapping($identifiant);
-				$displayConfList = flux_fieldsdisplay($identifiant);
-				
-				//Initialisation des zones
-				foreach(get_display_zones() as $zone => $name){
-					if($zone!='<none>'){
-						$node->fluxfields[$zone] = $outzone = array(
-							'#value' => ''
-						);
-					}
-				}
-				
-				//GESTION DES CHAMPS STATIQUES
-        if(!isset($displayConfList['body'])){
-  				$node->fluxfields['presentationzone']['#value'].=$node->body;
+  switch ($op) {
+    case 'view':
+      if (substr($node->type, 0, 5) == 'flux_') {
+        //$items = _content_sort_items($field, $items);
+
+        $identifiant = $node->field_fl_id_bordereau_tx[0]['value'];
+
+        $confList        = flux_fieldsmapping($identifiant);
+        $displayConfList = flux_fieldsdisplay($identifiant);
+
+        //Initialisation des zones
+        foreach (get_display_zones() as $zone => $name) {
+          if ($zone != '<none>') {
+            $node->fluxfields[$zone] = $outzone = array(
+              '#value' => ''
+            );
+          }
         }
-				
-	      if(!preg_match('/b2917/i', $node->type)){
+
+        //GESTION DES CHAMPS STATIQUES
+        if (!isset($displayConfList['body'])) {
+          $node->fluxfields['presentationzone']['#value'] .= $node->body;
+        }
+
+        if (!preg_match('/b2917/i', $node->type)) {
           $address = theme_fluxlocation_fields(array(
-            array('label'=>'', 'value'=>$node->locations[0]['street']),
-            array('label'=>'', 'value'=>$node->field_fl_adresse2_tx[0]['value']),
-            array('label'=>'', 'value'=>$node->field_fl_adresse3_tx[0]['value']),
-            array('label'=>'', 'value'=>$node->locations[0]['postal_code'] . ' ' . $node->locations[0]['city']),
+            array('label' => '', 'value' => $node->locations[0]['street']),
+            array(
+              'label' => '',
+              'value' => $node->field_fl_adresse2_tx[0]['value']
+            ),
+            array(
+              'label' => '',
+              'value' => $node->field_fl_adresse3_tx[0]['value']
+            ),
+            array(
+              'label' => '',
+              'value' => $node->locations[0]['postal_code'] . ' ' . $node->locations[0]['city']
+            ),
           ));
-				}
-				
-				
-				//gestion des champs suivis et du poids
-				foreach($displayConfList as $fieldname => $confd){
-					//Gestion de la précédence
-					if($confd->after!='<none>'){
-						//Il est nécessaire de procéder par récurtion pour trouver le bon field à appliquer.
-						maj_field_precedence_recursively($node->content, $confd->after, $confd->cckfieldname, $node->content[$confd->cckfieldname], $confd->disptype, $node->content, $displayConfList);
-						unset($node->content[$confd->cckfieldname]);
-					}
-				}
-				
-				
-				
-				//Gestion du zonage des champs : exceptés les champs statiques
-				$zoneContent=array();
-				
-				foreach($displayConfList as $fieldname => $confd){
-					
-					if(intval($confd->hide)===1){
-						unset($node->content[$confd->cckfieldname]);
-					}else{
-						if($confd->zone!='<none>'){
-							$zoneContent[$confd->zone][$confd->cckfieldname] = $node->content[$confd->cckfieldname];
-							unset($node->content[$confd->cckfieldname]);
-						}else{
-              if($confd->cckfieldname != 'field_fl_profil_tx'){ // Je n'ai pas trouvé comment pouvoir récupérer cette valeur autrement dans le template donc on évite sa suppression ici
-  							unset($node->content[$confd->cckfieldname]);
+        }
+
+
+        //gestion des champs suivis et du poids
+        foreach ($displayConfList as $fieldname => $confd) {
+          //Gestion de la précédence
+          if ($confd->after != '<none>') {
+            //Il est nécessaire de procéder par récurtion pour trouver le bon field à appliquer.
+            maj_field_precedence_recursively($node->content, $confd->after, $confd->cckfieldname, $node->content[$confd->cckfieldname], $confd->disptype, $node->content, $displayConfList);
+            unset($node->content[$confd->cckfieldname]);
+          }
+        }
+
+
+        //Gestion du zonage des champs : exceptés les champs statiques
+        $zoneContent = array();
+
+        foreach ($displayConfList as $fieldname => $confd) {
+
+          if (intval($confd->hide) === 1) {
+            unset($node->content[$confd->cckfieldname]);
+          }
+          else {
+            if ($confd->zone != '<none>') {
+              $zoneContent[$confd->zone][$confd->cckfieldname] = $node->content[$confd->cckfieldname];
+              unset($node->content[$confd->cckfieldname]);
+            }
+            else {
+              if ($confd->cckfieldname != 'field_fl_profil_tx') { // Je n'ai pas trouvé comment pouvoir récupérer cette valeur autrement dans le template donc on évite sa suppression ici
+                unset($node->content[$confd->cckfieldname]);
               }
-						}
-					}
-					
-					//Gestion des champs à valeur unique (display->single=1)
-					if(intval($confd->single)===1){
-						if($confd->zone=='<none>'){
-							//Champ composé sans zone
-							if(isset($node->content[$confd->cckfieldname]['#container'])){
-								foreach (element_children($node->content[$confd->cckfieldname]) as $key) {
-							     	$node->content[$confd->cckfieldname][$key]['field']['items'] = array($node->content[$confd->cckfieldname][$key]['field']['items'][0]);
-							    }
-							}else{//Aucune zone et est un champ simple
-								$node->content[$confd->cckfieldname]['field']['items'] = array($node->content[$confd->cckfieldname]['field']['items'][0]);
-							}
-							
-						}else{
-							
-							//Champ composé dans une zone
-							if(isset($zoneContent[$confd->zone][$confd->cckfieldname]['#container'])){
-								foreach (element_children($zoneContent[$confd->zone][$confd->cckfieldname]) as $key) {
-							     	$zoneContent[$confd->zone][$confd->cckfieldname][$key]['field']['items'] = array($zoneContent[$confd->zone][$confd->cckfieldname][$key]['field']['items'][0]);
-							    }
-							}else{//Champ simple dans une zone
-								$zoneContent[$confd->zone][$confd->cckfieldname]['field']['items'] = array($zoneContent[$confd->zone][$confd->cckfieldname]['field']['items'][0]);
-							}
-						}
-					}
-				}
-				
-				//On rempli les variables de zone
-				foreach(get_display_zones() as $zone => $name){
-					if(isset($zoneContent[$zone])){
-						$out='';
-						foreach (element_children($zoneContent[$zone]) as $key) {
-					      $out .= drupal_render($zoneContent[$zone][$key]);
-					    }
-					    $node->fluxfields[$zone]['#value'] .= $out;
-					}
-				}
-				
+            }
+          }
+
+          //Gestion des champs à valeur unique (display->single=1)
+          if (intval($confd->single) === 1) {
+            if ($confd->zone == '<none>') {
+              //Champ composé sans zone
+              if (isset($node->content[$confd->cckfieldname]['#container'])) {
+                foreach (element_children($node->content[$confd->cckfieldname]) as $key) {
+                  $node->content[$confd->cckfieldname][$key]['field']['items'] = array($node->content[$confd->cckfieldname][$key]['field']['items'][0]);
+                }
+              }
+              else { //Aucune zone et est un champ simple
+                $node->content[$confd->cckfieldname]['field']['items'] = array($node->content[$confd->cckfieldname]['field']['items'][0]);
+              }
+
+            }
+            else {
+
+              //Champ composé dans une zone
+              if (isset($zoneContent[$confd->zone][$confd->cckfieldname]['#container'])) {
+                foreach (element_children($zoneContent[$confd->zone][$confd->cckfieldname]) as $key) {
+                  $zoneContent[$confd->zone][$confd->cckfieldname][$key]['field']['items'] = array($zoneContent[$confd->zone][$confd->cckfieldname][$key]['field']['items'][0]);
+                }
+              }
+              else { //Champ simple dans une zone
+                $zoneContent[$confd->zone][$confd->cckfieldname]['field']['items'] = array($zoneContent[$confd->zone][$confd->cckfieldname]['field']['items'][0]);
+              }
+            }
+          }
+        }
+
+        //On rempli les variables de zone
+        foreach (get_display_zones() as $zone => $name) {
+          if (isset($zoneContent[$zone])) {
+            $out = '';
+            foreach (element_children($zoneContent[$zone]) as $key) {
+              $out .= drupal_render($zoneContent[$zone][$key]);
+            }
+            $node->fluxfields[$zone]['#value'] .= $out;
+          }
+        }
+
         // Before address est destiné a être concaténé a address zone
         $node->fluxfields['addresszone']['#value'] = '<div class="address">' . $node->fluxfields['beforeaddress']['#value'] . $address . '</div>' . $node->fluxfields['addresszone']['#value'];
-				
-			}
-			
-		break;
-	}
+
+      }
+
+      break;
+  }
 }
 
 function flux_preprocess_print_page(&$vars) {
-	if(($vars['type'] == 'html' || $vars['type'] == 'pdf') && substr($vars['node']->type, 0, 5)=='flux_'){
+  if (($vars['type'] == 'html' || $vars['type'] == 'pdf') && substr($vars['node']->type, 0, 5) == 'flux_') {
     $vars['template_files'][] = 'print-common-flux';
   }
 }
 
 function flux_preprocess_page(&$vars) {
 
-	if(($vars['type'] == 'html' || $vars['type'] == 'pdf') && substr($vars['node']->type, 0, 5)=='flux_'){
-		$node = $vars['print']['node'];
-		foreach($node->fluxfields as $fieldname=>$field){
+  if (($vars['type'] == 'html' || $vars['type'] == 'pdf') && substr($vars['node']->type, 0, 5) == 'flux_') {
+    $node = $vars['print']['node'];
+    foreach ($node->fluxfields as $fieldname => $field) {
       $vars[$fieldname] = $field['#value'];
     }
-	}
-}
-function flux_preprocess_node(&$vars){
-
-	if(($vars['page'] || $vars['build_mode'] == 5) && substr($vars['node']->type, 0, 5)=='flux_'){
-		$node = $vars['node'];
-		foreach(get_display_zones() as $zone => $name){
-			if($zone!='<none>'){
-				$vars[$zone] = $node->fluxfields[$zone]['#value'];
-			}
-		}
-	}
+  }
 }
 
-function theme_fluxlocation_fields($items=array()){
-	$out='<ul>';
-	if(count($items)>0){
-		foreach($items as $item){
-      if(isset($item['value']) && !empty($item['value'])){
-        if(isset($item['label']) && !empty($item['label'])){
-          $out .= '<strong>'.$item['label'].'</strong> : ';
-        }
-        $out.='<li>' . $item['value'] . '</li>';
+function flux_preprocess_node(&$vars) {
+
+  if (($vars['page'] || $vars['build_mode'] == 5) && substr($vars['node']->type, 0, 5) == 'flux_') {
+    $node = $vars['node'];
+    foreach (get_display_zones() as $zone => $name) {
+      if ($zone != '<none>') {
+        $vars[$zone] = $node->fluxfields[$zone]['#value'];
       }
-		}
-	}
-	$out.='</ul>';
-	return $out;
+    }
+  }
 }
 
-function theme_flux_displaytype_inline($element){
-	return 'hohoho';
+function theme_fluxlocation_fields($items = array()) {
+  $out = '<ul>';
+  if (count($items) > 0) {
+    foreach ($items as $item) {
+      if (isset($item['value']) && !empty($item['value'])) {
+        if (isset($item['label']) && !empty($item['label'])) {
+          $out .= '<strong>' . $item['label'] . '</strong> : ';
+        }
+        $out .= '<li>' . $item['value'] . '</li>';
+      }
+    }
+  }
+  $out .= '</ul>';
+  return $out;
 }
 
-function theme_flux_multifield_inline($element){
-	
-	return $out;
+function theme_flux_displaytype_inline($element) {
+  return 'hohoho';
 }
 
+function theme_flux_multifield_inline($element) {
 
-function maj_field_precedence_recursively(&$element, $previousfieldname, $curfieldname, $field, $display_type='<none>', &$content, $displayConfList=array()){
-	
-	if(isset($element[$previousfieldname])){
-		
-		deletefield_recursively($content, $curfieldname);
-		
-		$element[$previousfieldname]=array(
-			'#weight' => $displayConfList[$previousfieldname]->weight,
-			'#container' => TRUE,
-			$previousfieldname => $element[$previousfieldname],
-		);
-		$element[$previousfieldname][$previousfieldname]['#weight']=$displayConfList[$previousfieldname]->weight;
-		
-		$element[$previousfieldname][$curfieldname] = $field;
-		$element[$previousfieldname][$curfieldname]['#weight']=$displayConfList[$curfieldname]->weight;
-		
-		//if(count(element_children($element))>0)
-		remonter_les_champs_au_premier_niveau($element[$previousfieldname], $displayConfList);
-		
-	}else{
-		foreach(element_children($element) as $key){
-			maj_field_precedence_recursively($element[$key], $previousfieldname, $curfieldname, $field, $display_type, $content, $displayConfList);
-		}
-	}
-	
-}
-
-function deletefield_recursively(&$element, $cckfieldname){
-	if(isset($element[$cckfieldname])){
-		unset($element[$cckfieldname]);
-	}else{
-		foreach(element_children($element) as $key){
-			deletefield_recursively($element[$key], $cckfieldname);
-		}
-	}
+  return $out;
 }
 
 
-function remonter_les_champs_au_premier_niveau(&$element, $displayConfList){
-	
-	$retour = array();
-	
-	if(isset($element['#container'])){
-		
-		foreach(element_children($element) as $key){
-			
-			if(isset($element[$key]['#container'])){
-				$retour = array_merge($retour, remonter_les_champs_au_premier_niveau($element[$key], $displayConfList));
-			}else{
-				$retour[$key]=$element[$key];
-				$retour[$key]['#weight'] = $displayConfList[$key]->weight;
-			}
-		}
-		
-	}
-	
-	return $retour;
+function maj_field_precedence_recursively(&$element, $previousfieldname, $curfieldname, $field, $display_type = '<none>', &$content, $displayConfList = array()) {
+
+  if (isset($element[$previousfieldname])) {
+
+    deletefield_recursively($content, $curfieldname);
+
+    $element[$previousfieldname]                                = array(
+      '#weight'          => $displayConfList[$previousfieldname]->weight,
+      '#container'       => TRUE,
+      $previousfieldname => $element[$previousfieldname],
+    );
+    $element[$previousfieldname][$previousfieldname]['#weight'] = $displayConfList[$previousfieldname]->weight;
+
+    $element[$previousfieldname][$curfieldname]            = $field;
+    $element[$previousfieldname][$curfieldname]['#weight'] = $displayConfList[$curfieldname]->weight;
+
+    //if(count(element_children($element))>0)
+    remonter_les_champs_au_premier_niveau($element[$previousfieldname], $displayConfList);
+
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      maj_field_precedence_recursively($element[$key], $previousfieldname, $curfieldname, $field, $display_type, $content, $displayConfList);
+    }
+  }
+
+}
+
+function deletefield_recursively(&$element, $cckfieldname) {
+  if (isset($element[$cckfieldname])) {
+    unset($element[$cckfieldname]);
+  }
+  else {
+    foreach (element_children($element) as $key) {
+      deletefield_recursively($element[$key], $cckfieldname);
+    }
+  }
+}
+
+
+function remonter_les_champs_au_premier_niveau(&$element, $displayConfList) {
+
+  $retour = array();
+
+  if (isset($element['#container'])) {
+
+    foreach (element_children($element) as $key) {
+
+      if (isset($element[$key]['#container'])) {
+        $retour = array_merge($retour, remonter_les_champs_au_premier_niveau($element[$key], $displayConfList));
+      }
+      else {
+        $retour[$key]            = $element[$key];
+        $retour[$key]['#weight'] = $displayConfList[$key]->weight;
+      }
+    }
+
+  }
+
+  return $retour;
 }
 
 /**
@@ -385,283 +416,158 @@ function remonter_les_champs_au_premier_niveau(&$element, $displayConfList){
  */
 
 /**
- *	Implementation of hook_fluxfieldinfos()
+ *  Implementation of hook_fluxfieldinfos()
  *
- *	@return array
+ * @return array
  */
-function flux_fluxfieldinfos(){
-	return array(
-		"gn_fluxfieldmapping_text" => "Créer un champ suivant la méthode par défaut (texte)",
-		'gn_fluxfield_title' => "TITRE",
-		'gn_fluxfield_body' => 'DESCRIPTION',
-		"gn_fluxfieldmapping_textarea" => "Créer un champ textarea",
-		"gn_fluxfieldmapping_none" => "Champ non traité",
-	);
+function flux_fluxfieldinfos() {
+  return array(
+    "gn_fluxfieldmapping_text"     => "Créer un champ suivant la méthode par défaut (texte)",
+    'gn_fluxfield_title'           => "TITRE",
+    'gn_fluxfield_body'            => 'DESCRIPTION',
+    "gn_fluxfieldmapping_textarea" => "Créer un champ textarea",
+    "gn_fluxfieldmapping_none"     => "Champ non traité",
+  );
 }
 
 /**
  * Gestion du titre
  */
-function gn_fluxfield_title_cckfieldname($ws_fieldname){
-	return 'title';
+function gn_fluxfield_title_cckfieldname($ws_fieldname) {
+  return 'title';
 }
-function gn_fluxfield_title_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname=NULL){
-	
+
+function gn_fluxfield_title_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname = NULL) {
+
 }
-function gn_fluxfield_title_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
-	$value = str_replace('’', "'", $value);
-	$value =  strip_tags(trim($value));
-	if(strlen($value)>0){
-		$node->title = $value;
-		return TRUE;
-	}else{
-		return FALSE;
-	}
+
+function gn_fluxfield_title_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array()) {
+  $value = str_replace('’', "'", $value);
+  $value = strip_tags(trim($value));
+  if (strlen($value) > 0) {
+    $node->title = $value;
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
 }
 
 /**
  * Gestion du corps
  */
-function gn_fluxfield_body_cckfieldname($ws_fieldname){
-	return 'body';
+function gn_fluxfield_body_cckfieldname($ws_fieldname) {
+  return 'body';
 }
-function gn_fluxfield_body_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname=NULL){
-	
+
+function gn_fluxfield_body_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname = NULL) {
+
 }
-function gn_fluxfield_body_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
-	$value = str_replace('’', "'", $value);
-	$node->body = trim($value);
-	return TRUE;
+
+function gn_fluxfield_body_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array()) {
+  $value      = str_replace('’', "'", $value);
+  $node->body = trim($value);
+  return TRUE;
 }
 
 /**
  * Gestion des champs texte
  */
-function gn_fluxfieldmapping_text_cckfieldname($ws_fieldname){
-	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_tx';
-}
-function gn_fluxfieldmapping_text_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname=NULL){
-	
-	if($fixedcckfieldname)
-		$name = $fixedcckfieldname;
-	else
-		$name = gn_fluxfieldmapping_text_cckfieldname($ws_fieldname);
-	
-	$label = (strlen($cck_fieldlabel)>0 ? $cck_fieldlabel : $ws_fieldname);
-	
-	$content_type['fields'][] = array (
-	
-	    'label' => $label,
-	    'field_name' => $name,
-	    'type' => 'text',
-	    'widget_type' => 'text_textfield',
-	    'change' => 'Modifier les informations de base',
-	    'weight' => 0,
-	    'rows' => 5,
-	    'size' => '60',
-	    'description' => '',
-	    'default_value' => 
-	    array (
-		    0 => array (
-		        'value' => '',
-		        '_error_element' => 'default_value_widget][' . $name . '][0][value',
-		    ),
-	    ),
-	    'default_value_php' => '',
-	    'default_value_widget' => array (
-	      ''.$name => 
-	      array (
-	        0 => 
-	        array (
-	          'value' => '',
-	          '_error_element' => 'default_value_widget][' . $name . '][0][value',
-	        ),
-	      ),
-	    ),
-	    'group' => false,
-	    'required' => 0,
-	    'multiple' => '0',
-	    'text_processing' => '0',
-	    'max_length' => '',
-	    'allowed_values' => '',
-	    'allowed_values_php' => '',
-	    'op' => 'Enregistrer les paramètres du champ',
-	    'module' => 'text',
-	    'widget_module' => 'text',
-	    'columns' => 
-	    array ( 'value' => array (
-	        'type' => 'text',
-	        'size' => 'big',
-	        'not null' => false,
-	        'sortable' => true,
-	        'views' => true,
-	      ),
-	    ),
-	    'display_settings' => array (
-	      'label' => array (
-	        'format' => 'above',
-	        'exclude' => 0,
-	      ),
-	      'teaser' => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'full' => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      4 => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      2 => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      3 => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      5 => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'token' => array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	    ),
-	  );
-	  return $name;
+function gn_fluxfieldmapping_text_cckfieldname($ws_fieldname) {
+  return 'field_fl_' . strtolower(substr($ws_fieldname, 0, 16)) . '_tx';
 }
 
-function gn_fluxfieldmapping_text_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
-	$value = str_replace('’', "'", $value);
-	$node->{$cck_fieldname}[0]['value'] = trim($value);
-	return TRUE;
-}
+function gn_fluxfieldmapping_text_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname = NULL) {
 
+  if ($fixedcckfieldname) {
+    $name = $fixedcckfieldname;
+  }
+  else {
+    $name = gn_fluxfieldmapping_text_cckfieldname($ws_fieldname);
+  }
 
-function gn_fluxfieldmapping_textarea_cckfieldname($ws_fieldname){
-	return 'field_fl_'.strtolower(substr($ws_fieldname, 0, 16)).'_txa';
-}
+  $label = (strlen($cck_fieldlabel) > 0 ? $cck_fieldlabel : $ws_fieldname);
 
-function gn_fluxfieldmapping_textarea_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname=NULL){
-  
-  if($fixedcckfieldname)
-		$name = $fixedcckfieldname;
-	else
-		$name = gn_fluxfieldmapping_textarea_cckfieldname($ws_fieldname);
-	
-  $content_type['fields'][] = array (
-    'label' => $cck_fieldlabel,
-    'field_name' => $name,
-    'type' => 'text',
-    'widget_type' => 'text_textarea',
-    'change' => 'Modifier les informations de base',
-    'weight' => '0',
-    'rows' => '5',
-    'size' => 60,
-    'description' => '',
-    'default_value' => 
-    array (
-      0 => 
-      array (
-        'value' => '',
-        '_error_element' => 'default_value_widget]['.$name.'][0][value',
+  $content_type['fields'][] = array(
+
+    'label'                => $label,
+    'field_name'           => $name,
+    'type'                 => 'text',
+    'widget_type'          => 'text_textfield',
+    'change'               => 'Modifier les informations de base',
+    'weight'               => 0,
+    'rows'                 => 5,
+    'size'                 => '60',
+    'description'          => '',
+    'default_value'        =>
+    array(
+      0 => array(
+        'value'          => '',
+        '_error_element' => 'default_value_widget][' . $name . '][0][value',
       ),
     ),
-    'default_value_php' => '',
-    'default_value_widget' => 
-    array (
-      ''.$name => 
-      array (
-        0 => 
-        array (
-          'value' => '',
-          '_error_element' => 'default_value_widget]['.$name.'][0][value',
-          'format' => 1,
+    'default_value_php'    => '',
+    'default_value_widget' => array(
+      '' . $name =>
+      array(
+        0 =>
+        array(
+          'value'          => '',
+          '_error_element' => 'default_value_widget][' . $name . '][0][value',
         ),
       ),
     ),
-    'group' => false,
-    'required' => 0,
-    'multiple' => '0',
-    'text_processing' => '1',
-    'max_length' => '',
-    'allowed_values' => '',
-    'allowed_values_php' => '',
-    'op' => 'Enregistrer les paramètres du champ',
-    'module' => 'text',
-    'widget_module' => 'text',
-    'columns' => 
-    array (
-      'value' => 
-      array (
-        'type' => 'text',
-        'size' => 'big',
-        'not null' => false,
-        'sortable' => true,
-        'views' => true,
-      ),
-      'format' => 
-      array (
-        'type' => 'int',
-        'unsigned' => true,
-        'not null' => false,
-        'views' => false,
+    'group'                => FALSE,
+    'required'             => 0,
+    'multiple'             => '0',
+    'text_processing'      => '0',
+    'max_length'           => '',
+    'allowed_values'       => '',
+    'allowed_values_php'   => '',
+    'op'                   => 'Enregistrer les paramètres du champ',
+    'module'               => 'text',
+    'widget_module'        => 'text',
+    'columns'              =>
+    array(
+      'value' => array(
+        'type'     => 'text',
+        'size'     => 'big',
+        'not null' => FALSE,
+        'sortable' => TRUE,
+        'views'    => TRUE,
       ),
     ),
-    'display_settings' => 
-    array (
-      'label' => 
-      array (
-        'format' => 'above',
+    'display_settings'     => array(
+      'label'  => array(
+        'format'  => 'above',
         'exclude' => 0,
       ),
-      'teaser' => 
-      array (
-        'format' => 'default',
+      'teaser' => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      'full' => 
-      array (
-        'format' => 'default',
+      'full'   => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      4 => 
-      array (
-        'format' => 'default',
+      4        => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      2 => 
-      array (
-        'format' => 'default',
+      2        => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      3 => 
-      array (
-        'format' => 'default',
+      3        => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      5 => 
-      array (
-        'format' => 'default',
+      5        => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
-      'ubox_resume' => 
-      array (
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'ubox_slideshow' => 
-      array (
-        'format' => 'default',
-        'exclude' => 0,
-      ),
-      'token' => 
-      array (
-        'format' => 'default',
+      'token'  => array(
+        'format'  => 'default',
         'exclude' => 0,
       ),
     ),
@@ -669,18 +575,154 @@ function gn_fluxfieldmapping_textarea_fluxfieldcreate(&$content_type, $ws_fieldn
   return $name;
 }
 
-function gn_fluxfieldmapping_textarea_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
-	$value = str_replace('’', "'", $value);
-	$node->{$cck_fieldname}[0]['value'] = trim($value);
-	return TRUE;
+function gn_fluxfieldmapping_text_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array()) {
+  $value                              = str_replace('’', "'", $value);
+  $node->{$cck_fieldname}[0]['value'] = trim($value);
+  return TRUE;
 }
 
-function gn_fluxfieldmapping_none_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname=NULL){
+
+function gn_fluxfieldmapping_textarea_cckfieldname($ws_fieldname) {
+  return 'field_fl_' . strtolower(substr($ws_fieldname, 0, 16)) . '_txa';
+}
+
+function gn_fluxfieldmapping_textarea_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname = NULL) {
+
+  if ($fixedcckfieldname) {
+    $name = $fixedcckfieldname;
+  }
+  else {
+    $name = gn_fluxfieldmapping_textarea_cckfieldname($ws_fieldname);
+  }
+
+  $content_type['fields'][] = array(
+    'label'                => $cck_fieldlabel,
+    'field_name'           => $name,
+    'type'                 => 'text',
+    'widget_type'          => 'text_textarea',
+    'change'               => 'Modifier les informations de base',
+    'weight'               => '0',
+    'rows'                 => '5',
+    'size'                 => 60,
+    'description'          => '',
+    'default_value'        =>
+    array(
+      0 =>
+      array(
+        'value'          => '',
+        '_error_element' => 'default_value_widget][' . $name . '][0][value',
+      ),
+    ),
+    'default_value_php'    => '',
+    'default_value_widget' =>
+    array(
+      '' . $name =>
+      array(
+        0 =>
+        array(
+          'value'          => '',
+          '_error_element' => 'default_value_widget][' . $name . '][0][value',
+          'format'         => 1,
+        ),
+      ),
+    ),
+    'group'                => FALSE,
+    'required'             => 0,
+    'multiple'             => '0',
+    'text_processing'      => '1',
+    'max_length'           => '',
+    'allowed_values'       => '',
+    'allowed_values_php'   => '',
+    'op'                   => 'Enregistrer les paramètres du champ',
+    'module'               => 'text',
+    'widget_module'        => 'text',
+    'columns'              =>
+    array(
+      'value'  =>
+      array(
+        'type'     => 'text',
+        'size'     => 'big',
+        'not null' => FALSE,
+        'sortable' => TRUE,
+        'views'    => TRUE,
+      ),
+      'format' =>
+      array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'views'    => FALSE,
+      ),
+    ),
+    'display_settings'     =>
+    array(
+      'label'          =>
+      array(
+        'format'  => 'above',
+        'exclude' => 0,
+      ),
+      'teaser'         =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      'full'           =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      4                =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      2                =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      3                =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      5                =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume'    =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+      'token'          =>
+      array(
+        'format'  => 'default',
+        'exclude' => 0,
+      ),
+    ),
+  );
+  return $name;
+}
+
+function gn_fluxfieldmapping_textarea_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array()) {
+  $value                              = str_replace('’', "'", $value);
+  $node->{$cck_fieldname}[0]['value'] = trim($value);
+  return TRUE;
+}
+
+function gn_fluxfieldmapping_none_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_fieldlabel, $fixedcckfieldname = NULL) {
 
 }
 
-function gn_fluxfieldmapping_none_fluxfieldvalue(&$node, $ws_fieldname, $value){
-	return TRUE;
+function gn_fluxfieldmapping_none_fluxfieldvalue(&$node, $ws_fieldname, $value) {
+  return TRUE;
 }
 
 
@@ -693,12 +735,12 @@ function gn_fluxfieldmapping_none_fluxfieldvalue(&$node, $ws_fieldname, $value){
 
 function flux_admin_form($form_state) {
   $form['flux_booking_domain_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Booking domain URL'),
+    '#type'        => 'textfield',
+    '#title'       => t('Booking domain URL'),
     '#description' => t('Domain url of bookmarking service ex: resa.finisteretourisme.com'),
-    '#required' => false,
-    '#weight' => -1,
-    '#value' => variable_get('flux_booking_domain_url', 'resa.finisteretourisme.com'),
+    '#required'    => FALSE,
+    '#weight'      => -1,
+    '#value'       => variable_get('flux_booking_domain_url', 'resa.finisteretourisme.com'),
   );
 
   return system_settings_form($form);
@@ -707,474 +749,497 @@ function flux_admin_form($form_state) {
 
 function flux_admin_synchronisation_form($form_state) {
 
-	$cache = print_r(unserialize(gzuncompress(base64_decode(variable_get("flux_sync_data_cache", "")))), true);
+  $cache = print_r(unserialize(gzuncompress(base64_decode(variable_get("flux_sync_data_cache", "")))), TRUE);
 
-	$form['flux_admin_cache'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('Current cache'),
-		'#weight' => -2,
-		'#collapsible' => TRUE,
-		'#collapsed' => TRUE,
-	);
-	$form['flux_admin_cache']['content'] = array(
-		'#type' => 'markup',
-		'#value' => '<pre>'.$cache.'</pre>',
-	);
-  $form['date'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Date of last update %lastdate', array('%lastdate'=>variable_get("flux_last_sync", ''))),
+  $form['flux_admin_cache']            = array(
+    '#type'        => 'fieldset',
+    '#title'       => t('Current cache'),
+    '#weight'      => -2,
+    '#collapsible' => TRUE,
+    '#collapsed'   => TRUE,
+  );
+  $form['flux_admin_cache']['content'] = array(
+    '#type'  => 'markup',
+    '#value' => '<pre>' . $cache . '</pre>',
+  );
+  $form['date']                        = array(
+    '#type'        => 'textfield',
+    '#title'       => t('Date of last update %lastdate', array('%lastdate' => variable_get("flux_last_sync", ''))),
     '#description' => t('Format of date : YYYY-MM-DD hh:mm:ss or YYYY-MM-DD
     Keep empty to force all data update'),
-    '#required' => false,
-    '#size' => 32,
-    '#maxlength' => 32,
-    '#weight' => -1,
+    '#required'    => FALSE,
+    '#size'        => 32,
+    '#maxlength'   => 32,
+    '#weight'      => -1,
   );
-  $form['vidercache']=array(
-  	'#type'=>'checkbox',
-  	'#title' => 'Vider le cache',
+  $form['vidercache']                  = array(
+    '#type'  => 'checkbox',
+    '#title' => 'Vider le cache',
   );
-	  $form['submit'] = array(
-	  '#type' => 'submit',
-	  '#value' => t('Force synchronisation'),
-	);
-	//$cache = variable_get("flux_sync_data_cache", "");
+  $form['submit']                      = array(
+    '#type'  => 'submit',
+    '#value' => t('Force synchronisation'),
+  );
+  //$cache = variable_get("flux_sync_data_cache", "");
 
   return $form;
 }
 
-function flux_admin_synchronisation_form_validate($node, &$form){
-	if(!empty($node['date']['#value']) && !preg_match("/^((19|20)\d\d[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01]))(\s([0-1][1-9]|2[0-3])[:]([0-5][0-9])[:]([0-5][0-9]))?$/", trim($node['date']['#value']))){
-		form_set_error('date', 'Incorrect date format. Use YYYY-MM-DD hh:mm:ss or YYYY-MM-DD');
-	}elseif(!empty($node['date']['#value'])){
-		$date = explode(' ', $node['date']['#value']);
-		$date = explode('-', $date[0]);
-		if(sizeof($date) == 3){
-			if(!checkdate($date[1], $date[2], $date[0])){
-				form_set_error('date', 'Incorrect date format. Use YYYY-MM-DD hh:mm:ss or YYYY-MM-DD');
-			}
-		}
-	}
+function flux_admin_synchronisation_form_validate($node, &$form) {
+  if (!empty($node['date']['#value']) && !preg_match("/^((19|20)\d\d[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01]))(\s([0-1][1-9]|2[0-3])[:]([0-5][0-9])[:]([0-5][0-9]))?$/", trim($node['date']['#value']))) {
+    form_set_error('date', 'Incorrect date format. Use YYYY-MM-DD hh:mm:ss or YYYY-MM-DD');
+  }
+  elseif (!empty($node['date']['#value'])) {
+    $date = explode(' ', $node['date']['#value']);
+    $date = explode('-', $date[0]);
+    if (sizeof($date) == 3) {
+      if (!checkdate($date[1], $date[2], $date[0])) {
+        form_set_error('date', 'Incorrect date format. Use YYYY-MM-DD hh:mm:ss or YYYY-MM-DD');
+      }
+    }
+  }
 }
 
-function flux_admin_synchronisation_form_submit($form_id, &$form_values){
-	$datetime_now = time();
-	$date_time = explode(' ', $form_values['values']['date']);
-	$date = explode('-', $date_time[0]);
-	if(isset($date_time[1])){
-		$time = explode(':', $date_time[1]);
-		if(sizeof($time) != 3){
-			$time = array(0, 0, 0);
-		}
-	}
-	
-	if(empty($form_values['values']['date'])){
-		$datetime = mktime(0, 0, 0, 1, 1, 1970);
-	}else{
-		$datetime = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
-	}
-	
-	variable_set('flux_last_sync', $datetime);
-	
-	if($form_values['values']['vidercache']==1){
-		variable_del("flux_sync_data_cache");
-	}
-	
-	//$sync = new Synchronisation();
-	//$sync->init();
-	//$sync->sync($datetime);
+function flux_admin_synchronisation_form_submit($form_id, &$form_values) {
+  $datetime_now = time();
+  $date_time    = explode(' ', $form_values['values']['date']);
+  $date         = explode('-', $date_time[0]);
+  if (isset($date_time[1])) {
+    $time = explode(':', $date_time[1]);
+    if (sizeof($time) != 3) {
+      $time = array(0, 0, 0);
+    }
+  }
+
+  if (empty($form_values['values']['date'])) {
+    $datetime = mktime(0, 0, 0, 1, 1, 1970);
+  }
+  else {
+    $datetime = mktime($time[0], $time[1], $time[2], $date[1], $date[2], $date[0]);
+  }
+
+  variable_set('flux_last_sync', $datetime);
+
+  if ($form_values['values']['vidercache'] == 1) {
+    variable_del("flux_sync_data_cache");
+  }
+
+  //$sync = new Synchronisation();
+  //$sync->init();
+  //$sync->sync($datetime);
 }
 
 
-function flux_updateproduct_form($form_state){
-	$form['flux_fluxinfos_idmodule'] = array(
-    '#type' => 'textfield',
-    '#title' => t('IdModule Flux'),
-    '#required' => true,
-    '#weight' => -4,
+function flux_updateproduct_form($form_state) {
+  $form['flux_fluxinfos_idmodule']    = array(
+    '#type'     => 'textfield',
+    '#title'    => t('IdModule Flux'),
+    '#required' => TRUE,
+    '#weight'   => -4,
   );
-	$form['flux_fluxinfos_identifiant'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Identifiant Flux'),
-    '#required' => true,
-    '#weight' => -3,
+  $form['flux_fluxinfos_identifiant'] = array(
+    '#type'     => 'textfield',
+    '#title'    => t('Identifiant Flux'),
+    '#required' => TRUE,
+    '#weight'   => -3,
   );
-	$form['flux_productid'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Tourinsoft Product ID'),
-    '#required' => true,
-    '#weight' => -2,
+  $form['flux_productid']             = array(
+    '#type'     => 'textfield',
+    '#title'    => t('Tourinsoft Product ID'),
+    '#required' => TRUE,
+    '#weight'   => -2,
   );
-	$form['flux_lang'] = array(
-    '#type' => 'select',
-    '#title' => t('Language'),
-    '#required' => true,
-    '#default_value' => false,
-    '#options' => array(false=>"FR", true=>"EN"),
-    '#weight' => -1,
+  $form['flux_lang']                  = array(
+    '#type'          => 'select',
+    '#title'         => t('Language'),
+    '#required'      => TRUE,
+    '#default_value' => FALSE,
+    '#options'       => array(FALSE => "FR", TRUE => "EN"),
+    '#weight'        => -1,
   );
 
-	$form['submit'] = array(
-	  '#type' => 'submit',
-	  '#value' => t('Synchronize product'),
-	);
+  $form['submit'] = array(
+    '#type'  => 'submit',
+    '#value' => t('Synchronize product'),
+  );
 
   return $form;
 }
 
 
-function flux_updateproduct_form_submit($form_id, &$form_state){
-	$productid = $form_state['values']['flux_productid'];
-	if(!empty($productid)){
+function flux_updateproduct_form_submit($form_id, &$form_state) {
+  $productid = $form_state['values']['flux_productid'];
+  if (!empty($productid)) {
 
     $dataList['ID'] = $form_state['values']['flux_productid'];
-    $traitements = array();
+    $traitements    = array();
 
-    $fluxInfos = new StdClass();
-    $fluxInfos->idmodule = $form_state['values']['flux_fluxinfos_idmodule'];
+    $fluxInfos              = new StdClass();
+    $fluxInfos->idmodule    = $form_state['values']['flux_fluxinfos_idmodule'];
     $fluxInfos->idmodule_en = $form_state['values']['flux_fluxinfos_idmodule'];
     $fluxInfos->identifiant = $form_state['values']['flux_fluxinfos_identifiant'];
-    $fluxInfos->nid = flux_getfluxnid($fluxInfos->idmodule);
-    
+    $fluxInfos->nid         = flux_getfluxnid($fluxInfos->idmodule);
+
     $fieldsConf = flux_fieldsmapping($fluxInfos->identifiant);
 
     $en = $form_state['values']['flux_lang'];
 
-		$Sync = new Synchronisation();
-		$Sync->init(TRUE, $fluxInfos);
-    foreach($Sync->flux as $fluxTmp){
+    $Sync = new Synchronisation();
+    $Sync->init(TRUE, $fluxInfos);
+    foreach ($Sync->flux as $fluxTmp) {
       $fluxInfos = $fluxTmp;
     }
-		$Sync->majProduct($dataList, $traitements, $fluxInfos, $fieldsConf, $en);
+    $Sync->majProduct($dataList, $traitements, $fluxInfos, $fieldsConf, $en);
 
-		drupal_set_message(t('Product %productid has been synchronized', array('%productid'=>$dataList['ID'])));
-	}
+    drupal_set_message(t('Product %productid has been synchronized', array('%productid' => $dataList['ID'])));
+  }
 }
 
-function flux_testwebserivce_form($form_state){
-  $form['flux_info_usedsm'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use Devel Drupal_set_message'),
+function flux_testwebserivce_form($form_state) {
+  $form['flux_info_usedsm']        = array(
+    '#type'          => 'checkbox',
+    '#title'         => t('Use Devel Drupal_set_message'),
     '#default_value' => $form_state['values']['flux_info_usedsm'],
-    '#weight' => -20,
+    '#weight'        => -20,
   );
-	$form['flux_fluxinfos_idmodule'] = array(
-    '#type' => 'textfield',
-    '#title' => t('IdModule Flux'),
-    '#required' => true,
-    '#weight' => -4,
+  $form['flux_fluxinfos_idmodule'] = array(
+    '#type'     => 'textfield',
+    '#title'    => t('IdModule Flux'),
+    '#required' => TRUE,
+    '#weight'   => -4,
   );
-	$form['flux_lang'] = array(
-    '#type' => 'select',
-    '#title' => t('Language'),
-    '#required' => true,
-    '#default_value' => false,
-    '#options' => array(false=>"FR", true=>"EN"),
-    '#weight' => -1,
+  $form['flux_lang']               = array(
+    '#type'          => 'select',
+    '#title'         => t('Language'),
+    '#required'      => TRUE,
+    '#default_value' => FALSE,
+    '#options'       => array(FALSE => "FR", TRUE => "EN"),
+    '#weight'        => -1,
   );
 
-	$form['submit'] = array(
-	  '#type' => 'submit',
-	  '#value' => t('Synchronize product'),
-	);
+  $form['submit'] = array(
+    '#type'  => 'submit',
+    '#value' => t('Synchronize product'),
+  );
 
   return $form;
 }
 
-function flux_testwebserivce_form_submit($form_id, &$form_state){
+function flux_testwebserivce_form_submit($form_id, &$form_state) {
   $resultset = "";
-	$idmodule = $form_state['values']['flux_fluxinfos_idmodule'];
-	if(!empty($idmodule)){
+  $idmodule  = $form_state['values']['flux_fluxinfos_idmodule'];
+  if (!empty($idmodule)) {
 
     $dataList['ID'] = $form_state['values']['flux_productid'];
-    $traitements = array();
+    $traitements    = array();
 
-    $fluxInfos = new StdClass();
-    $fluxInfos->idmodule = $form_state['values']['flux_fluxinfos_idmodule'];
+    $fluxInfos              = new StdClass();
+    $fluxInfos->idmodule    = $form_state['values']['flux_fluxinfos_idmodule'];
     $fluxInfos->idmodule_en = $form_state['values']['flux_fluxinfos_idmodule'];
     $fluxInfos->identifiant = $form_state['values']['flux_fluxinfos_identifiant'];
-    $fluxInfos->nid = flux_getfluxnid($fluxInfos->idmodule);
+    $fluxInfos->nid         = flux_getfluxnid($fluxInfos->idmodule);
 
     $fieldsConf = flux_fieldsmapping($fluxInfos->identifiant);
 
     $en = $form_state['values']['flux_lang'];
 
-		$Sync = new Synchronisation();
-		$Sync->init(TRUE, $fluxInfos);
-    $resultset = $Sync->soap->call('getListingDiff', array('idModule'=>$fluxInfos->idmodule, 'date'=>''));
-	}
+    $Sync = new Synchronisation();
+    $Sync->init(TRUE, $fluxInfos);
+    $resultset = $Sync->soap->call('getListingDiff', array(
+      'idModule' => $fluxInfos->idmodule,
+      'date'     => ''
+    ));
+  }
 
-  if(!empty($resultset)){
-    if(module_exists('devel') && $form_state['values']['flux_info_usedsm']){
+  if (!empty($resultset)) {
+    if (module_exists('devel') && $form_state['values']['flux_info_usedsm']) {
       dsm($resultset);
-    }else{
-      drupal_set_message('<pre>'.print_r($resultset, true).'</pre>');
     }
-  }else{
+    else {
+      drupal_set_message('<pre>' . print_r($resultset, TRUE) . '</pre>');
+    }
+  }
+  else {
     drupal_set_message('no resultset');
   }
 }
 
 
+function flux_getfluxnid($idmodule) {
+  if (!$idmodule) {
+    return FALSE;
+  }
+  $query = "SELECT nid FROM {content_type_flux} WHERE field_flux_idmodule_value='%s' OR field_flux_idmodule_en_value='%s'";
+  $req   = db_query($query, $idmodule, $idmodule);
+  if ($res = db_fetch_object($req)) {
+    return $res->nid;
+  }
 
-function flux_getfluxnid($idmodule){
-	if(!$idmodule){
-		return FALSE;
-	}
-	$query = "SELECT nid FROM {content_type_flux} WHERE field_flux_idmodule_value='%s' OR field_flux_idmodule_en_value='%s'";
-	$req = db_query($query, $idmodule, $idmodule);
-	if($res = db_fetch_object($req)){
-		return $res->nid;
-	}
-	
-	return FALSE;
+  return FALSE;
 }
 
 /**
  * theme function for flux_fluxfields_form
  */
 function theme_flux_fluxfields_form($form) {
-	$rows = array();
+  $rows = array();
 
-	foreach (element_children($form) as $key) {
-		$row = array();
-		if (isset($form[$key]['ws_fieldname_'.$key])) {
-			$row[] = array('data' => drupal_render($form[$key]['ws_fieldname']));
-			$row[] = array('data' => drupal_render($form[$key]['flux_fieldlabel_' . $key]));
-			$row[] = array('data' => drupal_render($form[$key]['flux_function_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['flux_fieldrequired_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['flux_staticfield_' . $key]));
-			$rows[] = $row;
-		}
-	}
- 
-	$header = array(t('Webservice Field Name'), t('Label'), t('Function'), t('Required'), t('Static'));
- 
-	$output = theme('table', $header, $rows);
-	$output .= drupal_render($form);
-	return $output;
+  foreach (element_children($form) as $key) {
+    $row = array();
+    if (isset($form[$key]['ws_fieldname_' . $key])) {
+      $row[]  = array('data' => drupal_render($form[$key]['ws_fieldname']));
+      $row[]  = array('data' => drupal_render($form[$key]['flux_fieldlabel_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['flux_function_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['flux_fieldrequired_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['flux_staticfield_' . $key]));
+      $rows[] = $row;
+    }
+  }
+
+  $header = array(
+    t('Webservice Field Name'),
+    t('Label'),
+    t('Function'),
+    t('Required'),
+    t('Static')
+  );
+
+  $output = theme('table', $header, $rows);
+  $output .= drupal_render($form);
+  return $output;
 }
 
 /**
  * theme function for field_display_settings_form
  */
 function theme_field_display_settings_form($form) {
-	$rows = array();
-	
-	foreach (element_children($form) as $key) {
-		$row = array();
-		if (isset($form[$key]['ws_fieldname'])) {
-			$row[] = array('data' => drupal_render($form[$key]['ws_fieldname']));
-			$row[] = array('data' => drupal_render($form[$key]['ccklabel']));
-			$row[] = array('data' => drupal_render($form[$key]['customlabel_' . $key]));
-			$row[] = array('data' => drupal_render($form[$key]['hide_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['zone_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['after_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['disptype_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['single_' . $key]));
- 			$row[] = array('data' => drupal_render($form[$key]['weight_' . $key]));
-			$rows[] = $row;
-		}
-	}
- 
-	$header = array(t('Webservice Field Name'), t('Default label'), t('Custom label'), t('hide'), t('Display zone'), t('Show value after'), t('Display type'), t('Only first value'), t('weight'));
- 
-	$output = theme('table', $header, $rows);
-	$output .= drupal_render($form);
-	return $output;
+  $rows = array();
+
+  foreach (element_children($form) as $key) {
+    $row = array();
+    if (isset($form[$key]['ws_fieldname'])) {
+      $row[]  = array('data' => drupal_render($form[$key]['ws_fieldname']));
+      $row[]  = array('data' => drupal_render($form[$key]['ccklabel']));
+      $row[]  = array('data' => drupal_render($form[$key]['customlabel_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['hide_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['zone_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['after_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['disptype_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['single_' . $key]));
+      $row[]  = array('data' => drupal_render($form[$key]['weight_' . $key]));
+      $rows[] = $row;
+    }
+  }
+
+  $header = array(
+    t('Webservice Field Name'),
+    t('Default label'),
+    t('Custom label'),
+    t('hide'),
+    t('Display zone'),
+    t('Show value after'),
+    t('Display type'),
+    t('Only first value'),
+    t('weight')
+  );
+
+  $output = theme('table', $header, $rows);
+  $output .= drupal_render($form);
+  return $output;
 }
 
 /**
  * HOOK CALLER for hook_fluxfieldinfos
  */
-function flux_getFluxfieldinfo(){
-	return module_invoke_all('fluxfieldinfos');
+function flux_getFluxfieldinfo() {
+  return module_invoke_all('fluxfieldinfos');
 }
 
 
-function flux_createContentType($bordereau_id){
-  	
-  	$errors = FALSE;
-  	
-  	// Appel du hook hook_fluxfieldinfos()
-  	$fluxfieldinfo = flux_getFluxfieldinfo();
-  	
-  	
-  	// Appel du mapping flux_fieldname / libelle / fonction
-  	$fluxmapping = flux_fieldsmapping($bordereau_id);
-  	
-  	
-  	$ctName = 'flux_' . strtolower(trim($bordereau_id));
-  	
-  	$content['type']  = array (
-		  'name' => "Bordereau " . $bordereau_id,
-		  'type' => $ctName,
-		  'description' => '',
-		  'title_label' => 'Title',
-		  'body_label' => 'Body',
-		  'min_word_count' => '0',
-		  'help' => '',
-		  'node_options' => 
-		  array (
-		    'status' => true,
-		    'promote' => false,
-		    'sticky' => false,
-		    'revision' => false,
-		  ),
-		  'language_content_type' => '2',
-		  'upload' => '0',
-		  'old_type' => '',
-		  'orig_type' => '',
-		  'module' => 'node',
-		  'custom' => '1',
-		  'modified' => '1',
-		  'locked' => '0',
-		  'comment' => '0',
-		  'comment_default_mode' => '4',
-		  'comment_default_order' => '1',
-		  'comment_default_per_page' => '50',
-		  'comment_controls' => '3',
-		  'comment_anonymous' => 0,
-		  'comment_subject_field' => '1',
-		  'comment_preview' => '1',
-		  'comment_form_location' => '0',
-		  'print_display' => 1,
-		  'print_display_comment' => 0,
-		  'print_display_urllist' => 1,
-		  'print_mail_display' => 1,
-		  'print_mail_display_comment' => 0,
-		  'print_mail_display_urllist' => 1,
-		  'print_pdf_display' => 1,
-		  'print_pdf_display_comment' => 0,
-		  'print_pdf_display_urllist' => 1,
-		  'scheduler_publish_enable' => 0,
-		  'scheduler_publish_touch' => 0,
-		  'scheduler_publish_required' => 0,
-		  'scheduler_publish_revision' => 0,
-		  'scheduler_unpublish_enable' => 0,
-		  'scheduler_unpublish_required' => 0,
-		  'scheduler_unpublish_revision' => 0,
-		  'i18n_newnode_current' => 0,
-		  'i18n_required_node' => 0,
-		  'i18n_lock_node' => 0,
-		  'i18n_node' => 1,
-		);
-		
-		$content['fields']  = array ();
-		
-		$i = 0;
-		
-		gn_fluxfieldmapping_text_fluxfieldcreate($content, 'NID', 'Nid du flux');
-		/*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)", 
-			$bordereau_id, 'FLUX_NID', 'field_fl_nid_tx', '', 'gn_fluxfieldmapping_text', 1, 0
-		);*/
-		gn_fluxfieldmapping_text_fluxfieldcreate($content, 'ID_BORDEREAU', 'Id du bordereau');
-  		/*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)", 
-			$bordereau_id, 'FLUX_BORD_ID', 'field_fl_id_bordereau_tx', '', 'gn_fluxfieldmapping_text', 1, 0
-		);*/
-		gn_fluxfieldmapping_text_fluxfieldcreate($content, 'ID_MODULE', 'Id du module');
-  		/*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)", 
-			$bordereau_id, 'FLUX_MODULE_ID', 'field_fl_id_module_tx', '', 'gn_fluxfieldmapping_text', 1, 0
-		);*/
-		
-		gn_fluxfieldmapping_text_fluxfieldcreate($content, 'TECHID', 'Id technique de la fiche', 'field_fl_techid_tx');
-		
-  		if(is_array($fluxmapping) && count($fluxmapping)>0){
-  			
-  			foreach($fluxmapping as $value){
-				
-				$fieldname_func = $value->fieldfunction.'_cckfieldname';
-		  		$function = $value->fieldfunction.'_fluxfieldcreate';
-		  		
-		  		if(function_exists($fieldname_func)){
-		  			$cck_fieldname = $fieldname_func($value->fieldname);
-		  		}else{
-		  			$cck_fieldname = '';
-		  		}
-		  		
-		  		$function($content, $value->fieldname, (isset($value->label) ? $value->label : ''));
-				
-				if(!flux_maj_cck_fieldname($value->bordereau_id, $value->fieldname, $cck_fieldname)){
-					drupal_set_message($cck_fieldname.' could not be found int CT field mapping conf.', 'error');	
-					$errors = TRUE;
-				}
-				
-		  	}
-		  	
-  		}
-  		
-  		
-  		
-  		
-		$content['extra']  = array (
-		  'title' => '-5',
-		  'body_field' => '-3',
-		  'revision_information' => '0',
-		  'author' => '-1',
-		  'options' => '1',
-		  'comment_settings' => '2',
-		  'language' => '-2',
-		  'translation' => '3',
-		  'menu' => '-4',
-		  'path' => '4',
-		  'print' => '5',
-		);
-		
-		unset($content['fluxfieldsinfos']);
-		
-		require_once './' . drupal_get_path('module', 'content') . '/modules/content_copy/content_copy.module';
-	
-		$ctExists = db_result(db_query("SELECT count(*) FROM {node_type} WHERE type = '%s'", $ctName));
-		
-		//Test permettant la mise à jour.
-		if(!$ctExists || $ctExists<=0)
-			$form_state['values']['type_name'] = '<create>';
-		else
-			$form_state['values']['type_name'] = $ctName;
-			
-	  	$form_state['values']['macro'] = '$content = ' . var_export($content, TRUE) . ';';
+function flux_createContentType($bordereau_id) {
+
+  $errors = FALSE;
+
+  // Appel du hook hook_fluxfieldinfos()
+  $fluxfieldinfo = flux_getFluxfieldinfo();
 
 
-		
-		if(!$errors){
-		  	// form provided by content_copy.module  
-		  	drupal_execute('content_copy_import_form', $form_state);
-		  	content_clear_type_cache();
-	  	}else{
-	  		drupal_set_message('The CT could not be created/updated due to previous errors', 'error');
-	  	}
-	  	
+  // Appel du mapping flux_fieldname / libelle / fonction
+  $fluxmapping = flux_fieldsmapping($bordereau_id);
+
+
+  $ctName = 'flux_' . strtolower(trim($bordereau_id));
+
+  $content['type'] = array(
+    'name'                         => "Bordereau " . $bordereau_id,
+    'type'                         => $ctName,
+    'description'                  => '',
+    'title_label'                  => 'Title',
+    'body_label'                   => 'Body',
+    'min_word_count'               => '0',
+    'help'                         => '',
+    'node_options'                 =>
+    array(
+      'status'   => TRUE,
+      'promote'  => FALSE,
+      'sticky'   => FALSE,
+      'revision' => FALSE,
+    ),
+    'language_content_type'        => '2',
+    'upload'                       => '0',
+    'old_type'                     => '',
+    'orig_type'                    => '',
+    'module'                       => 'node',
+    'custom'                       => '1',
+    'modified'                     => '1',
+    'locked'                       => '0',
+    'comment'                      => '0',
+    'comment_default_mode'         => '4',
+    'comment_default_order'        => '1',
+    'comment_default_per_page'     => '50',
+    'comment_controls'             => '3',
+    'comment_anonymous'            => 0,
+    'comment_subject_field'        => '1',
+    'comment_preview'              => '1',
+    'comment_form_location'        => '0',
+    'print_display'                => 1,
+    'print_display_comment'        => 0,
+    'print_display_urllist'        => 1,
+    'print_mail_display'           => 1,
+    'print_mail_display_comment'   => 0,
+    'print_mail_display_urllist'   => 1,
+    'print_pdf_display'            => 1,
+    'print_pdf_display_comment'    => 0,
+    'print_pdf_display_urllist'    => 1,
+    'scheduler_publish_enable'     => 0,
+    'scheduler_publish_touch'      => 0,
+    'scheduler_publish_required'   => 0,
+    'scheduler_publish_revision'   => 0,
+    'scheduler_unpublish_enable'   => 0,
+    'scheduler_unpublish_required' => 0,
+    'scheduler_unpublish_revision' => 0,
+    'i18n_newnode_current'         => 0,
+    'i18n_required_node'           => 0,
+    'i18n_lock_node'               => 0,
+    'i18n_node'                    => 1,
+  );
+
+  $content['fields'] = array();
+
+  $i = 0;
+
+  gn_fluxfieldmapping_text_fluxfieldcreate($content, 'NID', 'Nid du flux');
+  /*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)",
+    $bordereau_id, 'FLUX_NID', 'field_fl_nid_tx', '', 'gn_fluxfieldmapping_text', 1, 0
+  );*/
+  gn_fluxfieldmapping_text_fluxfieldcreate($content, 'ID_BORDEREAU', 'Id du bordereau');
+  /*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)",
+  $bordereau_id, 'FLUX_BORD_ID', 'field_fl_id_bordereau_tx', '', 'gn_fluxfieldmapping_text', 1, 0
+);*/
+  gn_fluxfieldmapping_text_fluxfieldcreate($content, 'ID_MODULE', 'Id du module');
+  /*db_query("INSERT INTO {flux_fieldsettings} (bordereau_id, fieldname, cckfieldname, label, fieldfunction, staticfield, required) VALUES ('%s', '%s', '%s', '%s', '%s', %d, %d)",
+  $bordereau_id, 'FLUX_MODULE_ID', 'field_fl_id_module_tx', '', 'gn_fluxfieldmapping_text', 1, 0
+);*/
+
+  gn_fluxfieldmapping_text_fluxfieldcreate($content, 'TECHID', 'Id technique de la fiche', 'field_fl_techid_tx');
+
+  if (is_array($fluxmapping) && count($fluxmapping) > 0) {
+
+    foreach ($fluxmapping as $value) {
+
+      $fieldname_func = $value->fieldfunction . '_cckfieldname';
+      $function       = $value->fieldfunction . '_fluxfieldcreate';
+
+      if (function_exists($fieldname_func)) {
+        $cck_fieldname = $fieldname_func($value->fieldname);
+      }
+      else {
+        $cck_fieldname = '';
+      }
+
+      $function($content, $value->fieldname, (isset($value->label) ? $value->label : ''));
+
+      if (!flux_maj_cck_fieldname($value->bordereau_id, $value->fieldname, $cck_fieldname)) {
+        drupal_set_message($cck_fieldname . ' could not be found int CT field mapping conf.', 'error');
+        $errors = TRUE;
+      }
+
+    }
+
   }
-  
-  function fieldcreate_wrapper($function_name, &$content, $fieldname, $label){
-  		call_user_func($function_name, $content, $fieldname, $label);
+
+
+  $content['extra'] = array(
+    'title'                => '-5',
+    'body_field'           => '-3',
+    'revision_information' => '0',
+    'author'               => '-1',
+    'options'              => '1',
+    'comment_settings'     => '2',
+    'language'             => '-2',
+    'translation'          => '3',
+    'menu'                 => '-4',
+    'path'                 => '4',
+    'print'                => '5',
+  );
+
+  unset($content['fluxfieldsinfos']);
+
+  require_once './' . drupal_get_path('module', 'content') . '/modules/content_copy/content_copy.module';
+
+  $ctExists = db_result(db_query("SELECT count(*) FROM {node_type} WHERE type = '%s'", $ctName));
+
+  //Test permettant la mise à jour.
+  if (!$ctExists || $ctExists <= 0) {
+    $form_state['values']['type_name'] = '<create>';
   }
-  
-  function fieldvalue_wrapper($function_name, &$node, $fieldname, $value){
-  		call_user_func($function_name, $node, $fieldname, $value);
-  } 
-  
-   /**
+  else {
+    $form_state['values']['type_name'] = $ctName;
+  }
+
+  $form_state['values']['macro'] = '$content = ' . var_export($content, TRUE) . ';';
+
+
+  if (!$errors) {
+    // form provided by content_copy.module
+    drupal_execute('content_copy_import_form', $form_state);
+    content_clear_type_cache();
+  }
+  else {
+    drupal_set_message('The CT could not be created/updated due to previous errors', 'error');
+  }
+
+}
+
+function fieldcreate_wrapper($function_name, &$content, $fieldname, $label) {
+  call_user_func($function_name, $content, $fieldname, $label);
+}
+
+function fieldvalue_wrapper($function_name, &$node, $fieldname, $value) {
+  call_user_func($function_name, $node, $fieldname, $value);
+}
+
+/**
  * hook_fluxgetfields function.
- * 
+ *
  * @access public
  * @param mixed $identifiant
  * @return array dataset
  */
-function flux_fluxgetfields($identifiant){
- $dataset = array();
- $sync = new Synchronisation();
- $res = $sync->getFieldsByFluxIdentifiant($identifiant);
- if(is_array($res) || is_object($res)){
-  foreach($res as $cle=>$value){
-   $dataset[$cle]['systemfieldname'] = $value['DETAILFIELD_NAME'];
+function flux_fluxgetfields($identifiant) {
+  $dataset = array();
+  $sync    = new Synchronisation();
+  $res     = $sync->getFieldsByFluxIdentifiant($identifiant);
+  if (is_array($res) || is_object($res)) {
+    foreach ($res as $cle => $value) {
+      $dataset[$cle]['systemfieldname'] = $value['DETAILFIELD_NAME'];
+    }
   }
- }
   return $dataset;
 }
 
-function flux_clean_filename($filename){
-	// Replace whitespace.
+function flux_clean_filename($filename) {
+  // Replace whitespace.
   $filename = str_replace(' ', '_', $filename);
   // Remove remaining unsafe characters.
   $filename = preg_replace('![^0-9A-Za-z_.-]!', '', $filename);

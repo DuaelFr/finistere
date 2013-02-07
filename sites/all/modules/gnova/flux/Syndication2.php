@@ -264,9 +264,9 @@ class DataSet {
 
 /**
  * Syndication2 class
- * 
- *  
- * 
+ *
+ *
+ *
  * @author    {author}
  * @copyright {copyright}
  * @package   {package}
@@ -274,67 +274,67 @@ class DataSet {
 class Syndication2 extends SoapClient {
 
   private static $classmap = array(
-                                    'getFieldsSearch' => 'getFieldsSearch',
-                                    'getFieldsSearchResponse' => 'getFieldsSearchResponse',
-                                    'getFieldsSearchResult' => 'getFieldsSearchResult',
-                                    'getFieldsListing' => 'getFieldsListing',
-                                    'getFieldsListingResponse' => 'getFieldsListingResponse',
-                                    'getFieldsListingResult' => 'getFieldsListingResult',
-                                    'getFieldsDetail' => 'getFieldsDetail',
-                                    'getFieldsDetailResponse' => 'getFieldsDetailResponse',
-                                    'getFieldsDetailResult' => 'getFieldsDetailResult',
-                                    'getListing' => 'getListing',
-                                    'getListingResponse' => 'getListingResponse',
-                                    'getListingResult' => 'getListingResult',
-                                    'getListingDiff' => 'getListingDiff',
-                                    'getListingDiffResponse' => 'getListingDiffResponse',
-                                    'getListingDiffResult' => 'getListingDiffResult',
-                                    'getListingByIDs' => 'getListingByIDs',
-                                    'getListingByIDsResponse' => 'getListingByIDsResponse',
-                                    'getListingByIDsResult' => 'getListingByIDsResult',
-                                    'getListingWithSearch' => 'getListingWithSearch',
-                                    'FieldsSearch' => 'FieldsSearch',
-                                    'getListingWithSearchResponse' => 'getListingWithSearchResponse',
-                                    'getListingWithSearchResult' => 'getListingWithSearchResult',
-                                    'getListElements' => 'getListElements',
-                                    'getListElementsResponse' => 'getListElementsResponse',
-                                    'getListElementsResult' => 'getListElementsResult',
-                                    'getDetail' => 'getDetail',
-                                    'getDetailResponse' => 'getDetailResponse',
-                                    'getDetailResult' => 'getDetailResult',
-                                    'getDetailBordereau' => 'getDetailBordereau',
-                                    'getDetailBordereauResponse' => 'getDetailBordereauResponse',
-                                    'getDetailBordereauResult' => 'getDetailBordereauResult',
-                                    'getDetailBordereauDiff' => 'getDetailBordereauDiff',
-                                    'getDetailBordereauDiffResponse' => 'getDetailBordereauDiffResponse',
-                                    'getDetailBordereauDiffResult' => 'getDetailBordereauDiffResult',
-                                    'getOffresSuppr' => 'getOffresSuppr',
-                                    'getOffresSupprResponse' => 'getOffresSupprResponse',
-                                    'getOffresSupprResult' => 'getOffresSupprResult',
-                                    'getDetailBordereauSuppr' => 'getDetailBordereauSuppr',
-                                    'getDetailBordereauSupprResponse' => 'getDetailBordereauSupprResponse',
-                                    'getDetailBordereauSupprResult' => 'getDetailBordereauSupprResult',
-                                    'getStructures' => 'getStructures',
-                                    'getStructuresResponse' => 'getStructuresResponse',
-                                    'getStructuresResult' => 'getStructuresResult',
-                                    'getResearch' => 'getResearch',
-                                    'getResearchResponse' => 'getResearchResponse',
-                                    'getResearchResult' => 'getResearchResult',
-                                    'getResearchWithSearch' => 'getResearchWithSearch',
-                                    'getResearchWithSearchResponse' => 'getResearchWithSearchResponse',
-                                    'getResearchWithSearchResult' => 'getResearchWithSearchResult',
-                                    'getDispo' => 'getDispo',
-                                    'getDispoResponse' => 'getDispoResponse',
-                                    'getDispoResult' => 'getDispoResult',
-                                    'getDispoBordereau' => 'getDispoBordereau',
-                                    'getDispoBordereauResponse' => 'getDispoBordereauResponse',
-                                    'getDispoBordereauResult' => 'getDispoBordereauResult',
-                                    'DataSet' => 'DataSet',
-                                   );
+    'getFieldsSearch'                 => 'getFieldsSearch',
+    'getFieldsSearchResponse'         => 'getFieldsSearchResponse',
+    'getFieldsSearchResult'           => 'getFieldsSearchResult',
+    'getFieldsListing'                => 'getFieldsListing',
+    'getFieldsListingResponse'        => 'getFieldsListingResponse',
+    'getFieldsListingResult'          => 'getFieldsListingResult',
+    'getFieldsDetail'                 => 'getFieldsDetail',
+    'getFieldsDetailResponse'         => 'getFieldsDetailResponse',
+    'getFieldsDetailResult'           => 'getFieldsDetailResult',
+    'getListing'                      => 'getListing',
+    'getListingResponse'              => 'getListingResponse',
+    'getListingResult'                => 'getListingResult',
+    'getListingDiff'                  => 'getListingDiff',
+    'getListingDiffResponse'          => 'getListingDiffResponse',
+    'getListingDiffResult'            => 'getListingDiffResult',
+    'getListingByIDs'                 => 'getListingByIDs',
+    'getListingByIDsResponse'         => 'getListingByIDsResponse',
+    'getListingByIDsResult'           => 'getListingByIDsResult',
+    'getListingWithSearch'            => 'getListingWithSearch',
+    'FieldsSearch'                    => 'FieldsSearch',
+    'getListingWithSearchResponse'    => 'getListingWithSearchResponse',
+    'getListingWithSearchResult'      => 'getListingWithSearchResult',
+    'getListElements'                 => 'getListElements',
+    'getListElementsResponse'         => 'getListElementsResponse',
+    'getListElementsResult'           => 'getListElementsResult',
+    'getDetail'                       => 'getDetail',
+    'getDetailResponse'               => 'getDetailResponse',
+    'getDetailResult'                 => 'getDetailResult',
+    'getDetailBordereau'              => 'getDetailBordereau',
+    'getDetailBordereauResponse'      => 'getDetailBordereauResponse',
+    'getDetailBordereauResult'        => 'getDetailBordereauResult',
+    'getDetailBordereauDiff'          => 'getDetailBordereauDiff',
+    'getDetailBordereauDiffResponse'  => 'getDetailBordereauDiffResponse',
+    'getDetailBordereauDiffResult'    => 'getDetailBordereauDiffResult',
+    'getOffresSuppr'                  => 'getOffresSuppr',
+    'getOffresSupprResponse'          => 'getOffresSupprResponse',
+    'getOffresSupprResult'            => 'getOffresSupprResult',
+    'getDetailBordereauSuppr'         => 'getDetailBordereauSuppr',
+    'getDetailBordereauSupprResponse' => 'getDetailBordereauSupprResponse',
+    'getDetailBordereauSupprResult'   => 'getDetailBordereauSupprResult',
+    'getStructures'                   => 'getStructures',
+    'getStructuresResponse'           => 'getStructuresResponse',
+    'getStructuresResult'             => 'getStructuresResult',
+    'getResearch'                     => 'getResearch',
+    'getResearchResponse'             => 'getResearchResponse',
+    'getResearchResult'               => 'getResearchResult',
+    'getResearchWithSearch'           => 'getResearchWithSearch',
+    'getResearchWithSearchResponse'   => 'getResearchWithSearchResponse',
+    'getResearchWithSearchResult'     => 'getResearchWithSearchResult',
+    'getDispo'                        => 'getDispo',
+    'getDispoResponse'                => 'getDispoResponse',
+    'getDispoResult'                  => 'getDispoResult',
+    'getDispoBordereau'               => 'getDispoBordereau',
+    'getDispoBordereauResponse'       => 'getDispoBordereauResponse',
+    'getDispoBordereauResult'         => 'getDispoBordereauResult',
+    'DataSet'                         => 'DataSet',
+  );
 
   public function Syndication2($wsdl = "syndication2.asmx.xml", $options = array()) {
-    foreach(self::$classmap as $key => $value) {
-      if(!isset($options['classmap'][$key])) {
+    foreach (self::$classmap as $key => $value) {
+      if (!isset($options['classmap'][$key])) {
         $options['classmap'][$key] = $value;
       }
     }
@@ -342,265 +342,265 @@ class Syndication2 extends SoapClient {
   }
 
   /**
-   * Renvoie un Dataset qui contient tous les champs du formulaire de recherche. 
+   * Renvoie un Dataset qui contient tous les champs du formulaire de recherche.
    *
    * @param getFieldsSearch $parameters
    * @return getFieldsSearchResponse
    */
   public function getFieldsSearch(getFieldsSearch $parameters) {
-    return $this->__soapCall('getFieldsSearch', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getFieldsSearch', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient tous les champs du listing. 
+   * Renvoie un Dataset qui contient tous les champs du listing.
    *
    * @param getFieldsListing $parameters
    * @return getFieldsListingResponse
    */
   public function getFieldsListing(getFieldsListing $parameters) {
-    return $this->__soapCall('getFieldsListing', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getFieldsListing', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient tous les champs du detail. 
+   * Renvoie un Dataset qui contient tous les champs du detail.
    *
    * @param getFieldsDetail $parameters
    * @return getFieldsDetailResponse
    */
   public function getFieldsDetail(getFieldsDetail $parameters) {
-    return $this->__soapCall('getFieldsDetail', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getFieldsDetail', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le listing des offres sans avoir fait de recherche. 
+   * Renvoie un Dataset qui contient le listing des offres sans avoir fait de recherche.
    *
    * @param getListing $parameters
    * @return getListingResponse
    */
   public function getListing(getListing $parameters) {
-  var_dump($parameters);
-    return $this->__soapCall('getListing', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    var_dump($parameters);
+    return $this->__soapCall('getListing', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le listing des offres créées ou modifiées depuis la 
-   * date indiquée. 
+   * Renvoie un Dataset qui contient le listing des offres créées ou modifiées depuis la
+   * date indiquée.
    *
    * @param getListingDiff $parameters
    * @return getListingDiffResponse
    */
   public function getListingDiff(getListingDiff $parameters) {
-    return $this->__soapCall('getListingDiff', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getListingDiff', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le listing des offres en fonction d'IDs ex : HPAMIP0430000116,HPAMIP0430000116. 
-   * 
+   * Renvoie un Dataset qui contient le listing des offres en fonction d'IDs ex : HPAMIP0430000116,HPAMIP0430000116.
+   *
    *
    * @param getListingByIDs $parameters
    * @return getListingByIDsResponse
    */
   public function getListingByIDs(getListingByIDs $parameters) {
-    return $this->__soapCall('getListingByIDs', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getListingByIDs', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le listing des offres en fonction des champs de recherche. 
-   * Le DataSet passé en paramètre correspond à la structure du DataSet renvoyé par la 
-   * méthode getFieldsSearch. 
+   * Renvoie un Dataset qui contient le listing des offres en fonction des champs de recherche.
+   * Le DataSet passé en paramètre correspond à la structure du DataSet renvoyé par la
+   * méthode getFieldsSearch.
    *
    * @param getListingWithSearch $parameters
    * @return getListingWithSearchResponse
    */
   public function getListingWithSearch(getListingWithSearch $parameters) {
-    return $this->__soapCall('getListingWithSearch', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getListingWithSearch', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient tous les éléments d'une liste dont le champ est passé 
-   * en paramètre. Si le champ dépend d'un autre champ, la valeur du champ parent est à 
-   * renseigner. 
+   * Renvoie un Dataset qui contient tous les éléments d'une liste dont le champ est passé
+   * en paramètre. Si le champ dépend d'un autre champ, la valeur du champ parent est à
+   * renseigner.
    *
    * @param getListElements $parameters
    * @return getListElementsResponse
    */
   public function getListElements(getListElements $parameters) {
-    return $this->__soapCall('getListElements', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getListElements', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le detail d'une offre. 
+   * Renvoie un Dataset qui contient le detail d'une offre.
    *
    * @param getDetail $parameters
    * @return getDetailResponse
    */
   public function getDetail(getDetail $parameters) {
-    return $this->__soapCall('getDetail', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDetail', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le detail d'un bordereau. 
+   * Renvoie un Dataset qui contient le detail d'un bordereau.
    *
    * @param getDetailBordereau $parameters
    * @return getDetailBordereauResponse
    */
   public function getDetailBordereau(getDetailBordereau $parameters) {
-    return $this->__soapCall('getDetailBordereau', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDetailBordereau', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la 
-   * date indiquée. 
+   * Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la
+   * date indiquée.
    *
    * @param getDetailBordereauDiff $parameters
    * @return getDetailBordereauDiffResponse
    */
   public function getDetailBordereauDiff(getDetailBordereauDiff $parameters) {
-    return $this->__soapCall('getDetailBordereauDiff', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDetailBordereauDiff', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient la liste des offres supprimées depuis la date indiquée. 
-   * 
+   * Renvoie un Dataset qui contient la liste des offres supprimées depuis la date indiquée.
+   *
    *
    * @param getOffresSuppr $parameters
    * @return getOffresSupprResponse
    */
   public function getOffresSuppr(getOffresSuppr $parameters) {
-    return $this->__soapCall('getOffresSuppr', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getOffresSuppr', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la 
-   * date indiquée. 
+   * Renvoie un Dataset qui contient le détail des offres créées ou modifiées depuis la
+   * date indiquée.
    *
    * @param getDetailBordereauSuppr $parameters
    * @return getDetailBordereauSupprResponse
    */
   public function getDetailBordereauSuppr(getDetailBordereauSuppr $parameters) {
-    return $this->__soapCall('getDetailBordereauSuppr', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDetailBordereauSuppr', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset qui contient le listing des structures. 
+   * Renvoie un Dataset qui contient le listing des structures.
    *
    * @param getStructures $parameters
    * @return getStructuresResponse
    */
   public function getStructures(getStructures $parameters) {
-    return $this->__soapCall('getStructures', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getStructures', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset. 
+   * Renvoie un Dataset.
    *
    * @param getResearch $parameters
    * @return getResearchResponse
    */
   public function getResearch(getResearch $parameters) {
-    return $this->__soapCall('getResearch', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getResearch', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset. 
+   * Renvoie un Dataset.
    *
    * @param getResearchWithSearch $parameters
    * @return getResearchWithSearchResponse
    */
   public function getResearchWithSearch(getResearchWithSearch $parameters) {
-    return $this->__soapCall('getResearchWithSearch', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getResearchWithSearch', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset. 
+   * Renvoie un Dataset.
    *
    * @param getDispo $parameters
    * @return getDispoResponse
    */
   public function getDispo(getDispo $parameters) {
-    return $this->__soapCall('getDispo', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDispo', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
   /**
-   * Renvoie un Dataset. 
+   * Renvoie un Dataset.
    *
    * @param getDispoBordereau $parameters
    * @return getDispoBordereauResponse
    */
   public function getDispoBordereau(getDispoBordereau $parameters) {
-    return $this->__soapCall('getDispoBordereau', array($parameters),       array(
-            'uri' => 'http://www.faire-savoir.com/webservices/',
-            'soapaction' => ''
-           )
-      );
+    return $this->__soapCall('getDispoBordereau', array($parameters), array(
+        'uri'        => 'http://www.faire-savoir.com/webservices/',
+        'soapaction' => ''
+      )
+    );
   }
 
 }
