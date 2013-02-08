@@ -9,6 +9,9 @@
       if (isset($fields['field_fl_categorie_strs_value'])) {
         print cdt2011_term_to_img($fields['field_fl_categorie_strs_value']->content, ' - ');
       }
+      if (isset($fields['field_fl_classement_label_strs_value'])) {
+        print cdt2011_term_to_img($fields['field_fl_classement_label_strs_value']->content, ' - ');
+      }
       print cdt2011_new_norm($fields);
       if (isset($fields['field_fl_chaines_strs_value']) && $fields['field_fl_chaines_strs_value']->content!='') {
         print ' - '.$fields['field_fl_chaines_strs_value']->content;

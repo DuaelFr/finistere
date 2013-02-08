@@ -1421,3 +1421,11 @@ height: auto;
 .term-img-3-epis { width: 48px; }
 .term-img-4-epis { width: 58px; }
 .term-img-5-epis { width: 68px; }
+
+.term-img-hotel-non-classe,
+.term-img-en-cours-de-classement {
+  background: none;
+  height: auto;
+  margin: inherit;
+  text-indent: 0;
+}
