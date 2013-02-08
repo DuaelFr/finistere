@@ -13,9 +13,9 @@
         </h3>
 		<div class="date_agenda">
 			<?php print $fields['city']->content; ?>
-			<?php print $fields['postal_code']->content; ?>
-			<?php print (isset($fields['street']) ? ' - '.$fields['street']->content : ''); ?>
-			<?php print (isset($fields['field_fixfl_maintelephone_value']) ? ' - '.t('Tél').' : '.$fields['field_fixfl_maintelephone_value']->content : ''); ?>
+			<?php //print $fields['postal_code']->content; ?>
+			<?php //print (isset($fields['street']) ? ' - '.$fields['street']->content : ''); ?>
+      <?php print (isset($fields['field_fixfl_maintelephone_value']) ? ' - '.t('Tél').' : '.$fields['field_fixfl_maintelephone_value']->content : ''); ?>
 		</div>
 		<div class="item-body">
 			<?php print strip_tags($fields['body']->content, '<p><strong>'); ?>
