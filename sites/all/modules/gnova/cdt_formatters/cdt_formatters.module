@@ -134,7 +134,7 @@ function theme_cdt_formatters_formatter_bpimages($element) {
 		for($i=0; $i < $count; $i++){
 			if(isset($element[$i]['#item']['fid'])){
 				$item = $element[$i]['#item'];
-				$img.='<a class="lien_img" href="#">'.theme('imagecache', 'bp_detail_big', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
+				$img.='<a class="lien_img colorbox-load" href="'.base_path().$item['filepath'].'">'.theme('imagecache', 'bp_detail_big', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
 				$tiny_imgs[] = '<a href="#" '.($i==0 ? 'class="current"' : '').'>'.theme('imagecache', 'bp_tiny_img', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
         //dsm($i % 4);
 			}

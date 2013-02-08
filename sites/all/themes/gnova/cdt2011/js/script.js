@@ -28,6 +28,17 @@ Drupal.behaviors.cdt2011 = function (context){
 
 	$("#img_video").colorbox({iframe:true, innerWidth:425, innerHeight:344});
 
+  //Wrap lonely pictures into a colorboxed link
+  $('.uboxpb_items_left .field-item > .imagecache-bp_detail_big').each(function() {
+    var img = $(this), link = $('<a>');
+    link.attr('href', img.attr('src').replace('imagecache/bp_detail_big/', ''))
+        .addClass('colorbox-load');
+    img.wrap(link);
+  });
+  //Colorbox images fiches TS
+  $('.colorbox-load').removeClass('colorbox-load')
+                     .addClass('colorbox-processed')
+                     .colorbox({rel: 'galery'});
 
   // Slide Panier
 
