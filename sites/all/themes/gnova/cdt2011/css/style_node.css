@@ -1384,3 +1384,40 @@ height: auto;
   background: url("../images/visit_360.png") no-repeat scroll 0 0 transparent;
   padding: 6px 0 5px 30px;
 }
+
+.term-img { display: inline-block; text-indent: -99999px; }
+.term-img-sans-etoile, .term-img-1-etoile, .term-img-2-etoiles, .term-img-3-etoiles, .term-img-4-etoiles, .term-img-5-etoiles, .term-img-6-etoiles, .term-img-7-etoiles {
+  background: url('../images/sprite.png') no-repeat -9px -5129px;
+  height: 13px;
+  margin: 0 0 0 5px;
+}
+.term-img-sans-etoile { width: 14px; background:: none; }
+.term-img-1-etoile { width: 14px; }
+.term-img-2-etoiles { width: 29px; }
+.term-img-3-etoiles { width: 44px; }
+.term-img-4-etoiles { width: 59px; }
+.term-img-5-etoiles { width: 74px; }
+.term-img-6-etoiles { width: 90px; }
+.term-img-7-etoiles { width: 105px; }
+
+.term-img-1-cle, .term-img-2-cles, .term-img-3-cles, .term-img-4-cles, .term-img-5-cles {
+  background: url('../images/sprite.png') no-repeat -266px -5129px;
+  height: 17px;
+  margin: 0 0 0 5px;
+}
+.term-img-1-cle { width: 71px; }
+.term-img-2-cles { width: 85px; }
+.term-img-3-cles { width: 99px; }
+.term-img-4-cles { width: 113px; }
+.term-img-5-cles { width: 127px; }
+
+.term-img-1-epi, .term-img-2-epis, .term-img-3-epis, .term-img-4-epis, .term-img-5-epis {
+  background: url('../images/sprite.png') no-repeat -172px -5129px;
+  height: 16px;
+  margin: 0 0 0 5px;
+}
+.term-img-1-epi { width: 28px; }
+.term-img-2-epis { width: 38px; }
+.term-img-3-epis { width: 48px; }
+.term-img-4-epis { width: 58px; }
+.term-img-5-epis { width: 68px; }

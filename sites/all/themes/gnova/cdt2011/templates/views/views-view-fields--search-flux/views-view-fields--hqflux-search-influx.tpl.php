@@ -4,13 +4,17 @@
 	<div class="content_box_agenda">
 		
 		<h3>
-            <?php 
-            print $fields['title']->content
-                . (isset($fields['field_fl_categorie_strs_value']) ? ' - '.$fields['field_fl_categorie_strs_value']->content : '')
-                . cdt2011_new_norm($fields)
-                . (isset($fields['field_fl_chaines_strs_value']) && $fields['field_fl_chaines_strs_value']->content!='' ? ' - '.$fields['field_fl_chaines_strs_value']->content : ''); 
-            ?>
-        </h3>
+      <?php
+      print $fields['title']->content;
+      if (isset($fields['field_fl_categorie_strs_value'])) {
+        print cdt2011_term_to_img($fields['field_fl_categorie_strs_value']->content, ' - ');
+      }
+      print cdt2011_new_norm($fields);
+      if (isset($fields['field_fl_chaines_strs_value']) && $fields['field_fl_chaines_strs_value']->content!='') {
+        print ' - '.$fields['field_fl_chaines_strs_value']->content;
+      }
+      ?>
+    </h3>
 		<div class="date_agenda">
 			<?php print $fields['city']->content; ?>
 			<?php //print $fields['postal_code']->content; ?>
