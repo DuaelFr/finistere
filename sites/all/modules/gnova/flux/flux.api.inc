@@ -120,50 +120,48 @@ function repair_term_node($vid) {
 
   if (is_array($tree) && count($tree) > 0) {
     foreach ($tree as $nivo1) {
-      $nivo1Children = $tree->children;
-
+      $nivo1Children = $nivo1->children;
       if (isset($nivo1Children) && count($nivo1Children) > 0) {
-
         foreach ($nivo1Children as $nivo2) {
-
           $nivo2Children = $nivo2->children;
-
           if ($nivo2Children && count($nivo2Children) > 0) {
             foreach ($nivo2Children as $nivo3) {
-
-              //Pour chaque item de niveau 3
+              // Pour chaque item de niveau 3
               $nb = db_result(db_query("SELECT count(*) FROM {term_data} WHERE tid=%d", intval($nivo3->tid)));
-              //Si le term n'a pas été supprimé par une précédente itération
-              if ($nb && $nb > 0) {
-                /*
-                $nb2 = db_result(db_query("SELECT count(*) FROM {term_data} AS td LEFT JOIN {term_hierarchy} AS th ON th.tid=td.tid WHERE th.parent=%d AND td.description='%s' AND NOT(td.tid=%d)", intval($nivo3->parents[0]), $nivo3->description, intval($nivo3->tid)));
-                */
-                //On cherche les autres terms qui ont le même code (description) et le même père
-                $res = db_query("SELECT td.* FROM {term_data} AS td LEFT JOIN {term_hierarchy} AS th ON th.tid=td.tid WHERE th.parent=%d AND td.description='%s' AND NOT(td.tid=%d)", intval($nivo3->parents[0]), $nivo3->description, $nivo3->tid);
 
-                //Pour chaque doublon trouvé, on réaffecte les nodes au bon terme puis on supprime le doublon
+              // Si le term n'a pas été supprimé par une précédente itération
+              // Et s'il a bien une description (=code TS)
+              if (!empty($nb) && !empty($nivo3->description)) {
+                // On cherche les autres terms qui ont le même code (description) et le même père
+                $sql = "SELECT td.*
+                        FROM {term_data} AS td
+                        LEFT JOIN {term_hierarchy} AS th ON th.tid=td.tid
+                        WHERE th.parent=%d AND td.description='%s' AND NOT(td.tid=%d)";
+                $res = db_query($sql, $nivo2->tid, $nivo3->description, $nivo3->tid);
+
+                // Pour chaque doublon trouvé, on réaffecte les nodes au bon terme puis on supprime le doublon
                 while ($item = db_fetch_object($res)) {
-                  db_query("UPDATE {term_node} SET tid=%d WHERE tid=%d", intval($nivo3->tid), intval($item->tid));
+                  db_query("UPDATE IGNORE {term_node} SET tid=%d WHERE tid=%d", intval($nivo3->tid), intval($item->tid));
                   taxonomy_del_term($item->tid);
                   watchdog('flux', 'Le terme ' . $item->name . ' est un doublon et a été supprimé. Tous les nodes ont été basculés sur le terme connexe non doublon.');
                 }
-
               }
-            }
-            //Fin foreach($nivo2->children
-          }
-          //Fin if($nivo2->children &
+            }//Fin foreach($nivo2->children
+          }//Fin if($nivo2->children &
+        }//Fin foreach($nivo1->children as
+      }//Fin if($nivo1->children
+    }//Fin foreach($tree as
+  }//Fin if($tree->children &
+}
 
-        }
-        //Fin foreach($nivo1->children as
-      }
-      //Fin if($nivo1->children
-
-    }
-    //Fin foreach($tree as
+/**
+ * Supprime les doublons dans tous les vocabulaires.
+ */
+function repair_term_node_all() {
+  $vocabularies = taxonomy_get_vocabularies();
+  foreach ($vocabularies as $vocabulary) {
+    repair_term_node($vocabulary->vid);
   }
-  //Fin if($tree->children &
-
 }
 
 /**
@@ -188,6 +186,16 @@ function clean_term_node($vid) {
         }
       }
     }
+  }
+}
+
+/**
+ * Supprime les termes vides dans tous les vocabulaires.
+ */
+function clean_term_node_all() {
+  $vocabularies = taxonomy_get_vocabularies();
+  foreach ($vocabularies as $vocabulary) {
+    clean_term_node($vocabulary->vid);
   }
 }
 
