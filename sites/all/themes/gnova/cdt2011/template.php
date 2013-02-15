@@ -970,15 +970,11 @@ function cdt2011_term_to_img($term, $separator = '') {
   if (is_object($term)) {
     $term = $term->name;
   }
-  return '<span class="term-img term-img-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
 
-//  $result = $separator . $term;
-//
-//  $fname = pathauto_cleanstring($term);
-//  $fname = base_path() . drupal_get_path('theme', 'cdt2011') . '/images/' . $fname . '.png';
-//  if (file_exists($_SERVER['DOCUMENT_ROOT'] . $fname)) {
-//    $result = '<img src="' . $fname . '" alt="' . $term . '" class="term-img" />';
-//  }
-//
-//  return $result;
+  $result = '';
+  if (!empty($term)) {
+    $result = '<span class="term-img term-img-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
+  }
+
+  return $result;
 }
