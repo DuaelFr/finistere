@@ -38,7 +38,12 @@ Drupal.behaviors.cdt2011 = function (context){
   //Colorbox images fiches TS
   $('.colorbox-load').removeClass('colorbox-load')
                      .addClass('colorbox-processed')
-                     .colorbox({rel: 'galery'});
+                     .colorbox({
+                       rel: 'galery',
+                       maxWidth: '95%',
+                       maxHeight: '95%',
+                       scalePhotos: true
+                     });
 
   // Slide Panier
 
