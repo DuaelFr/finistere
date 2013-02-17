@@ -439,7 +439,7 @@ function flux_update_6001(&$sandbox) {
 }
 
 /**
- * Désactivation champs CATEGORIE pour affichage spécial.
+ * Désactivation champs CATEGORIE & CLASSEMENT_LABEL pour affichage spécial.
  */
 function flux_update_6002(&$sandbox) {
   module_load_include('inc', 'flux', 'fluxfields_admin_pages');
@@ -448,6 +448,14 @@ function flux_update_6002(&$sandbox) {
     $confList = flux_fieldsmapping($bid);
     if (!empty($confList) && !empty($confList['CATEGORIE'])) {
       $fname = $confList['CATEGORIE']->cckfieldname;
+
+      $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
+      db_query($sql, $fname, $bid);
+      $sql = "DELETE FROM {flux_display} WHERE bordereau_id='%s' AND cckfieldname='%s'";
+      db_query($sql, $fname, $bid);
+    }
+    if (!empty($confList) && !empty($confList['CLASSEMENT_LABEL'])) {
+      $fname = $confList['CLASSEMENT_LABEL']->cckfieldname;
 
       $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
       db_query($sql, $fname, $bid);
