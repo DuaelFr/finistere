@@ -11,25 +11,31 @@
 <?php else: ?>
 
   <div class="box_categories node <?php print $classes; ?> all" id="node-<?php print $node->nid; ?>">
-
-    <?php if ($teaser): ?>
-      <h2 class="title">
-        <a href="<?php print $node_link; ?>"><?php print $title; ?></a>
-      </h2>
-    <?php else: ?>
-      <h1 class="title">
+    <div class="finistere-title">
+      <?php if ($teaser): ?>
+        <h2 class="title">
+          <a href="<?php print $node_link; ?>"><?php print $title; ?></a>
+        </h2>
+      <?php else: ?>
+        <h1 class="title">
+          <?php
+          print $title;
+          if (!empty($field_fl_categorie_strs)) {
+            print cdt2011_term_to_img($field_fl_categorie_strs[0]['value'], ' - ');
+          }
+          if (!empty($field_fl_classement_label_strs)) {
+            print cdt2011_term_to_img($field_fl_classement_label_strs[0]['value'], ' - ');
+          }
+          ?>
+        </h1>
+        <?php if ($add_carnet_link) { print $add_carnet_link; } ?>
         <?php
-        print $title;
-        if (!empty($field_fl_categorie_strs)) {
-          print cdt2011_term_to_img($field_fl_categorie_strs[0]['value'], ' - ');
-        }
-        if (!empty($field_fl_classement_label_strs)) {
-          print cdt2011_term_to_img($field_fl_classement_label_strs[0]['value'], ' - ');
+        if (!empty($field_fl_attente_classeme)) {
+          print '<div class="attente-classement">' . $field_fl_attente_classeme[0]['value'] . '</div>';
         }
         ?>
-      </h1>
-      <?php if ($add_carnet_link) { print $add_carnet_link; } ?>
-    <?php endif; ?>
+      <?php endif; ?>
+    </div>
 
     <div class="uboxpb_items">
       <div class="uboxpb_items_left">
