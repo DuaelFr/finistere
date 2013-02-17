@@ -416,3 +416,24 @@ function create_flux_ct() {
   );
   install_content_copy_import_from_file($content);
 }
+
+/**
+ * Mise à jour champs "Périodes d'ouverture"
+ */
+function flux_update_6001(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_date_debut_date', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Périodes d\'ouverture';
+      $field['display_settings']['label']['format'] = 'above';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
