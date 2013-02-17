@@ -978,3 +978,50 @@ function cdt2011_term_to_img($term, $separator = '') {
 
   return $result;
 }
+
+/**
+ * Prepare the booking button if needed.
+ */
+function cdt2011_booking_button($fields) {
+  $taxo = explode(',', $fields['tid_1']->content);
+  $types = array(
+    152 => 'z3132e9_fr', // Hotel
+    2621 => 'z3132e9_fr', // Hotel
+    2622 => 'z3132e9_uk', // Hotel EN
+    410 => 'z3130e9_fr', // Camping
+    2704 => 'z3130e9_uk', // Camping EN
+    2629 => 'z2852e3_fr', // Chambres meublés
+    2701 => 'z2852e3_uk', // Chambres meublés EN
+    2402 => 'z3131e9_fr', // Chambres d'hôte
+    2623 => 'z3131e9_uk', // Chambres d'hôte EN
+  );
+
+  $code = '';
+  while (empty($code) && ($tid = key($types)) && ($type = current($types))) {
+    if (in_array($tid, $taxo)) {
+      $code = $type;
+    }
+    next($types);
+  }
+
+  $result = '';
+  if (!empty($code)) {
+    if (($fields['field_fixfl_onlineresa_value']->content == 'oui' || $fields['field_fixfl_onlineresa_value']->content == 'yes') &&
+      isset($fields['field_fixfl_codemetier_value']) &&
+      isset($fields['field_fixfl_codefournisseur_value'])
+    ) {
+      // Prepare CodeOs
+      $code_parts = array(
+        $fields['field_fixfl_codemetier_value']->content,
+        $fields['field_fixfl_codefournisseur_value']->content,
+        $fields['field_fixfl_codeproduit_value']->content,
+      );
+      $url = 'http://' . variable_get('flux_booking_domain_url', 'resa.finisteretourisme.com') . '/' . $code . '-.aspx?Param/CodeOs=' . implode('-', array_filter($code_parts));
+
+      $result = '<div class="wrap_btn clearfix">';
+      $result .= '<a class="rsv_btn" title="' . t('Book online') . '" href="' . $url . '">' . t('Book') . '</a>';
+      $result .= '</div>';
+    }
+  }
+  return $result;
+}
