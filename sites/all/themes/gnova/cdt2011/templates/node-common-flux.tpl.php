@@ -18,7 +18,12 @@
       </h2>
     <?php else: ?>
       <h1 class="title">
-        <?php print $title; ?>
+        <?php
+        print $title;
+        if (!empty($field_fl_categorie_strs)) {
+          print cdt2011_term_to_img($field_fl_categorie_strs[0]['value'], ' - ');
+        }
+        ?>
       </h1>
       <?php if ($add_carnet_link) { print $add_carnet_link; } ?>
     <?php endif; ?>

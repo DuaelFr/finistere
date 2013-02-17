@@ -437,3 +437,22 @@ function flux_update_6001(&$sandbox) {
   content_clear_type_cache(TRUE);
   menu_rebuild();
 }
+
+/**
+ * Désactivation champs CATEGORIE pour affichage spécial.
+ */
+function flux_update_6002(&$sandbox) {
+  module_load_include('inc', 'flux', 'fluxfields_admin_pages');
+  $fluxList = fluxfields_get_flux();
+  foreach ($fluxList as $bid) {
+    $confList = flux_fieldsmapping($bid);
+    if (!empty($confList) && !empty($confList['CATEGORIE'])) {
+      $fname = $confList['CATEGORIE']->cckfieldname;
+
+      $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
+      db_query($sql, $fname, $bid);
+      $sql = "DELETE FROM {flux_display} WHERE bordereau_id='%s' AND cckfieldname='%s'";
+      db_query($sql, $fname, $bid);
+    }
+  }
+}
