@@ -153,17 +153,26 @@ function flux_fluxfields_form_submit($form_id, $form) {
 
 }
 
+function fluxfields_get_flux() {
+  static $fluxfields_get_flux;
+  if (empty($fluxfields_get_flux)) {
+    $res = db_query("SELECT DISTINCT(field_flux_identifiant_value) AS id FROM {content_type_flux}");
+    $fluxfields_get_flux = array();
+    while ($bor = db_fetch_array($res)) {
+      $fluxfields_get_flux[] = $bor['id'];
+    }
+  }
+  return $fluxfields_get_flux;
+}
 
 /* Liste des flux (bordereaux) */
 function fluxfields_flux_list() {
-  $res        = db_query("SELECT DISTINCT(field_flux_identifiant_value) AS id FROM {content_type_flux}");
-  $bordereaux = array();
-  while ($bor = db_fetch_array($res)) {
+  foreach (fluxfields_get_flux() as $bid) {
     $adminAccess      = user_access('Administer flux content types');
-    $adminDisplayLink = l(t('Edit display settings'), 'admin/flux/displayedit/' . $bor['id']);
-    $adminCTLink      = l(t('Edit fields settings'), 'admin/flux/edit/' . $bor['id']);
+    $adminDisplayLink = l(t('Edit display settings'), 'admin/flux/displayedit/' . $bid);
+    $adminCTLink      = l(t('Edit fields settings'), 'admin/flux/edit/' . $bid);
     $bordereaux[]     = array(
-      $bor['id'],
+      $bid,
       ($adminAccess ? $adminCTLink . ' / ' . $adminDisplayLink : $adminDisplayLink)
     );
   }
