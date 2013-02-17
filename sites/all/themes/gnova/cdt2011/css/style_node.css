@@ -302,6 +302,10 @@
 
 #conteneur_left .all h1{ margin:0; border:0; padding-bottom:10px;}
 
+#conteneur_left .finistere-title { padding-bottom: 10px; }
+#conteneur_left .finistere-title h1,
+#conteneur_left .finistere-title h2 { padding-bottom: 0; }
+#conteneur_left .finistere-title .attente-classement { font-size: 12px; }
 #up_agenda{ position:absolute; top:-37px; right:10px; background:url(../images/sprite.png) no-repeat 128px -1848px; display:block; padding-right:35px; font-weight:bold; text-transform:uppercase; text-decoration:none; font-size:0.75em; height:33px; line-height:16px; width:125px; color:#4A4A4A; text-align:right;}
 
 .ubox_others{ width:186px; margin-right:46px; float:left;}
