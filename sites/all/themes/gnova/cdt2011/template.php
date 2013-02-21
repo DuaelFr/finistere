@@ -966,14 +966,14 @@ function cdt2011_new_norm($fields) {
   return $output;
 }
 
-function cdt2011_term_to_img($term, $separator = '') {
+function cdt2011_term_to_img($term, $separator = '', $prefix = 'term-img') {
   if (is_object($term)) {
     $term = $term->name;
   }
 
   $result = '';
   if (!empty($term)) {
-    $result = '<span class="term-img term-img-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
+    $result = '<span class="' . $prefix . ' ' . $prefix . '-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
   }
 
   return $result;
@@ -1024,4 +1024,42 @@ function cdt2011_booking_button($fields) {
     }
   }
   return $result;
+}
+
+function cdt2011_labels($terms) {
+  if (!is_array($terms)) {
+    $terms = explode(',', $terms);
+  }
+
+  // Prepare cache
+  $labels = array();
+  $cache = cache_get('cdt2011:labels', 'cache');
+  if (!empty($cache->data)) {
+    $labels = unserialize($cache->data);
+  }
+
+  $output = '';
+  $accepted_parents = array(
+    'LABELS',
+//    'LABEL_TH',
+//    'LOCALISATION',
+  );
+  foreach ($terms as $tid) {
+    $term = taxonomy_get_term($tid);
+    if (empty($term)) {
+      continue;
+    }
+    if (!isset($labels[$tid])) {
+      $parent = reset(taxonomy_get_parents($term->tid));
+      $labels[$tid] = !empty($parent) && in_array($parent->name, $accepted_parents);
+    }
+    if ($labels[$tid]) {
+      $output .= cdt2011_term_to_img($term, '', 'label-img');
+    }
+  }
+
+  // Save cache
+  cache_set('cdt2011:labels', serialize($labels));
+
+  return $output;
 }

@@ -1398,3 +1398,25 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   margin: inherit;
   text-indent: 0;
 }
+
+.label-img { display: inline-block; text-indent: -99999px; margin: 0 10px 10px 0; }
+.label-img-gites-de-france {
+  background: url('../images/sprite.png?1302220000') no-repeat -114px -5160px;
+  width: 50px;
+  height: 51px;
+}
+.label-img-fleurs-de-soleil {
+  background: url('../images/sprite.png?1302220000') no-repeat -11px -5161px;
+  width: 76px;
+  height: 50px;
+}
+.label-img-clevacances {
+  background: url('../images/sprite.png?1302220000') no-repeat -189px -5165px;
+  width: 97px;
+  height: 36px;
+}
+.label-img-accueil-peche {
+  background: url('../images/sprite.png?1302220000') no-repeat -320px -5176px;
+  width: 50px;
+  height: 22px;
+}

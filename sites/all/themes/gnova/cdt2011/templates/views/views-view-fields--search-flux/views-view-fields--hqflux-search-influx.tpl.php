@@ -34,5 +34,11 @@
     // Bouton Réserver
     print cdt2011_booking_button($fields);
     ?>
+
+    <?php
+    // Labels
+    print cdt2011_labels($fields['tid_1']->content);
+    ?>
+
   </div>
 </div>
