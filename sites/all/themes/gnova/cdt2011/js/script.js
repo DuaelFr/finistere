@@ -23,6 +23,35 @@
       controls:       true
     });
 
+    // Reorder Classement filter checkboxes to group them by "type" (clés, épis, étoiles...)
+    var checkboxes = $('label[for="edit-classement"]', context).parent().find('.bef-checkboxes .form-item');
+    var reordered = [], txt, parts, type, number, cbparent = checkboxes.parent();
+    checkboxes.each(function() {
+      txt = $(this).find('label').text();
+      parts = txt.trim().split(' ');
+      if (parts.length > 2) {
+        type = 'special';
+        number = txt.trim();
+      } else {
+        type = parts[1];
+        number = parts[0];
+      }
+      // Remove final "s" to avoid plural issues
+      if (type.charAt(type.length - 1) == 's') {
+        type = type.substr(0, type.length - 1);
+      }
+      // Preset the array if it does not already exist
+      if (!reordered[type]) {
+        reordered[type] = [];
+      }
+      reordered[type][number] = $(this);
+    });
+    for (key in reordered) {
+      for (elt in reordered[key]) {
+        cbparent.append(reordered[key][elt]);
+      }
+    }
+
     // Ajout à la volée du picto lecture
     $("#ubox_box_89 .ubox_item_content #img_video").append('<span class="play"></span>');
 
