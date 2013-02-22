@@ -562,3 +562,43 @@ function flux_update_6006(&$sandbox) {
   content_clear_type_cache(TRUE);
   menu_rebuild();
 }
+
+/**
+ * Mise à jour champs "Capacité" (ajout suffixe)
+ */
+function flux_update_6007(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  // INT fields
+  $toChange = array(
+    'field_fl_capacite_min_int',
+    'field_fl_capacite_max_int',
+  );
+  $sql_select = "SELECT global_settings FROM {content_node_field} WHERE field_name = '%s'";
+  $sql_update = "UPDATE {content_node_field} SET global_settings = '%s' WHERE field_name = '%s'";
+
+  foreach ($toChange as $fname) {
+    $data = db_fetch_object(db_query($sql_select, $fname));
+    if (!empty($data)) {
+      $settings = unserialize($data->global_settings);
+      $settings['suffix'] = ' personnes';
+
+      db_query($sql_update, serialize($settings), $fname);
+    }
+  }
+
+  // TEXT field
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_capacite_strs', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['full']['format'] = 'capacity';
+      $field['display_settings']['teaser']['format'] = 'capacity';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}

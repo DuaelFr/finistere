@@ -62,6 +62,12 @@ function cdt_formatters_field_formatter_info() {
       'description' => t('Copie le label dans la valeur si le champ n\'est pas vide (ou \'non\')'),
       'multiple values' => CONTENT_HANDLE_MODULE
     ),
+    'capacity' => array(
+      'label' => t("Add capacity suffix"),
+      'field types' => array('text'),
+      'description' => t('Add the capacity suffix to the text'),
+      'multiple values' => CONTENT_HANDLE_MODULE
+    ),
   );
   return $formatters;
 }
@@ -78,6 +84,7 @@ function cdt_formatters_theme() {
     'cdt_formatters_formatter_hidefalse' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_resaligne' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_copylabel' => array('arguments' => array('element' => NULL),),
+    'cdt_formatters_formatter_capacity' => array('arguments' => array('element' => NULL),),
   );
   return $theme;
 }
@@ -301,6 +308,16 @@ function theme_cdt_formatters_formatter_copylabel($element){
     if (!empty($data)) {
       $output = $data->label;
     }
+  }
+
+  return $output;
+}
+
+function theme_cdt_formatters_formatter_capacity($element){
+  $output = '';
+
+  if (!empty($element[0]['#item']['value'])) {
+    $output = check_plain($element[0]['#item']['value']) . ' personnes';
   }
 
   return $output;
