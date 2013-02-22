@@ -481,3 +481,28 @@ function flux_update_6003(&$sandbox) {
     }
   }
 }
+
+/**
+ * Mise à jour champs "Animaux acceptés"
+ */
+function flux_update_6004(/*&$sandbox*/) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_anx_acceptes_tx', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['label']['format'] = 'hidden';
+      foreach ($field['display_settings'] as $format => $_) {
+        if (!empty($field['display_settings'][$format]['format']) && $field['display_settings'][$format]['format'] == 'hidefalse') {
+          $field['display_settings'][$format]['format'] = 'copylabel';
+        }
+      }
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}

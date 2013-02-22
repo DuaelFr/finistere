@@ -639,6 +639,7 @@
 .page-node.node-type-bon-plan#conteneur_left .lien_bp { text-transform: none; color: #4A4A4A; background-position: 511px -713px; width: 99%; }
 
 .uboxpb_items_content .field-label { font-weight: bold; /*font-size:1.2em;*/ margin: 5px 0; }
+.uboxpb_items_content .field-field-fl-anx-acceptes-tx { font-weight: bold; }
 
 .uboxpb_items_content.addresszone .address .field { display: inline; }
 

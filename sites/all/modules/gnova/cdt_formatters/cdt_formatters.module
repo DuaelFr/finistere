@@ -56,6 +56,12 @@ function cdt_formatters_field_formatter_info() {
       'description' => t('Affichage du lien réservation en ligne sous conditions'),
       'multiple values' => CONTENT_HANDLE_MODULE
 	  ),
+    'copylabel' => array(
+      'label' => t("Copy label"),
+      'field types' => array('text'),
+      'description' => t('Copie le label dans la valeur si le champ n\'est pas vide (ou \'non\')'),
+      'multiple values' => CONTENT_HANDLE_MODULE
+    ),
   );
   return $formatters;
 }
@@ -71,6 +77,7 @@ function cdt_formatters_theme() {
     'cdt_formatters_formatter_begintoenddate' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_hidefalse' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_resaligne' => array('arguments' => array('element' => NULL),),
+    'cdt_formatters_formatter_copylabel' => array('arguments' => array('element' => NULL),),
   );
   return $theme;
 }
@@ -283,4 +290,18 @@ function theme_cdt_formatters_formatter_resaligne($element){
   }
 
 	return $output;
+}
+
+function theme_cdt_formatters_formatter_copylabel($element){
+  $output = theme_cdt_formatters_formatter_hidefalse($element);
+
+  if (!empty($output)) {
+    $sql = "SELECT label FROM {flux_fieldsettings} WHERE cckfieldname = '%s'";
+    $data = db_fetch_object(db_query($sql, $element['#field_name']));
+    if (!empty($data)) {
+      $output = $data->label;
+    }
+  }
+
+  return $output;
 }
