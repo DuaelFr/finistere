@@ -43,6 +43,8 @@
         if (!isset($field_fl_adherent_cdt_tx[0]['value'])) {
           $field_fl_adherent_cdt_tx[0]['value'] = 'oui';
         }
+
+        // Print images
         if ($field_fl_adherent_cdt_tx[0]['value'] == 'oui') {
           print $field_fl_photos_imgs_rendered;
         }
@@ -50,6 +52,19 @@
           // display only first image
           print theme('imagecache', 'bp_detail_big', $field_fl_photos_imgs[0]['filepath'], $node->title, $node->title);
         }
+
+        // Print virtual visit
+        if ($field_fl_adherent_cdt_tx[0]['value'] == 'oui') {
+          if ($field_fl_visite_virtuelle_tx[0]['value'] && $field_fl_visite_virtuelle_tx[0]['value'] != NULL) {
+            global $theme_path;
+            drupal_add_js('$("#virtual").colorbox({iframe:true, width:"600px", height:"430px"});', 'inline');
+            print '<div class="virtual-visit">' . l(t('Virtual visit'), $field_fl_visite_virtuelle_tx[0]['value'], array('html'       => TRUE,
+                                                                                                                         'attributes' => array('id' => 'virtual')
+            )) . '</div>';
+          }
+        }
+
+        // Print prices
         if (FALSE && $field_fl_tarif_min[0]['view'] && $field_fl_adherent_cdt_tx[0]['value'] == 'oui'):
         ?>
         <div class="c_prix">
@@ -61,20 +76,7 @@
 
         <div class="uboxbp_content">
           <div class="uboxpb_items_content addresszone">
-            <?php
-            print $addresszone;
-            global $user;
-            if ($field_fl_adherent_cdt_tx[0]['value'] == 'oui') {
-              //print $addresszone;
-              if ($field_fl_visite_virtuelle_tx[0]['value'] && $field_fl_visite_virtuelle_tx[0]['value'] != NULL) {
-                global $theme_path;
-                drupal_add_js('$("#virtual").colorbox({iframe:true, width:"600px", height:"430px"});', 'inline');
-                print '<div class="virtual-visit">' . l(t('Virtual visit'), $field_fl_visite_virtuelle_tx[0]['value'], array('html'       => TRUE,
-                                                                                                                             'attributes' => array('id' => 'virtual')
-                )) . '</div>';
-              }
-            }
-            ?>
+            <?php print $addresszone; ?>
           </div>
           <?php if (count($field_fl_tarif_label) > 0 && strlen($field_fl_tarif_label[0]['view']) > 0 && $field_fl_adherent_cdt_tx[0]['value'] == 'oui') : ?>
             <h4 class="lower"><?php print t('Prices'); ?></h4>

@@ -1345,11 +1345,14 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
 }
 
 #conteneur .virtual-visit {
+  clear: left;
   margin: 3px 0;
+  text-align: center;
 }
-
-#conteneur a#virtual {
-  background: url("../images/visit_360.png") no-repeat scroll 0 0 transparent;
+#conteneur .virtual-visit a {
+  background: transparent url("../images/visit_360.png") no-repeat scroll left center;
+  font-size: 12px;
+  display: inline-block;
   padding: 6px 0 5px 30px;
 }
 
