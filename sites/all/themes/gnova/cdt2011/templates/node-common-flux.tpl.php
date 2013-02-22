@@ -71,11 +71,14 @@
           </div>
 
           <?php
-          // Chaines
-          if (!empty($field_fl_chaines_strs)) {
-            print '<div class="chaines">';
+          // Chaines & Labels
+          if (!empty($field_fl_chaines_strs) || !empty($field_fl_labels_strs)) {
+            print '<div class="chaines-labels">';
             foreach ($field_fl_chaines_strs as $chaine) {
               print cdt2011_term_to_img($chaine['value'], '', 'chaine-img');
+            }
+            foreach ($field_fl_labels_strs as $label) {
+              print cdt2011_term_to_img($label['value'], '', 'label-img');
             }
             print '</div>';
           }

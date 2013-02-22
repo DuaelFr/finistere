@@ -651,6 +651,9 @@
 .uboxpb_items_content.addresszone .address .field-field-fl-categorie-strs,
 .uboxpb_items_content.addresszone .address .field-field-fl-attente-classeme { display: block; padding-bottom: 5px; }
 
+.chaines-labels { text-align: center; }
+.chaines-labels span { display: inline-block; }
+
 .uboxpb_items_content .field-type-text .field-items, .uboxpb_items_content .field-type-text .field-item { display: inline; }
 
 .page-node.node-type-bon-plan .uboxpb_items .uboxbp_content h4 { margin-top: 15px; }

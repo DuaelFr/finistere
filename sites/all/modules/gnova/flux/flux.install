@@ -461,11 +461,11 @@ function flux_update_6002(&$sandbox) {
 }
 
 /**
- * Désactivation champs CHAINES pour affichage spécial.
+ * Désactivation champs CHAINES & LABELS pour affichage spécial.
  */
 function flux_update_6003(&$sandbox) {
   module_load_include('inc', 'flux', 'fluxfields_admin_pages');
-  $toDel = array('CHAINES');
+  $toDel = array('CHAINES', 'LABELS');
   $fluxList = fluxfields_get_flux();
   foreach ($fluxList as $bid) {
     $confList = flux_fieldsmapping($bid);
