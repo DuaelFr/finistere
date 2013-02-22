@@ -78,7 +78,22 @@
           <div class="uboxpb_items_content addresszone">
             <?php print $addresszone; ?>
           </div>
-          <?php if (count($field_fl_tarif_label) > 0 && strlen($field_fl_tarif_label[0]['view']) > 0 && $field_fl_adherent_cdt_tx[0]['value'] == 'oui') : ?>
+
+          <?php
+          // Chaines
+          if (!empty($field_fl_chaines_strs)) {
+            print '<div class="chaines">';
+            foreach ($field_fl_chaines_strs as $chaine) {
+              print cdt2011_term_to_img($chaine['value'], '', 'chaine-img');
+            }
+            print '</div>';
+          }
+          ?>
+
+          <?php
+          // Print prices
+          if (count($field_fl_tarif_label) > 0 && strlen($field_fl_tarif_label[0]['view']) > 0 && $field_fl_adherent_cdt_tx[0]['value'] == 'oui') :
+          ?>
             <h4 class="lower"><?php print t('Prices'); ?></h4>
             <table id="table_tarif">
               <tr>

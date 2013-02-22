@@ -459,3 +459,25 @@ function flux_update_6002(&$sandbox) {
     }
   }
 }
+
+/**
+ * Désactivation champs CHAINES pour affichage spécial.
+ */
+function flux_update_6003(&$sandbox) {
+  module_load_include('inc', 'flux', 'fluxfields_admin_pages');
+  $toDel = array('CHAINES');
+  $fluxList = fluxfields_get_flux();
+  foreach ($fluxList as $bid) {
+    $confList = flux_fieldsmapping($bid);
+    foreach ($toDel as $name) {
+      if (!empty($confList) && !empty($confList[$name])) {
+        $fname = $confList[$name]->cckfieldname;
+
+        $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
+        db_query($sql, $fname, $bid);
+        $sql = "DELETE FROM {flux_display} WHERE bordereau_id='%s' AND cckfieldname='%s'";
+        db_query($sql, $fname, $bid);
+      }
+    }
+  }
+}
