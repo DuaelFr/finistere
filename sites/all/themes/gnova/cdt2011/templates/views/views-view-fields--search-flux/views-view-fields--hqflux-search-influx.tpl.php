@@ -27,19 +27,21 @@
       <?php print strip_tags($fields['body']->content, '<p><strong>'); ?>
     </div>
 
-    <?php
-    // Bouton Réserver
-    print cdt2011_booking_button($fields);
-    ?>
+    <div class="item-options">
+      <?php
+      // Bouton Réserver
+      print cdt2011_booking_button($fields);
+      ?>
 
-    <?php
-    // Labels
-    print cdt2011_labels($fields['tid_1']->content);
-    // Chaines
-    if (isset($fields['field_fl_chaines_strs_value']) && $fields['field_fl_chaines_strs_value']->content != '') {
-      print cdt2011_term_to_img($fields['field_fl_chaines_strs_value']->content, '', 'chaine-img');
-    }
-    ?>
+      <?php
+      // Labels
+      print cdt2011_labels($fields['tid_1']->content);
+      // Chaines
+      if (isset($fields['field_fl_chaines_strs_value']) && $fields['field_fl_chaines_strs_value']->content != '') {
+        print cdt2011_term_to_img($fields['field_fl_chaines_strs_value']->content, '', 'chaine-img');
+      }
+      ?>
+    </div>
 
   </div>
 </div>

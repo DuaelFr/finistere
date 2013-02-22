@@ -1018,7 +1018,7 @@ function cdt2011_booking_button($fields) {
       );
       $url = 'http://' . variable_get('flux_booking_domain_url', 'resa.finisteretourisme.com') . '/' . $code . '-.aspx?Param/CodeOs=' . implode('-', array_filter($code_parts));
 
-      $result = '<div class="wrap_btn clearfix">';
+      $result = '<div class="wrap_btn wrap_rsv_btn clearfix">';
       $result .= '<a class="rsv_btn" title="' . t('Book online') . '" href="' . $url . '">' . t('Book') . '</a>';
       $result .= '</div>';
     }

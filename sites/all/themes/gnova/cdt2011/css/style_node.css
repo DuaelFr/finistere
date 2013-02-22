@@ -200,6 +200,7 @@
 .box_agenda h3 a { font: bold 1em Arial, Helvetica, sans-serif; text-transform: none; text-decoration: none; color: #014e8a; }
 
 .content_box_agenda .item-body { font: 0.69em/16px Arial, Helvetica, sans-serif; color: #4a4a4a; }
+.content_box_agenda .item-options { overflow: auto; padding: 5px 10px 0; }
 
 .box_agenda h3 { font-size: 0.75em; margin-bottom: 5px; }
 
@@ -1247,6 +1248,10 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   text-transform: uppercase;
   width: 141px; padding: 0; right: 0; }
 
+.wrap_rsv_btn {
+  float: right;
+  padding-top: 8px;
+}
 .wrap_btn a + a { background: url("../images/sprite.png?1302220000") no-repeat scroll -5px -3811px transparent;
   border: 0 none;
   color: #FFFFFF;
