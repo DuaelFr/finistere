@@ -973,7 +973,7 @@ function cdt2011_term_to_img($term, $separator = '', $prefix = 'term-img') {
 
   $result = '';
   if (!empty($term)) {
-    $result = '<span class="' . $prefix . ' ' . $prefix . '-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
+    $result = '<span title="' . $term . '" class="' . $prefix . ' ' . $prefix . '-' . pathauto_cleanstring($term) . '">' . $separator . $term . '</span>';
   }
 
   return $result;
