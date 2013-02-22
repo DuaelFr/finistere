@@ -506,3 +506,59 @@ function flux_update_6004(&$sandbox) {
   content_clear_type_cache(TRUE);
   menu_rebuild();
 }
+
+  /**
+   * Ajout traductions
+   */
+function flux_update_6005(&$sandbox) {
+  $traductions = array(
+    'Max capacity' => 'Capacité max',
+    'Min capacity' => 'Capacité min',
+  );
+  $sql_select = "SELECT lid FROM {locales_source} WHERE source = '%s'";
+  $sql_insert = "INSERT INTO {locales_source} (lid, location, textgroup, source, version) VALUES (NULL, '', 'default', '%s', " . VERSION. ")";
+  $sql_update = "REPLACE INTO {locales_target} (lid, translation, language, plid, plural, i18n_status) VALUES (%d, '%s', 'fr', 0, 0 ,0)";
+
+  foreach ($traductions as $source => $target) {
+    $data = db_fetch_object(db_query($sql_select, $source));
+    // If source does not exists, create it.
+    if (empty($data)) {
+      db_query($sql_insert, $source);
+      $lid = db_last_insert_id('locales_source', 'lid');
+    }
+    else {
+      $lid = $data->lid;
+    }
+    // Save the translation.
+    db_query($sql_update, $lid, $target);
+
+    // Flush caches
+    drupal_flush_all_caches();
+  }
+}
+
+/**
+ * Mise à jour champs "Min" & "Max"
+ */
+function flux_update_6006(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_capacite_max_int', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Max capacity';
+      content_field_instance_update($field, FALSE);
+    }
+
+    $field = content_fields('field_fl_capacite_min_int', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Min capacity';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
