@@ -63,16 +63,7 @@
             )) . '</div>';
           }
         }
-
-        // Print prices
-        if (FALSE && $field_fl_tarif_min[0]['view'] && $field_fl_adherent_cdt_tx[0]['value'] == 'oui'):
         ?>
-        <div class="c_prix">
-          <span class="border left_b"></span>
-          <?php print $field_fl_tarif_min[0]['view']; ?>
-          <span class="border right_b"></span>
-        </div>
-        <?php endif; ?>
 
         <div class="uboxbp_content">
           <div class="uboxpb_items_content addresszone">
