@@ -485,7 +485,7 @@ function flux_update_6003(&$sandbox) {
 /**
  * Mise à jour champs "Animaux acceptés"
  */
-function flux_update_6004(/*&$sandbox*/) {
+function flux_update_6004(&$sandbox) {
   module_load_include('inc', 'content', 'includes/content.crud');
 
   $types = content_types();
