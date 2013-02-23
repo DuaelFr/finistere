@@ -602,3 +602,23 @@ function flux_update_6007(&$sandbox) {
   content_clear_type_cache(TRUE);
   menu_rebuild();
 }
+
+/**
+ * Mise à jour champs "Services" (RES)
+ */
+function flux_update_6008(/*&$sandbox*/) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_services_strs', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['label']['format'] = 'inline';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
