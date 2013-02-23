@@ -1063,3 +1063,28 @@ function cdt2011_labels($terms) {
 
   return $output;
 }
+
+function cdt2011_chaines_labels_tpl($node) {
+  $output = '';
+
+  $fields = array(
+    'field_fl_chaines_strs' => 'chaine',
+    'field_fl_labels_strs' => 'label',
+    'field_fl_classement1_labe_strs' => 'label',
+    'field_fl_classement2_labe_strs' => 'label',
+    'field_fl_classement3_labe_strs' => 'label',
+  );
+
+  foreach ($fields as $fname => $type) {
+    if (!empty($node->{$fname})) {
+      foreach ($node->{$fname} as $delta => $item) {
+        print cdt2011_term_to_img($item['value'], '', $type. '-img');
+      }
+    }
+  }
+
+  if (!empty($output)) {
+    $output = '<div class="chaines-labels">' . $output . '</div>';
+  }
+  return $output;
+}

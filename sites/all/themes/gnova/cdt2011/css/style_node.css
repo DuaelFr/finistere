@@ -1433,6 +1433,64 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   height: 22px;
 }
 
+.label-img-1-blue-elf-single, .label-img-1-lutin-bleu-simple,
+.label-img-2-blue-elves-varied, .label-img-2-lutins-bleus-varies,
+.label-img-3-blue-elves-numerous-and-varied, .label-img-3-lutins-bleus-nombreux-et-varies,
+.label-img-1-white-elf-single, .label-img-1-lutin-blanc-simple,
+.label-img-2-lutins-blancs-varies, .label-img-2-white-elves-varied,
+.label-img-3-lutins-blancs-divers-et-varies, .label-img-3-white-elves-diverse-and-varied,
+.label-img-1-lutin-rouge-simple-et-complets, .label-img-1-red-elf-single-and-complete,
+.label-img-2-lutins-rouges-bon-et-complets, .label-img-2-red-elves-good-and-complete,
+.label-img-3-lutins-rouges-tres-bon-et-complets, .label-img-3-red-elves-very-good-and-complete {
+  background: url('../images/sprite.png?1302230115') no-repeat 0 0;
+  height: 30px;
+}
+.label-img-1-blue-elf-single,
+.label-img-1-lutin-bleu-simple {
+  background-position: -106px -5221px;
+  width: 25px;
+}
+.label-img-2-blue-elves-varied,
+.label-img-2-lutins-bleus-varies {
+  background-position: -106px -5221px;
+  width: 53px;
+}
+.label-img-3-blue-elves-numerous-and-varied,
+.label-img-3-lutins-bleus-nombreux-et-varies {
+  background-position: -106px -5221px;
+  width: 81px;
+}
+.label-img-1-white-elf-single,
+.label-img-1-lutin-blanc-simple {
+  background-position: -10px -5220px;
+  width: 26px;
+}
+.label-img-2-lutins-blancs-varies,
+.label-img-2-white-elves-varied {
+  background-position: -10px -5220px;
+  width: 54px;
+}
+.label-img-3-lutins-blancs-divers-et-varies,
+.label-img-3-white-elves-diverse-and-varied {
+  background-position: -10px -5220px;
+  width: 83px;
+}
+.label-img-1-lutin-rouge-simple-et-complets,
+.label-img-1-red-elf-single-and-complete {
+  background-position: -200px -5221px;
+  width: 26px;
+}
+.label-img-2-lutins-rouges-bon-et-complets,
+.label-img-2-red-elves-good-and-complete {
+  background-position: -200px -5221px;
+  width: 55px;
+}
+.label-img-3-lutins-rouges-tres-bon-et-complets,
+.label-img-3-red-elves-very-good-and-complete {
+  background-position: -200px -5221px;
+  width: 84px;
+}
+
 .chaine-img {}
 .chaine-img-airotels-de-france {}
 .chaine-img-association-vacances-mutualite-agricole {}
