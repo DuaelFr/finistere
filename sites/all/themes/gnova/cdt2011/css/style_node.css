@@ -1365,10 +1365,14 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   padding: 6px 0 5px 30px;
 }
 
-.term-img { display: inline-block; text-indent: -99999px; }
+.term-img {
+  background: url('../images/sprite.png?1302230115') no-repeat 0 0;
+  display: inline-block;
+  text-indent: -99999px;
+}
 
 .term-img-sans-etoile, .term-img-1-etoile, .term-img-2-etoiles, .term-img-3-etoiles, .term-img-4-etoiles, .term-img-5-etoiles, .term-img-6-etoiles, .term-img-7-etoiles {
-  background: url('../images/sprite.png?1302230115') no-repeat -9px -5129px;
+  background-position: -9px -5129px;
   height: 13px;
   margin: 0 0 0 5px;
 }
@@ -1382,7 +1386,7 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
 .term-img-7-etoiles { width: 105px; }
 
 .term-img-1-cle, .term-img-2-cles, .term-img-3-cles, .term-img-4-cles, .term-img-5-cles {
-  background: url('../images/sprite.png?1302230115') no-repeat -266px -5129px;
+  background-position: -266px -5129px;
   height: 17px;
   margin: 0 0 0 5px;
 }
@@ -1393,7 +1397,7 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
 .term-img-5-cles { width: 127px; }
 
 .term-img-1-epi, .term-img-2-epis, .term-img-3-epis, .term-img-4-epis, .term-img-5-epis {
-  background: url('../images/sprite.png?1302230115') no-repeat -172px -5129px;
+  background-position: -172px -5129px;
   height: 16px;
   margin: 0 0 0 5px;
 }
@@ -1411,24 +1415,29 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   text-indent: 0;
 }
 
-.label-img { display: inline-block; text-indent: -99999px; margin: 0 10px 10px 0; }
+.label-img {
+  background: url('../images/sprite.png?1302230115') no-repeat 0 0;
+  display: inline-block;
+  text-indent: -99999px;
+  margin: 0 10px 10px 0;
+}
 .label-img-gites-de-france {
-  background: url('../images/sprite.png?1302230115') no-repeat -114px -5160px;
+  background-position: -114px -5160px;
   width: 50px;
   height: 51px;
 }
 .label-img-fleurs-de-soleil {
-  background: url('../images/sprite.png?1302230115') no-repeat -11px -5161px;
+  background-position: -11px -5161px;
   width: 76px;
   height: 50px;
 }
 .label-img-clevacances {
-  background: url('../images/sprite.png?1302230115') no-repeat -189px -5165px;
+  background-position: -189px -5165px;
   width: 97px;
   height: 36px;
 }
 .label-img-accueil-peche {
-  background: url('../images/sprite.png?1302230115') no-repeat -320px -5176px;
+  background-position: -320px -5176px;
   width: 50px;
   height: 22px;
 }
@@ -1442,7 +1451,6 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
 .label-img-1-lutin-rouge-simple-et-complets, .label-img-1-red-elf-single-and-complete,
 .label-img-2-lutins-rouges-bon-et-complets, .label-img-2-red-elves-good-and-complete,
 .label-img-3-lutins-rouges-tres-bon-et-complets, .label-img-3-red-elves-very-good-and-complete {
-  background: url('../images/sprite.png?1302230115') no-repeat 0 0;
   height: 30px;
 }
 .label-img-1-blue-elf-single,
