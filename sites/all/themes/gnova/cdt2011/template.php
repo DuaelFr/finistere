@@ -1088,3 +1088,32 @@ function cdt2011_chaines_labels_tpl($node) {
   }
   return $output;
 }
+
+function cdt2011_prices_tpl($node) {
+  $output = '';
+  $lines = array();
+
+  if (!empty($node->field_fl_tarif_label) && !empty($node->field_fl_tarif_label[0]['view']) && $node->field_fl_adherent_cdt_tx[0]['value'] == 'oui') {
+    foreach ($node->field_fl_tarif_label as $delta => $item) {
+      if (!empty($node->field_fl_tarif_min[$delta]['view']) || !empty($node->field_fl_tarif_max[$delta]['view'])) {
+        $tmp = '<td class="grey">' . $item['view'] . '</td>';
+        $tmp .= '<td class="grey">' . $node->field_fl_tarif_min[$delta]['view'] . '</td>';
+        $tmp .= '<td class="grey">' . $node->field_fl_tarif_max[$delta]['view'] . '</td>';
+        $lines[] = $tmp;
+      }
+    }
+  }
+
+  if (!empty($lines)) {
+    $output .= '<h4 class="lower">' . t('Prices') . '</h4>';
+    $output .= '<table id="table_tarif">';
+      $output .= '<tr>';
+        $output .= '<td class="no_border"></td>';
+        $output .= '<td class="grey">' . t('Min') . '</td>';
+        $output .= '<td class="grey">' . t('Max') . '</td>';
+      $output .= '</tr>';
+      $output .= '<tr>' . implode('</tr><tr>', $lines) . '</tr>';
+    $output .= '</table>';
+  }
+  return $output;
+}

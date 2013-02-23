@@ -77,24 +77,8 @@
 
           <?php
           // Print prices
-          if (count($field_fl_tarif_label) > 0 && strlen($field_fl_tarif_label[0]['view']) > 0 && $field_fl_adherent_cdt_tx[0]['value'] == 'oui') :
+          print cdt2011_prices_tpl($node);
           ?>
-            <h4 class="lower"><?php print t('Prices'); ?></h4>
-            <table id="table_tarif">
-              <tr>
-                <td class="no_border"></td>
-                <td class="grey"><?php print t('Min');?></td>
-                <td class="grey"><?php print t('Max');?></td>
-              </tr>
-              <?php
-              $i = 0;
-              foreach ($field_fl_tarif_label as $item) {
-                print '<tr><td class="grey">' . $item['view'] . '</td><td class="grey">' . $field_fl_tarif_min[$i]['view'] . '</td><td class="grey">' . $field_fl_tarif_max[$i]['view'] . '</td></tr>';
-                $i++;
-              }
-              ?>
-            </table>
-          <?php endif; ?>
 
           <?php if ($zone1 && $field_fl_adherent_cdt_tx[0]['value'] == 'oui'): ?>
             <div class="uboxpb_items_content">
