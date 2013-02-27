@@ -1499,55 +1499,228 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   width: 84px;
 }
 
-.chaine-img {}
-.chaine-img-airotels-de-france {}
-.chaine-img-association-vacances-mutualite-agricole {}
-.chaine-img-azureva {}
+.chaine-img {
+  background: url('../images/sprite-chaines.png?1302272005') no-repeat 0 0;
+  display: inline-block;
+  text-indent: -99999px;
+  margin: 0 10px 10px 0;
+}
+.chaine-img-airotels-de-france {
+  background-position: 0 0;
+  width: 96px;
+  height: 58px;
+}
+.chaine-img-association-vacances-mutualite-agricole {
+  text-indent: 0;
+}
+.chaine-img-azureva {
+  background-position: 0 -78px;
+  width: 108px;
+  height: 75px;
+}
 .chaine-img-bb,
-.chaine-img-b-b {}
-.chaine-img-balladins {}
-.chaine-img-best-western {}
+.chaine-img-b-b {
+  background-position: 0 -173px;
+  width: 105px;
+  height: 104px;
+}
+.chaine-img-balladins {
+  background-position: 0 -297px;
+  width: 60px;
+  height: 21px;
+}
+.chaine-img-best-western {
+  background-position: 0 -338px;
+  width: 95px;
+  height: 89px;
+}
 .chaine-img-brit-hotel,
-.chaine-img-brithotel {}
-.chaine-img-campanile {}
-.chaine-img-camping-plus {}
-.chaine-img-camping-qualite-france {}
-.chaine-img-cap-france {}
-.chaine-img-cap-vacances {}
-.chaine-img-chateaux-et-hotels-collection {}
-.chaine-img-citotel {}
-.chaine-img-contact-hotel {}
-.chaine-img-etap-hotel {}
-.chaine-img-flower-camping {}
-.chaine-img-formule-1 {}
-.chaine-img-gitotel {}
-.chaine-img-hotels-au-naturel {}
-.chaine-img-ibis {}
-.chaine-img-ibis-budget {}
-.chaine-img-ibis-hotel {}
-.chaine-img-ibis-styles {}
-.chaine-img-interhotels {}
-.chaine-img-kyriad {}
+.chaine-img-brithotel {
+  background-position: 0 -447px;
+  width: 70px;
+  height: 40px;
+}
+.chaine-img-campanile {
+  background-position: 0 -507px;
+  width: 97px;
+  height: 24px;
+}
+.chaine-img-camping-plus {
+  text-indent: 0;
+}
+.chaine-img-camping-qualite-france {
+  text-indent: 0;
+}
+.chaine-img-cap-france {
+  background-position: 0 -551px;
+  width: 112px;
+  height: 57px;
+}
+.chaine-img-cap-vacances {
+  background-position: 0 -628px;
+  width: 67px;
+  height: 27px;
+}
+.chaine-img-chateaux-et-hotels-collection {
+  background-position: 0 -675px;
+  width: 160px;
+  height: 69px;
+}
+.chaine-img-citotel {
+  background-position: 0 -764px;
+  width: 112px;
+  height: 45px;
+}
+.chaine-img-contact-hotel {
+  background-position: 0 -829px;
+  width: 66px;
+  height: 46px;
+}
+.chaine-img-etap-hotel {
+  background-position: 0 -895px;
+  width: 108px;
+  height: 104px;
+}
+.chaine-img-flower-camping {
+  background-position: 0 -1019px;
+  width: 60px;
+  height: 60px;
+}
+.chaine-img-formule-1 {
+  background-position: 0 -1099px;
+  width: 113px;
+  height: 21px;
+}
+.chaine-img-gitotel {
+  background-position: 0 -1140px;
+  width: 76px;
+  height: 38px;
+}
+.chaine-img-hotels-au-naturel {
+  background-position: 0 -1198px;
+  width: 64px;
+  height: 19px;
+}
+.chaine-img-ibis {
+  text-indent: 0;
+}
+.chaine-img-ibis-budget {
+  background-position: 0 -895px;
+  width: 108px;
+  height: 104px;
+}
+.chaine-img-ibis-hotel {
+  background-position: 0 -1373px;
+  width: 96px;
+  height: 86px;
+}
+.chaine-img-ibis-styles {
+  background-position: 0 -1479px;
+  width: 96px;
+  height: 96px;
+}
+.chaine-img-interhotels {
+  background-position: 0 -1595px;
+  width: 112px;
+  height: 114px;
+}
+.chaine-img-kyriad {
+  background-position: 0 -1729px;
+  width: 80px;
+  height: 36px;
+}
 .chaine-img-l-hotellerie-familiale,
-.chaine-img-lhotellerie-familiale {}
-.chaine-img-lagrange {}
-.chaine-img-leo-lagrange {}
-.chaine-img-les-castels {}
+.chaine-img-lhotellerie-familiale {
+  background-position: 0 -1237px;
+  width: 126px;
+  height: 116px;
+}
+.chaine-img-lagrange,
+.chaine-img-leo-lagrange {
+  background-position: 0 -1785px;
+  width: 61px;
+  height: 35px;
+}
+.chaine-img-les-castels {
+  text-indent: 0;
+}
 .chaine-img-les-pieds-dans-l-eau,
-.chaine-img-les-pieds-dans-leau {}
-.chaine-img-logis {}
-.chaine-img-logis-de-france {}
-.chaine-img-mercure {}
-.chaine-img-nemea {}
-.chaine-img-oceania-hotel {}
-.chaine-img-odalys {}
-.chaine-img-pierre-et-vacances {}
-.chaine-img-premiere-classe {}
-.chaine-img-relais-du-silence {}
-.chaine-img-relais-et-chateaux {}
-.chaine-img-renouveau {}
-.chaine-img-restaurant-du-terroir-et-groupements-des-restaurateurs-pointe-bretagne {}
-.chaine-img-sites-et-paysages-de-france {}
+.chaine-img-les-pieds-dans-leau {
+  background-position: 0 -1840px;
+  width: 96px;
+  height: 25px;
+}
+.chaine-img-logis {
+  background-position: -180px 0;
+  width: 64px;
+  height: 64px;
+}
+.chaine-img-logis-de-france {
+  background-position: 0 -1885px;
+  width: 96px;
+  height: 96px;
+}
+.chaine-img-mercure {
+  background-position: -180px -84px;
+  width: 112px;
+  height: 62px;
+}
+.chaine-img-nemea {
+  background-position: -180px -166px;
+  width: 112px;
+  height: 61px;
+}
+.chaine-img-oceania-hotel {
+  background-position: -180px -247px;
+  width: 112px;
+  height: 59px;
+}
+.chaine-img-odalys {
+  background-position: -180px -326px;
+  width: 86px;
+  height: 32px;
+}
+.chaine-img-pierre-et-vacances {
+  background-position: -180px -378px;
+  width: 112px;
+  height: 27px;
+}
+.chaine-img-premiere-classe {
+  background-position: -180px -425px;
+  width: 44px;
+  height: 43px;
+}
+.chaine-img-relais-du-silence {
+  background-position: -180px -566px;
+  width: 112px;
+  height: 70px;
+}
+.chaine-img-relais-et-chateaux {
+  background-position: -180px -488px;
+  width: 57px;
+  height: 58px;
+}
+.chaine-img-renouveau {
+  background-position: -180px -656px;
+  width: 93px;
+  height: 43px;
+}
+.chaine-img-restaurant-du-terroir-et-groupements-des-restaurateurs-pointe-bretagne {
+  text-indent: 0;
+}
+.chaine-img-sites-et-paysages-de-france {
+  background-position: -180px -719px;
+  width: 96px;
+  height: 97px;
+}
 .chaine-img-vtf-l-esprit-vacances,
-.chaine-img-vtf-lesprit-vacances {}
-.chaine-img-yelloh-village {}
+.chaine-img-vtf-lesprit-vacances {
+  background-position: -180px -836px;
+  width: 96px;
+  height: 67px;
+}
+.chaine-img-yelloh-village {
+  background-position: -180px -923px;
+  width: 96px;
+  height: 45px;
+}
