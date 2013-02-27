@@ -1500,7 +1500,7 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
 }
 
 .chaine-img {
-  background: url('../images/sprite-chaines.png?1302272005') no-repeat 0 0;
+  background: url('../images/sprite-chaines.png?1302272005') no-repeat 100px 100px;
   display: inline-block;
   text-indent: -99999px;
   margin: 0 10px 10px 0;
