@@ -1078,7 +1078,7 @@ function cdt2011_chaines_labels_tpl($node) {
   foreach ($fields as $fname => $type) {
     if (!empty($node->{$fname})) {
       foreach ($node->{$fname} as $delta => $item) {
-        print cdt2011_term_to_img($item['value'], '', $type. '-img');
+        $output .= cdt2011_term_to_img($item['value'], '', $type. '-img');
       }
     }
   }
