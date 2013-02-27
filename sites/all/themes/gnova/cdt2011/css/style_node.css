@@ -200,7 +200,7 @@
 .box_agenda h3 a { font: bold 1em Arial, Helvetica, sans-serif; text-transform: none; text-decoration: none; color: #014e8a; }
 
 .content_box_agenda .item-body { font: 0.69em/16px Arial, Helvetica, sans-serif; color: #4a4a4a; }
-.content_box_agenda .item-options { overflow: auto; padding: 5px 10px 0; }
+.content_box_agenda .item-options { overflow: hidden; padding: 5px 10px 0; }
 
 .box_agenda h3 { font-size: 0.75em; margin-bottom: 5px; }
 
