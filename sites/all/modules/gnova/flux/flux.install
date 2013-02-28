@@ -606,7 +606,7 @@ function flux_update_6007(&$sandbox) {
 /**
  * Mise à jour champs "Services" (RES)
  */
-function flux_update_6008(/*&$sandbox*/) {
+function flux_update_6008(&$sandbox) {
   module_load_include('inc', 'content', 'includes/content.crud');
 
   $types = content_types();
