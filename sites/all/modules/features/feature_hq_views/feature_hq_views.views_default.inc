@@ -3848,7 +3848,7 @@ function feature_hq_views_views_default_views() {
     'term_node_tid_depth_parent_1' => array(
       'operator' => 'or',
       'value' => array(
-        '4625' => '4625',
+        '4624' => '4624',
       ),
       'group' => '0',
       'exposed' => TRUE,
@@ -3856,7 +3856,7 @@ function feature_hq_views_views_default_views() {
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_1_op',
         'identifier' => 'localisation',
-        'label' => 'Localisation',
+        'label' => 'Label handicap',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
         'optional' => 1,
@@ -8572,18 +8572,18 @@ function feature_hq_views_views_default_views() {
       'relationship' => 'none',
       'reduce_duplicates' => 0,
     ),
-    'term_node_tid_depth_parent_1' => array(
+    'term_node_tid_depth_parent_2' => array(
       'operator' => 'or',
       'value' => array(
-        '4643' => '4643',
+        '4642' => '4642',
       ),
       'group' => '0',
       'exposed' => TRUE,
       'expose' => array(
         'use_operator' => 0,
-        'operator' => 'term_node_tid_depth_parent_1_op',
-        'identifier' => 'location',
-        'label' => 'Situation',
+        'operator' => 'term_node_tid_depth_parent_2_op',
+        'identifier' => 'label',
+        'label' => 'Tourism and Handicap',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
         'optional' => 1,
@@ -8597,7 +8597,7 @@ function feature_hq_views_views_default_views() {
       'vid' => '29',
       'depth' => '0',
       'parentchildren' => 0,
-      'id' => 'term_node_tid_depth_parent_1',
+      'id' => 'term_node_tid_depth_parent_2',
       'table' => 'node',
       'field' => 'term_node_tid_depth_parent',
       'hierarchy' => 1,
