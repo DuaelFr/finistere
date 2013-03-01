@@ -507,7 +507,6 @@ block_24|Rechercher un enclos
 block_25|Rechercher un musée d\'art
 block_26|Rechercher un musée d\'histoire
 block_27|Rechercher un aquarium
-block_28|Rechercher aviron
 block_29|Rechercher canoë kayak
 block_30|Rechercher char à voile
 block_31|Rechercher sports sous-marins
