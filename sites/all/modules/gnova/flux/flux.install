@@ -688,3 +688,21 @@ function flux_update_6010(&$sandbox) {
   // Delete the flux
   node_delete($nid);
 }
+
+/**
+ * Mise à jour pages parcs à thèmes
+ */
+function flux_update_6011(&$sandbox) {
+  features_revert(array(
+    'feature_content_pages' => array('content'),
+    'feature_hq_views' => array('views'),
+  ));
+
+  $sql = "UPDATE {content_type_hqitem}
+          SET field_hq_view_name_value = 'hqflux_search_influx',
+              field_hqitem_fluxtid_value = NULL,
+              field_hqitem_fluxdisplay_value = 'block_74'
+          WHERE field_hq_view_name_value = 'hqflux_display_list_as_hqchild'
+            AND field_hqitem_fluxtid_value = 5398";
+  db_query($sql);
+}

@@ -482,7 +482,6 @@ hqflux_search_influx|Recherche dans un flux',
     'allowed_values' => 'block_1|Rechercher un chambre d\'hôte
 block_38|Rechercher location meublé
 block_2|Rechercher un hôtel
-block_3|Rechercher un centre aquatique
 block_4|Rechercher une thalasso
 block_5|Rechercher une plage surveillée
 block_6|Rechercher un centre aquatique
@@ -492,6 +491,7 @@ block_9|Rechercher les abers
 block_10|Rechercher une baie
 block_11|Rechercher un casino
 block_12|Rechercher mongolfière
+block_74|Rechercher un parc à thèmes
 block_13|Rechercher un parc animalier
 block_14|Rechercher un parc de loisirs
 block_15|Rechercher promenade en bateau ou train
