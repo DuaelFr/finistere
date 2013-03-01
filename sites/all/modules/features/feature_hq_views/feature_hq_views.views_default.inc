@@ -4219,36 +4219,6 @@ function feature_hq_views_views_default_views() {
   ));
   $handler->override_option('block_description', '');
   $handler->override_option('block_caching', -1);
-  $handler = $view->new_display('block', 'ASC Aviron', 'block_28');
-  $handler->override_option('filters', array(
-    'term_node_tid_depth' => array(
-      'operator' => 'or',
-      'value' => array(
-        '2627' => '2627',
-      ),
-      'group' => '0',
-      'exposed' => FALSE,
-      'expose' => array(
-        'operator' => FALSE,
-        'label' => '',
-      ),
-      'type' => 'select',
-      'limit' => TRUE,
-      'vid' => '10',
-      'depth' => '0',
-      'id' => 'term_node_tid_depth',
-      'table' => 'node',
-      'field' => 'term_node_tid_depth',
-      'hierarchy' => 1,
-      'override' => array(
-        'button' => 'Utiliser la valeur par défaut',
-      ),
-      'relationship' => 'none',
-      'reduce_duplicates' => 1,
-    ),
-  ));
-  $handler->override_option('block_description', '');
-  $handler->override_option('block_caching', -1);
   $handler = $view->new_display('block', 'ASC Canoe Kayak', 'block_29');
   $handler->override_option('filters', array(
     'term_node_tid_depth' => array(

@@ -649,3 +649,42 @@ function flux_update_6009(&$sandbox) {
   content_clear_type_cache(TRUE);
   menu_rebuild();
 }
+
+/**
+ * Suppression pages et flux Aviron
+ */
+function flux_update_6010(&$sandbox) {
+  // Find ASC aviron flux
+  $sql = "SELECT nid FROM {content_type_flux} WHERE field_flux_idmodule_value = '%s'";
+  $nid = reset(db_fetch_array(db_query($sql, '2ab51060-c89b-4f7e-8dda-029aca2b7cea')));
+  $node = node_load($nid);
+
+  // Delete all data using this flux
+  $sql = "SELECT nid FROM {content_field_fl_id_module_tx} WHERE field_fl_id_module_tx_value = '%s' OR field_fl_id_module_tx_value = '%s'";
+  $query = db_query($sql, $node->field_flux_idmodule[0]['value'], $node->field_flux_idmodule_en[0]['value']);
+  while ($data = db_fetch_array($query)) {
+    $to_del = reset($data);
+    node_delete($to_del);
+  }
+
+  // Find and delete related taxonomy terms
+  $sql = "SELECT vid FROM {vocabulary} WHERE name = '%s'";
+  $vocid = reset(db_fetch_array(db_query($sql, 'Tourinsoft_' . $node->field_flux_identifiant[0]['value'])));
+  $sql = "SELECT tid FROM {term_data} WHERE vid = %d AND name = '%s'";
+  $tid = reset(db_fetch_array(db_query($sql, $vocid, $node->title)));
+  taxonomy_del_term($tid);
+
+  // Find and remove hierachical pages related to this flux
+  $sql = "SELECT nid FROM {content_type_hqitem} WHERE field_hqitem_fluxdisplay_value = '%s'";
+  $hqnid = reset(db_fetch_array(db_query($sql, 'block_28')));
+  node_delete($hqnid);
+
+  // Delete parents relations to these hqitems
+  $sql = "DELETE FROM {content_field_hqitem_parent} WHERE field_hqitem_parent_nid = %d";
+  db_query($sql, $hqnid);
+  $sql = "DELETE FROM {content_field_hqitem_parents_other} WHERE field_hqitem_parents_other_nid = %d";
+  db_query($sql, $hqnid);
+
+  // Delete the flux
+  node_delete($nid);
+}
