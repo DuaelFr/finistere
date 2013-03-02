@@ -6,13 +6,10 @@ box.domain-default.front{background-color: #000000;}
 
 #conteneur_coup_de_coeur{ position:absolute; z-index:1; right:283px; bottom:80px; height:10px;}
 
-#coup_de_coeur{ background:url(../images/sprite.png) no-repeat 0 -145px; width:286px; height: 70px; text-indent:-9999px; overflow:hidden; z-index:1; position:absolute; margin-left:1px; cursor:pointer; }
+#coup_de_coeur{ width:286px; height: 70px; overflow:hidden; z-index:1; position:absolute; margin-left:1px; cursor:pointer; }
 
-.i18n-en #coup_de_coeur{ background:url(../images/sprite.png) no-repeat -7px -5000px;  }
-
-#coup_de_coeur a{ background:url(../images/sprite.png) no-repeat 0 -221px; display:block; width:13px; height:13px; position:absolute; top:13px; left:265px; }
-
-#coup_de_coeur .close{ background:url(../images/sprite.png) no-repeat -31px -221px;}
+#coup_de_coeur a,
+#coup_de_coeur a img { display: block; margin: 0; padding: 0; }
 
 /* ----------------------------- */
 /*  =     Modif CDC              */

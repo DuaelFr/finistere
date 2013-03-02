@@ -1,33 +1,36 @@
 <?php
 
 function homehead_preprocess_page(&$vars){
-	
+
 	global $_domain;
   global $language;
 
 	if($vars['is_front']==TRUE && $_domain['domain_id']==0){
 
 		if(!isset($vars['homehead'])){
-			
+
 			$cached_data = variable_get('homehead_cached_data_'.$language->language, array());
 
 			if(count($cached_data)<=0){
 				homehead_majcacheddata($cached_data);
-				
+
 			}//fin if
-			
+
 			if(count($cached_data)>0){
-				$vars['homehead'] = theme_homehead($cached_data['first_image'], $cached_data['image_to_load']);
-				if($cached_data['coups_coeur'])
-					$vars['homehead'] .= theme('homehead-coup-coeur', t('Favorite'), $cached_data['coups_coeur']);
+				$vars['homehead']  = theme_homehead($cached_data['first_image'], $cached_data['image_to_load']);
+
+        $title = check_plain(variable_get('homehead_fav_title_' . $language->language, 'Favorites'));
+        $destination = url(variable_get('homehead_fav_destination_' . $language->language, '<front>'));
+        $image = theme('image', variable_get('homehead_fav_image_' . $language->language, drupal_get_path('module', 'homehead') . '/default_fr.png'));
+				$vars['homehead'] .= theme('homehead-coup-coeur', $title, $destination, $image);
 			}
-		
+
 		}//Fin if isset $vars homehead
-		
-		
-		
+
+
+
 	}
-	
+
 }
 
 function homehead_majcacheddata(&$cached_data){
@@ -37,35 +40,29 @@ function homehead_majcacheddata(&$cached_data){
 	while($fetch = db_fetch_array($res)){
 		$items[] = $fetch['nid'];
 	}
-	
+
 	//On place la première image à part
 	$firstImage = FALSE;
-	
+
 	if(count($items)>0){
 		$n = node_load($items[0]);
 		$firstImage = theme_homeheaditem($n->field_fronthead_img[0]['filepath'], $n->field_fronthead_text1[0]['value'], $n->field_fronthead_text2[0]['value']);
 	}
-	
+
 	$imagesToLoad = array();
 	for($i=1; $i<count($items);$i++){
 		$n = node_load($items[$i]);
 		$imagesToLoad[]='<li><span class="url">'.imagecache_create_url('home_header', $n->field_fronthead_img[0]['filepath']).'</span><span class="text1">'.$n->field_fronthead_text1[0]['value'].'</span><span class="text2">'.$n->field_fronthead_text2[0]['value'].'</span></li>';
 	}
-	
+
 	if(!$firstImage){
 		$firstImage = '<li><img src="'.drupal_get_path('theme', 'cdt2011').'/images/image-home-default.png"/></li>';
 	}
-	
-	$coups_de_coeur=FALSE;
-	if($v = views_get_view('home_coups_de_coeur')){
-		
-		$coups_de_coeur = $v->execute_display('default');
-	}
-	
-	$cached_data = array('first_image'=>$firstImage, 'image_to_load'=>$imagesToLoad, 'coups_coeur'=>$coups_de_coeur);
-	
+
+	$cached_data = array('first_image'=>$firstImage, 'image_to_load'=>$imagesToLoad);
+
 	variable_set('homehead_cached_data_'.$language->language, $cached_data);
-	
+
 }
 
 
@@ -83,7 +80,7 @@ function homehead_theme($existing, $type, $theme, $path) {
       'template' => 'homehead-back',
     ),
     'homehead-coup-coeur' => array(
-      'arguments' => array('title'=>t('Favorite'), 'content' => NULL),
+      'arguments' => array('title'=>t('Favorite'), 'destination' => '', 'image' => ''),
       'template' => 'homehead-coup-coeur',
     ),
   );
@@ -121,9 +118,144 @@ function homehead_nodeapi(&$node, $op, $a3=null, $a4=null){
  * Réactualise le cache au cron
  */
 function homehead_cron(){
-	//variable_del('homehead_cached_data');
+  //variable_del('homehead_cached_data');
 }
 
+/**
+ * Implements hook_menu().
+ */
+function homehead_menu(){
+  return array(
+    'admin/content/homehead' => array(
+      'title' => 'Coup de coeur',
+      'access arguments' => array('administer content'),
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('homehead_config_form'),
+    ),
+  );
+}
 
+function homehead_config_form() {
+  $form = array();
 
+  $form['#attributes'] = array('enctype' => "multipart/form-data");
 
+  $form['fr'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Français',
+  );
+  $form['fr']['title_fr'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Titre',
+    '#required' => TRUE,
+    '#description' => 'Affiché au survol du bouton',
+    '#default_value' => variable_get('homehead_fav_title_fr', 'Coup de Coeur'),
+  );
+  $form['fr']['destination_fr'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Destination',
+    '#required' => TRUE,
+    '#description' => 'URL interne au site vers laquelle pointe le lien',
+    '#default_value' => variable_get('homehead_fav_destination_fr', '<front>'),
+  );
+  $form['fr']['image']['image_fr'] = array(
+    '#type' => 'file',
+    '#title' => 'Image',
+    '#description' => 'Image à utiliser en tant que bouton',
+    '#default_value' => variable_get('homehead_fav_image_fr', drupal_get_path('module', 'homehead') . '/default_fr.png'),
+  );
+  $form['fr']['image']['actual'] = array(
+    '#value' => theme('image', variable_get('homehead_fav_image_fr', drupal_get_path('module', 'homehead') . '/default_fr.png')),
+  );
+
+  $form['en'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Anglais',
+  );
+  $form['en']['title_en'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Titre',
+    '#required' => TRUE,
+    '#description' => 'Affiché au survol du bouton',
+    '#default_value' => variable_get('homehead_fav_title_en', 'Favorites'),
+  );
+  $form['en']['destination_en'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Destination',
+    '#required' => TRUE,
+    '#description' => 'URL interne au site vers laquelle pointe le lien',
+    '#default_value' => variable_get('homehead_fav_destination_en', '<front>'),
+  );
+  $form['en']['image']['image_en'] = array(
+    '#type' => 'file',
+    '#title' => 'Image',
+    '#description' => 'Image à utiliser en tant que bouton',
+    '#default_value' => variable_get('homehead_fav_image_en', drupal_get_path('module', 'homehead') . '/default_en.png'),
+  );
+  $form['en']['image']['actual'] = array(
+    '#value' => theme('image', variable_get('homehead_fav_image_en', drupal_get_path('module', 'homehead') . '/default_en.png')),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Submit',
+  );
+  $form['reset'] = array(
+    '#type' => 'submit',
+    '#value' => '/!\ Reset /!\\',
+  );
+
+  return $form;
+}
+
+function homehead_config_form_validate($form, &$form_state) {
+  if ($form_state['values']['op'] == '/!\ Reset /!\\') {
+    return TRUE;
+  }
+  if (!empty($_FILES['files'])) {
+    $dir = 'public://homehead';
+    if (!file_check_directory($dir, FILE_CREATE_DIRECTORY)) {
+      drupal_set_message('Directory not writable', 'error');
+    }
+
+    $fields = array('image_fr', 'image_en');
+    foreach ($fields as $fname) {
+      $file = NULL;
+
+      if (!empty($_FILES['files']['tmp_name'][$fname])) {
+        if (is_uploaded_file($_FILES['files']['tmp_name'][$fname])) {
+          $file = file_save_upload($fname, $dir, TRUE);
+        }
+
+        if (!empty($file)) {
+          $form_state['values'][$fname] = $file;
+        }
+        else {
+          form_set_error($fname, 'Error uploading file.');
+          return FALSE;
+        }
+      }
+    }
+  }
+}
+
+function homehead_config_form_submit($form, &$form_state) {
+  if ($form_state['values']['op'] == '/!\ Reset /!\\') {
+    variable_del('homehead_fav_title_fr');
+    variable_del('homehead_fav_destination_fr');
+    variable_del('homehead_fav_image_fr');
+    variable_del('homehead_fav_title_en');
+    variable_del('homehead_fav_destination_en');
+    variable_del('homehead_fav_image_en');
+    drupal_set_message('Options réinitialisées');
+  }
+  else {
+    variable_set('homehead_fav_title_fr', $form_state['values']['title_fr']);
+    variable_set('homehead_fav_destination_fr', $form_state['values']['destination_fr']);
+    variable_set('homehead_fav_image_fr', $form_state['values']['image_fr']->filepath);
+    variable_set('homehead_fav_title_en', $form_state['values']['title_en']);
+    variable_set('homehead_fav_destination_en', $form_state['values']['destination_en']);
+    variable_set('homehead_fav_image_en', $form_state['values']['image_en']);
+    drupal_set_message('Options enregistrées');
+  }
+}
