@@ -15,6 +15,10 @@
       ?>
     </h3>
 
+    <?php
+    print cdt2011_output_dates($fields);
+    ?>
+
     <div class="date_agenda">
       <?php print $fields['city']->content; ?>
       <?php //print $fields['postal_code']->content; ?>

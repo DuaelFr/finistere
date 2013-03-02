@@ -212,6 +212,10 @@
 
 .content_box_agenda { float: left; padding: 8px 0 10px 15px; width: 552px; min-height: 95px; }
 
+.views-exposed-widget .container-inline-date .form-item { overflow: hidden; }
+.views-exposed-widget .container-inline-date .form-item > div { float: right; }
+.views-exposed-widget .container-inline-date .form-item .form-item { margin-right: 5px; }
+
 .page-recherche-fiches-hotels .content_box_agenda .item-body { font-size: 1em; }
 
 .page-recherche-fiches-hotels #edit-submit-search-flux-hotels { background: url("../images/sprite.png?1302230115") no-repeat scroll -5px -3811px transparent;

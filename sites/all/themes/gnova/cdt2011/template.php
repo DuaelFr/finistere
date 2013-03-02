@@ -1117,3 +1117,25 @@ function cdt2011_prices_tpl($node) {
   }
   return $output;
 }
+
+function cdt2011_output_dates($fields) {
+  $output = array();
+
+  if (!empty($fields['field_fl_date_debut_date_value'])) {
+    $output[] = '<span class="date date-start">' . $fields['field_fl_date_debut_date_value']->content . '</span>';
+  }
+  if (!empty($fields['field_fl_date_fin_date_value'])) {
+    // Do not include the end date if it is the same than the start date.
+    if (empty($fields['field_fl_date_debut_date_value'])
+     || $fields['field_fl_date_debut_date_value']->content != $fields['field_fl_date_fin_date_value']->content
+    ) {
+      $output[] = '<span class="date date-end">' . $fields['field_fl_date_fin_date_value']->content . '</span>';
+    }
+  }
+
+  if (!empty($output)) {
+    $output = '<div class="date_agenda dates">' . implode(' -', $output) . '</div>';
+  }
+
+  return $output;
+}

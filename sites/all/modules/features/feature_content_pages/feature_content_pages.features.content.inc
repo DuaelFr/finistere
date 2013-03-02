@@ -500,6 +500,8 @@ block_17|Rechercher un port pittoresque
 block_18|Rechercher un port de pêche
 block_19|Rechercher un parc ou jardin
 block_20|Rechercher un marché
+block_75|Rechercher un festival
+block_76|Rechercher tous les FMA
 block_21|Rechercher un restaurant
 block_22|Rechercher un office de tourisme
 block_23|Rechercher un phare
