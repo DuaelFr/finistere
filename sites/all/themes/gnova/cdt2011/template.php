@@ -1119,23 +1119,23 @@ function cdt2011_prices_tpl($node) {
 }
 
 function cdt2011_output_dates($fields) {
-  $output = array();
+  $output = '';
+  $items = array();
 
   if (!empty($fields['field_fl_date_debut_date_value'])) {
-    $output[] = '<span class="date date-start">' . $fields['field_fl_date_debut_date_value']->content . '</span>';
+    $items[] = '<span class="date date-start">' . $fields['field_fl_date_debut_date_value']->content . '</span>';
   }
   if (!empty($fields['field_fl_date_fin_date_value'])) {
     // Do not include the end date if it is the same than the start date.
     if (empty($fields['field_fl_date_debut_date_value'])
      || $fields['field_fl_date_debut_date_value']->content != $fields['field_fl_date_fin_date_value']->content
     ) {
-      $output[] = '<span class="date date-end">' . $fields['field_fl_date_fin_date_value']->content . '</span>';
+      $items[] = '<span class="date date-end">' . $fields['field_fl_date_fin_date_value']->content . '</span>';
     }
   }
 
-  if (!empty($output)) {
-    $output = '<div class="date_agenda dates">' . implode(' -', $output) . '</div>';
+  if (!empty($items)) {
+    $output = '<div class="date_agenda dates">' . implode(' -', $items) . '</div>';
   }
-
   return $output;
 }
