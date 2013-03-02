@@ -859,6 +859,7 @@
 
 .fiches-search-view .form-item:first-child label input { margin-left: 0; }
 
+#edit-field-fl-payant-gratuit-tx-value-wrapper label { margin: 3px 0 5px; font-size: 14px; font-weight: bold; }
 .fiches-search-view .views-exposed-widget > label { margin: 3px 0 5px; font-size: 0.88em; font-weight: bold; }
 
 .fiches-search-view .views-widget { margin-bottom: 15px; }
