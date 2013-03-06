@@ -27,7 +27,7 @@
       <?php print strip_tags($fields['body']->content, '<p><strong>'); ?>
     </div>
 
-    <div class="item-options">
+    <div class="item-options small">
       <?php
       // Bouton Réserver
       print cdt2011_booking_button($fields);
