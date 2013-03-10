@@ -23,6 +23,7 @@ tmp/*
 
 # Ignore project specific files
 application-mobile/
+carte/
 drush
 facebook/
 finistere-affaires/
