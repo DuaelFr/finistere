@@ -1,7 +1,0 @@
-; $Id: domain_locale_int.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Domain acces - locale domain integration
-description = "Integrates domain access and locale as domain"
-package = G-nova
-core = 6.x
-dependencies[] = locale
-dependencies[] = domain

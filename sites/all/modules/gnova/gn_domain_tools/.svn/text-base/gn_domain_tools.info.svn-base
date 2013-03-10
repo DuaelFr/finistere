@@ -1,7 +1,0 @@
-; $Id: gn_domain_tools.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Domain custom tools
-description = "Provide tokens"
-package = G-nova
-core = 6.x
-dependencies[] = token
-dependencies[] = domain

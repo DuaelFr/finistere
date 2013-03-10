@@ -78,9 +78,9 @@ class domain_views_handler_field_domain_sitename extends views_handler_field {
       }
       $this->field_values = array();
       $query = "SELECT node.nid AS nid, domain.sitename AS domain_sitename, domain.domain_id AS domain_domain_id
-      FROM node node  LEFT JOIN domain_access domain_access ON node.nid = domain_access.nid
-      INNER JOIN domain domain ON domain_access.gid = domain.domain_id AND (domain_access.realm = 'domain_id')
-      WHERE node.nid  IN (". implode(',', $nids) .")";
+        FROM {node} node LEFT JOIN {domain_access} domain_access ON node.nid = domain_access.nid
+        INNER JOIN {domain} domain ON domain_access.gid = domain.domain_id AND (domain_access.realm = 'domain_id')
+        WHERE node.nid IN (". implode(',', $nids) .")";
       $result = db_query($query);
       while ($item = db_fetch_array($result)) {
         $this->field_values[$item['nid']][$item['domain_domain_id']] = $item['domain_sitename'];
@@ -97,7 +97,7 @@ class domain_views_handler_field_domain_sitename extends views_handler_field {
   function render_link($data, $values) {
     // Determine the node path, if any.
     $nid = NULL;
-    if (isset($values->{$this->aliases['nid']})) {
+    if (isset($this->aliases['nid']) && isset($values->{$this->aliases['nid']})) {
       $nid = $values->{$this->aliases['nid']};
     }
     else if (isset($values->nid)) {
@@ -131,7 +131,7 @@ class domain_views_handler_field_domain_sitename extends views_handler_field {
 
     // Determine the node path, if any.
     $nid = NULL;
-    if (isset($values->{$this->aliases['nid']})) {
+    if (isset($this->aliases['nid']) && isset($values->{$this->aliases['nid']})) {
       $nid = $values->{$this->aliases['nid']};
     }
     else if (isset($values->nid)) {
@@ -147,7 +147,7 @@ class domain_views_handler_field_domain_sitename extends views_handler_field {
     }
     $link_options = array('absolute' => TRUE);
     // Now write the links.
-    if (is_array($this->field_values[$values->nid])) {
+    if (isset($values->nid) && isset($this->field_values[$values->nid]) && is_array($this->field_values[$values->nid])) {
       $field = $this->content_field;
       $options = $this->options;
       $items = array();

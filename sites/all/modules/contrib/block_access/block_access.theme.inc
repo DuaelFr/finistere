@@ -1,5 +1,4 @@
 <?php
-// $Id: block_access.theme.inc,v 1.1 2010/08/24 16:24:04 lambic Exp $
 
 /**
  * @file
