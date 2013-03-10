@@ -213,10 +213,20 @@ function homehead_config_form_validate($form, &$form_state) {
     return TRUE;
   }
   if (!empty($_FILES['files'])) {
-    $dir = 'public://homehead';
-    if (!file_check_directory($dir, FILE_CREATE_DIRECTORY)) {
-      drupal_set_message('Directory not writable', 'error');
+    // Be sure the destination exists and is writable.
+    $dir = file_directory_path() . '/homehead';
+    if (!file_check_directory($dir, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+      $root_path = realpath(drupal_get_path('module', 'node') . '/../../') . base_path();
+      if (!is_dir($root_path . $dir)) {
+        mkdir($root_path . $dir, 0755, TRUE);
+      }
+      chmod($root_path . $dir, 0755);
+      if (!file_check_directory($dir)) {
+        drupal_set_message('Directory not writable', 'error');
+        return FALSE;
+      }
     }
+
 
     $fields = array('image_fr', 'image_en');
     foreach ($fields as $fname) {
@@ -224,7 +234,7 @@ function homehead_config_form_validate($form, &$form_state) {
 
       if (!empty($_FILES['files']['tmp_name'][$fname])) {
         if (is_uploaded_file($_FILES['files']['tmp_name'][$fname])) {
-          $file = file_save_upload($fname, $dir, TRUE);
+          $file = file_save_upload($fname, array(), $dir, FILE_EXISTS_REPLACE);
         }
 
         if (!empty($file)) {
