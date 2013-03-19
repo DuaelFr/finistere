@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function feature_kill_spam_install() {
+  $sql = "REPLACE INTO {mollom_form}
+          (form_id, mode, checks, discard, moderation, enabled_fields, strictness, module)
+          VALUES
+          ('%s', 2, '%s', 1, 0, '%s', '%s', '%s')";
+
+  $checks = array('spam');
+  $enabled_fields = array('subject', 'comment');
+  db_query($sql, 'comment_form', serialize($checks), serialize($enabled_fields), 'normal', 'comment');
+}
+
+/**
+ * Play install script.
+ */
+function feature_kill_spam_update_6001(&$sandbox) {
+  feature_kill_spam_install();
+}

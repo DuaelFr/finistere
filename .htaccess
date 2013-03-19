@@ -1,7 +1,7 @@
 #
 # Apache/PHP/Drupal settings:
 #
- 
+
 # Protect files and directories from prying eyes.
 <FilesMatch "\.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl|svn-base)$|^(code-style\.pl|Entries.*|Repository|Root|Tag|Template|all-wcprops|entries|format)$">
   Order allow,deny
@@ -76,15 +76,6 @@ DirectoryIndex index.php
   </FilesMatch>
 </IfModule>
 
-<Files *.txt>
-order allow,deny
-deny from all
-</Files>
-<Files robots.txt>
-order allow,deny
-allow from all
-</Files>
-
 # Various rewrite rules.
 <IfModule mod_rewrite.c>
   RewriteEngine on
@@ -99,94 +90,63 @@ allow from all
   # RewriteCond %{HTTP_HOST} ^example\.com$ [NC]
   # RewriteRule ^(.*)$ http://www.example.com/$1 [L,R=301]
   #
-RewriteCond %{HTTP_HOST} ^finisteretourisme\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-tourisme\.com$ [NC]
-RewriteRule ^(.*) http://www.finistere-tourisme.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finisteretourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-nautisme\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/activites-nautiques [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-tourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.finistere-tourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-randonnees\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/randonnees-pour-tous/ [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-nautisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/activites-nautiques [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-enfamille\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-randonnees\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/randonnees-pour-tous/ [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^cdt-finistere\.fr$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-enfamille\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^en\.finisteretourisme\.com$ [NC]
-RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^cdt-finistere\.fr$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-booking\.com$ [NC]
-RewriteRule ^(.*) http://www.finisterebrittany.com/book-your-stay-brittany [L,R=301]
+  RewriteCond %{HTTP_HOST} ^en\.finisteretourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finisterebrittany\.com$ [NC]
-RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-booking\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisterebrittany.com/book-your-stay-brittany [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^tourism-brittany\.com$ [NC]
-RewriteRule ^(.*) http://www.tourism-brittany.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finisterebrittany\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-booking\.com$ [NC]
-RewriteRule ^(.*) http://www.finistere-booking.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^tourism-brittany\.com$ [NC]
+  RewriteRule ^(.*) http://www.tourism-brittany.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-dispo\.com$ [NC]
-RewriteRule ^(.*) http://www.finistere-dispo.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-booking\.com$ [NC]
+  RewriteRule ^(.*) http://www.finistere-booking.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^finistere-resa\.com$ [NC]
-RewriteRule ^(.*) http://www.finistere-resa.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-dispo\.com$ [NC]
+  RewriteRule ^(.*) http://www.finistere-dispo.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^reservation-finistere\.com$ [NC]
-RewriteRule ^(.*) http://www.reservation-finistere.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^finistere-resa\.com$ [NC]
+  RewriteRule ^(.*) http://www.finistere-resa.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^newweb.finisteretourisme\.com$ [NC]
-RewriteRule ^(.*) http://www.newwebfinisteretourisme.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^reservation-finistere\.com$ [NC]
+  RewriteRule ^(.*) http://www.reservation-finistere.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^en.newweb.finisteretourisme\.com$ [NC]
-RewriteRule ^(.*) http://www.en.newweb.finisteretourisme.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^newweb.finisteretourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.newwebfinisteretourisme.com/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} ^monfinistere\.fr$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/concours-photos-mon-finistere [L,R=301]
+  RewriteCond %{HTTP_HOST} ^en.newweb.finisteretourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.en.newweb.finisteretourisme.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^monfinistere\.fr$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/concours-photos-mon-finistere [L,R=301]
 
   # To redirect all users to access the site WITHOUT the 'www.' prefix,
   # (http://www.example.com/... will be redirected to http://example.com/...)
   # uncomment and adapt the following:
   # RewriteCond %{HTTP_HOST} ^www\.example\.com$ [NC]
   # RewriteRule ^(.*)$ http://example.com/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.finistere-nautisme\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/activites-nautiques [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.finistere-randonnees\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/randonnees-pour-tous/ [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.finistere-enfamille\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.monfinistere\.fr$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/concours-photos-mon-finistere [L,R=301]
-
-
-###
-# Redirection permanente de adt-finistere.fr et .com vers finisteretourisme.com
-###
-RewriteCond %{HTTP_HOST} ^www\.adt-finistere\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^www\.adt-finistere\.fr$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^adt-finistere\.com$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} ^adt-finistere\.fr$ [NC]
-RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
-###
-
- 
-
 
   # Modify the RewriteBase if you are using Drupal in a subdirectory or in a
   # VirtualDocumentRoot and the rewrite rules are not working properly.
@@ -197,149 +157,6 @@ RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
   # If your site is running in a VirtualDocumentRoot at http://example.com/,
   # uncomment the following line:
   # RewriteBase /
-  
-RewriteRule ^discover/les-chateaux-manoirs-et-abbayes$ /decouvrez/les-chateaux-manoirs-et-abbayes [R=301,L]
-RewriteRule ^discover/les-enclos-paroissiaux$ /decouvrez/enclos-paroissiaux [R=301,L]
-RewriteRule ^discover/les-produits-de-la-terre$ /decouvrez/les-produits-de-la-terre [R=301,L]
-RewriteRule ^discover/artichaut-chou-fleur-et-pomme-de-terre$ /decouvrez/artichaut-chou-fleur-pomme-de-terre [R=301,L]
-RewriteRule ^discover/loignon-rose-de-roscoff$ /decouvrez/loignon-rose-de-roscoff [R=301,L]
-RewriteRule ^discover/les-specialites-culinaires$ /decouvrez/les-specialites-culinaires [R=301,L]
-RewriteRule ^discover/kig-ha-farz-et-ragout$ /decouvrez/kig-ha-farz-et-ragout [R=301,L]
-RewriteRule ^discover/les-crepes$ /decouvrez/les-crepes [R=301,L]
-RewriteRule ^discover/le-kouign-amann$ /decouvrez/le-kouign-amann [R=301,L]
-
-RewriteCond %{QUERY_STRING} STNAV=&RUBNAV=&CODE=76599527&LANGUE=0
-RewriteRule ^jsp/fiche_pagelibre.jsp http://www.finisteretourisme.com/preparez/venir-en-finistere [R=301,L]
-
-RewriteCond %{QUERY_STRING} RH=R01_150203&LANGUE=0
-RewriteRule ^chateau-de-kerjean-3364.kjsp http://www.finisteretourisme.com/chateau-de-kerjean [R=301,L]
-
-RewriteCond %{QUERY_STRING} RH=R01_150201&LANGUE=0
-RewriteRule ^abbaye-de-daoulas-996.kjsp http://www.finisteretourisme.com/abbaye-de-daoulas [R=301,L]
-
-RewriteCond %{QUERY_STRING} RH=R01_150203&LANGUE=0
-RewriteRule ^manoir-de-kernault-3366.kjsp http://www.finisteretourisme.com/manoir-de-kernault [R=301,L]
-
-RewriteRule ^accueil/randonnee-en-finistere/pays-de-brest-metropole-oceane/ http://www.finisteretourisme.com/decouvrez/brest [R=301,L]
-
-RewriteRule ^accueil/randonnee-pratique/carte-du-finistere/ http://www.finisteretourisme.com/carte-interactive [R=301,L]
-
-RewriteRule ^accueil/les-catalogues/ http://www.finisteretourisme.com/feuilletez-nos-brochures [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/balades-et-circuits/(.*) http://www.finisteretourisme.com/decouvrez/balades-et-traversees [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/patrimoine-naturel/les-iles-du-finistere/(.*) http://www.finisteretourisme.com/decouvrez/les-iles-du-finistere [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/patrimoine-naturel/la-pointe-du-raz/(.*) http://www.finisteretourisme.com/pointes-et-falaises/la-pointe-du-raz [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/les-marches/(.*) http://www.finisteretourisme.com/decouvrez/les-marches-du-finistere [R=301,L]
-
-RewriteRule ^accueil/finistere-pratique/carte-du-finistere/(.*) http://www.finisteretourisme.com/carte-interactive [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/tourisme-en-ville/villes-de-patrimoine/decouvrir-concarneau-62632.kjsp(.*) http://www.finisteretourisme.com/decouvrez/concarneau [R=301,L]
-
-RewriteRule ^accueil/culture-et-patrimoine/tourisme-en-ville/villes-de-patrimoine/decouvrir-morlaix-62567.kjsp(.*) http://www.finisteretourisme.com/decouvrez/morlaix [R=301,L]
-
-RewriteRule ^accueil/sejourner/(.*) http://www.finisteretourisme.com/preparez [R=301,L]
-
-RewriteRule ^accueil/sports-et-loisirs/(.*) http://www.finisteretourisme.com/decouvrez/activites-0 [R=301,L]
-
-RewriteRule ^espace-professionnel/(.*) http://pro.finisteretourisme.com [R=301,L]
-
-RewriteRule ^espace-professionnel/presse/(.*) http://pro.finisteretourisme.com/espace-presse/votre-espace-presse [R=301,L]
-
-RewriteRule ^accueil/randonnee-en-finistere(.*) http://www.finisteretourisme.com/decouvrez/randonnees-pour-tous [R=301,L]
-
-RewriteRule ^accueil/les-activites/loisirs-nautiques/(.*) http://www.finisteretourisme.com/decouvrez/loisirs-nautiques [R=301,L]
-
-RewriteRule ^accueil/fetes-et-manifestations/(.*) http://www.finisteretourisme.com/agenda [R=301,L]
-
-RewriteRule ^accueil/coups-de-coeur/(.*) http://www.finisteretourisme.com/reservez/weekend [R=301,L]
-
-RewriteRule ^accueil/toutes-les-randonnees/(.*) http://www.finisteretourisme.com/decouvrez/randonnees-pour-tous [R=301,L]
-
-RewriteRule ^home/(.*) http://www.finisteretourisme.com [R=301,L]
-
-RewriteRule ^startseite/(.*) http://www.finisteretourisme.com [R=301,L]
-
-  ### BOOST START ###
-  AddDefaultCharset utf-8
-  <FilesMatch "(\.html|\.html\.gz|\.xml|\.xml\.gz|\.json|\.json\.gz)$">
-    <IfModule mod_headers.c>
-      Header set Expires "Sun, 19 Nov 1978 05:00:00 GMT"
-      Header set Cache-Control "no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
-    </IfModule>
-  </FilesMatch>
-  <IfModule mod_mime.c>
-    AddCharset utf-8 .html
-    AddCharset utf-8 .xml
-    AddCharset utf-8 .css
-    AddCharset utf-8 .js
-    AddCharset utf-8 .json
-    AddEncoding gzip .gz
-  </IfModule>
-  <FilesMatch "(\.html|\.html\.gz)$">
-    ForceType text/html
-  </FilesMatch>
-  <FilesMatch "(\.xml|\.xml\.gz)$">
-    ForceType text/xml
-  </FilesMatch>
-  <FilesMatch "(\.json|\.json\.gz|\.js|\.js\.gz)$">
-    ForceType text/javascript
-  </FilesMatch>
-  <FilesMatch "(\.css|\.css\.gz)$">
-    ForceType text/css
-  </FilesMatch>
-
-  # Gzip Cookie Test
-  RewriteRule boost-gzip-cookie-test\.html  cache/perm/boost-gzip-cookie-test\.html\.gz [L,T=text/html]
-
-  # GZIP - Cached css & js files
-  RewriteCond %{HTTP_COOKIE} !(boost-gzip)
-  RewriteCond %{HTTP:Accept-encoding} !gzip
-  RewriteRule .* - [S=2]
-  RewriteCond %{DOCUMENT_ROOT}/cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.css\.gz -s
-  RewriteRule .* cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.css\.gz [L,QSA,T=text/css]
-  RewriteCond %{DOCUMENT_ROOT}/cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.js\.gz -s
-  RewriteRule .* cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.js\.gz [L,QSA,T=text/javascript]
-
-  # NORMAL - Cached css & js files
-  RewriteCond %{DOCUMENT_ROOT}/cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.css -s
-  RewriteRule .* cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.css [L,QSA,T=text/css]
-  RewriteCond %{DOCUMENT_ROOT}/cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.js -s
-  RewriteRule .* cache/perm/%{SERVER_NAME}%{REQUEST_URI}_\.js [L,QSA,T=text/javascript]
-
-  # Caching for anonymous users
-  # Skip boost IF not get request OR uri has wrong dir OR cookie is set OR request came from this server OR https request
-  RewriteCond %{REQUEST_METHOD} !^(GET|HEAD)$ [OR]
-  RewriteCond %{REQUEST_URI} (^/(admin|cache|misc|modules|sites|system|openid|themes|node/add))|(/(comment/reply|edit|user|user/(login|password|register))$) [OR]
-  RewriteCond %{HTTP_COOKIE} DRUPAL_UID [OR]
-  RewriteCond %{HTTP:Pragma} no-cache [OR]
-  RewriteCond %{HTTP:Cache-Control} no-cache [OR]
-  RewriteCond %{HTTPS} on
-  RewriteRule .* - [S=7]
-
-  # GZIP
-  RewriteCond %{HTTP_COOKIE} !(boost-gzip)
-  RewriteCond %{HTTP:Accept-encoding} !gzip
-  RewriteRule .* - [S=3]
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.html\.gz -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.html\.gz [L,T=text/html]
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.xml\.gz -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.xml\.gz [L,T=text/xml]
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.json\.gz -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.json\.gz [L,T=text/javascript]
-
-  # NORMAL
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.html -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.html [L,T=text/html]
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.xml -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.xml [L,T=text/xml]
-  RewriteCond %{DOCUMENT_ROOT}/cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.json -s
-  RewriteRule .* cache/normal/%{SERVER_NAME}%{REQUEST_URI}_%{QUERY_STRING}\.json [L,T=text/javascript]
-
-  ### BOOST END ###
-
 
   # Rewrite URLs of the form 'x' to the form 'index.php?q=x'.
   RewriteCond %{REQUEST_FILENAME} !-f
@@ -348,9 +165,4 @@ RewriteRule ^startseite/(.*) http://www.finisteretourisme.com [R=301,L]
   RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
 </IfModule>
 
-#php_flag display_errors on
-
-#php_value error_reporting 7
-
-
-# $Id: .htaccess,v 1.90.2.5 2010/02/02 07:25:22 dries Exp $
+# $Id$

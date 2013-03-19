@@ -21,7 +21,7 @@
  * @see template_preprocess_custom_search_results()
  */
 ?>
-<?php if ($filter_position == 'above' && isset($filter) && $filter != '') { ?>
+<?php if (isset($filter) && $filter != '' && $filter_position == 'above') { ?>
   <div class="custom-search-filter">
     <?php print $filter; ?>
   </div>
@@ -29,7 +29,7 @@
 <dl class="search-results <?php print $type; ?>-results">
   <?php print $search_results; ?>
 </dl>
-<?php if ($filter_position == 'below' && isset($filter) && $filter != '') { ?>
+<?php if (isset($filter) && $filter != '' && $filter_position == 'below') { ?>
   <div class="custom-search-filter">
     <?php print $filter; ?>
   </div>

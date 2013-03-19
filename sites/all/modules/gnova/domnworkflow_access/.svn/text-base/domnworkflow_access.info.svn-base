@@ -1,7 +1,0 @@
-; $Id: cuss.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Domain workflow access integration
-description = "Makes the workflow access module permissions higher than the domain ones."
-package = G-nova
-core = 6.x
-dependencies[] = workflow_access
-dependencies[] = domain

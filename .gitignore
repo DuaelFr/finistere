@@ -10,6 +10,11 @@ sites/*/private
 # Ignore TMP files
 tmp/*
 
+# Ignore useless files
+.svn
+.DS_Store
+._*
+
 # Ignore IDE flies
 .idea
 .project
@@ -18,6 +23,7 @@ tmp/*
 
 # Ignore project specific files
 application-mobile/
+carte/
 drush
 facebook/
 finistere-affaires/

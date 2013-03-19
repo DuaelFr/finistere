@@ -1,5 +1,4 @@
 <?php
-// $Id: block_access.db.inc,v 1.1.4.1 2010/10/01 13:18:34 lambic Exp $
 /* 
  * @file block_access.db.inc
  * DB interface for block_access module
@@ -17,7 +16,7 @@ function block_access_delete_roles($module, $perm, $delta=null) {
     $args[] = $delta;
   }
   else {
-    $sql .= "AND delta IS NULL";
+    $sql .= "AND delta = ''";
   }
   db_query($sql,$args);
 }
@@ -57,7 +56,7 @@ function block_access_get_roles($module, $perm, $delta=null) {
   }
 
   // If we didn't find any for the delta, use the module defaults
-  if ($delta && empty($ret)) {
+  if (empty($ret)) {
     $result = db_query($sql, $module, $perm, '');
     while ($rid = db_result($result)) {
       $ret[] = $rid;

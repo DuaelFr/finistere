@@ -366,7 +366,7 @@ function _custom_breadcrumbs_get_breadcrumb($breadcrumb, $objs, &$locations) {
   if (!isset($paths) || is_null($paths)) {
     $paths = preg_split("/[\n]+/", $breadcrumb->paths);
   }
-	
+
   // Token replacement for titles and paths
   if (module_exists('token')) {
     // Do token replacement.
@@ -599,7 +599,6 @@ function _custom_breadcrumbs_create_crumb_items($title, $original_path, $attribu
     if (!isset($path)) {
       $path = $original_path;
     }
-    
     $options = parse_url($path);
     $options = array_merge($options, $attributes);
     $crumbs[] = array(

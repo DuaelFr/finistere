@@ -1,5 +1,0 @@
-; $Id: cdt_formatters.info,v 1.1 2011/02/17 02:04:11 sun Exp $
-name = Custom formatters
-description = "Provides CDT specific formatters."
-package = G-nova
-core = 6.x

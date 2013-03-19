@@ -1,5 +1,4 @@
 <?php
-// $Id: imce.page.inc,v 1.1.2.9 2010/12/27 20:08:33 ufku Exp $
 
 /**
  * @file
@@ -98,6 +97,12 @@ function imce_js($user, $jsop = '') {
       module_load_include('inc', 'imce', 'inc/imce.js');
       if (function_exists($func = 'imce_js_'. $jsop)) {
         $response['data'] = $func($imce);
+      }
+      // Allow alteration of response.
+      foreach (variable_get('imce_custom_response', array()) as $func => $state) {
+        if ($state && function_exists($func)) {
+          $func($jsop, $response, $imce, $user);
+        }
       }
     }
   }
@@ -358,7 +363,7 @@ function imce_resize_submit($form, &$form_state) {
   //check dimensions
   $width = (int) $form_state['values']['width'];
   $height = (int) $form_state['values']['height'];
-  list($maxw, $maxh) = explode('x', $imce['dimensions']);
+  list($maxw, $maxh) = $imce['dimensions'] ? explode('x', $imce['dimensions']) : array(0, 0);
   if ($width < 1 || $height < 1 || ($maxw && ($width > $maxw || $height > $maxh))) {
     drupal_set_message(t('Please specify dimensions within the allowed range that is from 1x1 to @dimensions.', array('@dimensions' => $imce['dimensions'] ? $imce['dimensions'] : t('unlimited'))), 'error');
     return;
@@ -685,13 +690,25 @@ function imce_validate_quotas($file, &$imce, $add = 0) {
 }
 
 /**
- * Check if the file is an image and return info.
+ * Checks if the file is an image and returns info.
+ * There are two switchable versions that use image_get_info() and getimagesize()
  */
-function imce_image_info($file) {
-  if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
-    return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
+if (variable_get('imce_image_get_info', 0)) {
+  function imce_image_info($file) {
+    $mimes = array('image/jpeg' => IMAGETYPE_JPEG, 'image/gif'  => IMAGETYPE_GIF, 'image/png'  => IMAGETYPE_PNG);
+    if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @image_get_info($file)) && isset($mimes[$info['mime_type']]) ) {
+      return array('width' => $info['width'], 'height' => $info['height'], 'type' => $mimes[$info['mime_type']], 'mime' => $info['mime_type']);
+    }
+    return FALSE;
   }
-  return FALSE;
+}
+else {
+  function imce_image_info($file) {
+    if (is_file($file) && ($dot = strrpos($file, '.')) && in_array(strtolower(substr($file, $dot+1)), array('jpg', 'jpeg', 'gif', 'png')) && ($info = @getimagesize($file)) && in_array($info[2], array(IMAGETYPE_JPEG, IMAGETYPE_GIF, IMAGETYPE_PNG)) ) {
+      return array('width' => $info[0], 'height' => $info[1], 'type' => $info[2], 'mime' => $info['mime']);
+    }
+    return FALSE;
+  }
 }
 
 /**
@@ -712,6 +729,12 @@ function imce_initiate_profile($user) {
 
   //check user profile and translate tokens in directory paths and evaluate php paths.
   if ($imce = imce_user_profile($user)) {
+    // Allow alteration of raw profile
+    foreach (variable_get('imce_custom_init', array()) as $func => $state) {
+      if ($state && function_exists($func)) {
+        $func($imce, $user);
+      }
+    }
     imce_process_directories($imce, $user);
     if (!empty($imce['directories'])) {
       $imce['uid'] = (int) $user->uid;
@@ -842,6 +865,7 @@ function imce_working_directory(&$imce) {
 
   //or the whole list.
   foreach ($imce['directories'] as $dirname => $info) {
+    $dirname = (string) $dirname;
     if (imce_check_directory($dirname, $imce)) {
       if ($sess) {
         $_SESSION['imce_directory'] = rawurlencode($dirname);
@@ -858,6 +882,10 @@ function imce_working_directory(&$imce) {
  */
 function imce_check_directory($dirname, $imce = array()) {
 
+  if (!imce_reg_dir($dirname)) {
+    return imce_inaccessible_directory($dirname, $imce);
+  }
+
   $root = file_directory_path();
   $dirpath = $root .'/'. $dirname;
 
@@ -865,13 +893,10 @@ function imce_check_directory($dirname, $imce = array()) {
     $path = $root;
     foreach (explode('/', $dirname) as $arg) {
       $path .= '/'. $arg;
-      if (!file_check_location($path, $root) || !file_check_directory($path, FILE_CREATE_DIRECTORY)) {
+      if (!file_check_directory($path, FILE_CREATE_DIRECTORY)) {
         return imce_inaccessible_directory($dirname, $imce);
       }
     }
-  }
-  elseif (!file_check_location($dirpath, $root)) {//directory exists outside of root.
-    return imce_inaccessible_directory($dirname, $imce);
   }
 
   return TRUE;
@@ -905,7 +930,7 @@ function imce_directory_info($dirname, $imce) {
   $dirpath = $root .'/'. $dirname;
   if (imce_reg_dir($dirname) && file_check_directory($dirpath)) {
     foreach ($imce['directories'] as $name => $prop) {
-      if ($prop['subnav'] && file_check_location($dirpath, $root .'/'. $name)) {
+      if ($prop['subnav'] && ($name === '.' || strpos($dirname . '/', $name . '/') === 0)) {
         $info = $prop;
         $info['name'] = $dirname;
       }
@@ -921,6 +946,9 @@ function imce_directory_info($dirname, $imce) {
 function imce_subdirectories_accessible(&$imce) {
 
   if (!empty($imce['subdirectories'])) {
+    if (!empty($imce['perm']['subnav'])) {
+      return TRUE;
+    }
     $root = file_directory_path() .'/';
     //checking only the first one is sufficient.
     $dirname = ($imce['dir'] == '.' ? '' : $imce['dir'] .'/') . $imce['subdirectories'][0];
@@ -928,7 +956,8 @@ function imce_subdirectories_accessible(&$imce) {
 
     //check if any setting is applicable for this subdirectory through any directory in the list.
     foreach ($imce['directories'] as $name => $info) {
-      if ($info['subnav'] && $dirname != $name && file_check_location($dirpath, $root . $name)) {
+      $name = (string) $name;
+      if ($info['subnav'] && $dirname != $name && ($name == '.' || strpos($dirname . '/', $name . '/') === 0)) {
         return TRUE;
       }
     }
@@ -974,9 +1003,10 @@ function imce_scan_directory($dirname, $imce = array()) {
     return $directory;
   }
 
-  $exclude = array('.' => 1, '..' => 1, 'CVS' => 1, '.svn' => 1, '.htaccess' => 1);
   while (($file = readdir($handle)) !== FALSE) {
-    if (isset($exclude[$file])) {
+
+    // Do not include dot files and folders
+    if (substr($file, 0, 1) === '.') {
       continue;
     }
 

@@ -1,5 +1,4 @@
 <?php
-// $Id: linkchecker_extract_links.test,v 1.1.2.3 2009/08/27 20:34:45 hass Exp $
 
 /**
  * @file
@@ -21,6 +20,7 @@ class LinkCheckerLinkExtractionTest extends DrupalWebTestCase {
     $permissions = array(
       'create page content',
       'edit own page content',
+      'administer url aliases',
       'create url aliases',
     );
 
@@ -191,6 +191,11 @@ EOT;
     // Extract only full qualified URLs.
     variable_set('linkchecker_fqdn_only', 1);
 
+    // Verify path input field appears on add "Basic page" form.
+    $this->drupalGet('node/add/page');
+    // Verify path input is present.
+    $this->assertFieldByName('path', '', t('Path input field present on add Basic page form.'));
+
     // Save node.
     $this->drupalPost('node/add/page', $edit, t('Save'));
     $this->assertRaw(t('@type %title has been created.', array('@type' => 'Page', '%title' => $edit['title'])), t('Node was created.'));
@@ -238,13 +243,25 @@ EOT;
     $urls_expected_count = count($urls_fqdn);
     $this->assertEqual($urls_in_database, $urls_expected_count, t('Found @urls_in_database URLs in database matches expected result of @urls_expected_count.', array('@urls_in_database' => $urls_in_database, '@urls_expected_count' => $urls_expected_count)));
 
-    // Extract all URLs.
+    // Extract all URLs including relative path.
+    variable_set('clean_url', 1);
     variable_set('linkchecker_fqdn_only', 0);
 
     $node = $this->drupalGetNodeByTitle($edit['title']);
     $this->assertTrue($node, t('Node found in database.'));
     $this->drupalPost('node/' . $node->nid . '/edit', $edit, t('Save'));
     $this->assertRaw(t('@type %title has been updated.', array('@type' => 'Page', '%title' => $edit['title'])));
+
+    // FIXME: Path alias seems not saved!???
+    // $this->assertIdentical($node->path, $edit['path'], t('URL alias "@node-path" matches path "@edit-path".', array('@node-path' => $node->path, '@edit-path' => $edit['path'])));
+
+    // DEBUG
+    $linkchecker_links = db_query("SELECT * FROM {linkchecker_links}");
+    while ($row = db_fetch_array($linkchecker_links)) {
+      $rows[] = $row['url'];
+    }
+    $this->verbose(theme_item_list($rows, 'URLs in database:'));
+    // $this->fail('DEBUG: ' .implode('<br />', $rows));
 
     // Verify if the content links are extracted correctly.
     global $base_root, $base_path;
@@ -264,6 +281,7 @@ EOT;
       'flvplayer2.swf' => $base_root . $base_path . $folder1 . '/flvplayer2.swf',
       'foo.ogg' => $base_root . $base_path . $folder1 . '/foo.ogg',
     );
+    $this->verbose(theme_item_list($urls_relative, 'Verify if following relative URLs exists:'));
 
     foreach ($urls_relative as $org_url => $check_url) {
       $link = $this->getLinkCheckerLink($check_url);
@@ -353,5 +371,71 @@ EOT;
    */
   function getLinkCheckerLinksCount() {
     return db_result(db_query("SELECT COUNT(1) FROM {linkchecker_links}"));
+  }
+}
+
+/**
+ * Test case for impersonating users.
+ *
+ * Based on http://drupal.org/node/287292#comment-3162350
+ */
+class LinkCheckerUserImpersonatingUserTestCase extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+        'name' => 'Link checker impersonate users',
+        'description' => 'Temporarily impersonate another user, and then restore the original user.',
+        'group' => 'Link checker',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('linkchecker');
+  }
+
+  function testLinkCheckerImpersonateUser() {
+    global $user;
+    $original_user = $user;
+
+    // If not currently logged in, use linkchecker_impersonate_user() to switch to
+    // user 1. If logged in, switch to the anonymous user instead.
+    if (user_is_anonymous()) {
+      linkchecker_impersonate_user(1);
+    }
+    else {
+      linkchecker_impersonate_user(0);
+    }
+
+    // Verify that the active user has changed, and that session saving is
+    // disabled.
+    $this->assertEqual($user->uid, ($original_user->uid == 0 ? 1 : 0), t('User switched'));
+    $this->assertFalse(session_save_session(), t('Session saving is disabled.'));
+
+    // Perform a second (nested) impersonation.
+    linkchecker_impersonate_user(1);
+    $this->assertEqual($user->uid, 1, t('User switched.'));
+
+    // Revert to the user which was active between the first and second
+    // impersonation attempt.
+    linkchecker_revert_user();
+
+    // Since we are still impersonating the user from the first attempt,
+    // session handling still needs to be disabled.
+    $this->assertEqual($user->uid, ($original_user->uid == 0 ? 1 : 0), t('User switched.'));
+    $this->assertFalse(session_save_session(), t('Session saving is disabled.'));
+
+    // Revert to the original user which was active before the first
+    // impersonation attempt.
+    linkchecker_revert_user();
+
+    // Assert that the original user is the active user again, and that session
+    // saving has been re-enabled.
+    $this->assertEqual($user->uid, $original_user->uid, t('Original user successfully restored.'));
+
+    // Simpletest uses linkchecker_impersonate_user() too, revert the impersonation by
+    // Simpletest to enable session saving again. This is safe because calling
+    // linkchecker_revert_user() too often simply results in returning the active user.
+    linkchecker_revert_user();
+    $this->assertTrue(session_save_session(), t('Session saving is enabled.'));
   }
 }

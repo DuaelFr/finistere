@@ -1,5 +1,4 @@
 <?php
-// $Id: imageapi.module,v 1.23.2.4 2010/04/30 21:48:38 drewish Exp $
 
 /**
  * @file
@@ -220,7 +219,7 @@ function imageapi_image_scale_and_crop(&$image, $width, $height) {
  */
 function imageapi_image_scale(&$image, $width = NULL, $height = NULL, $upscale = FALSE) {
   $aspect = $image->info['height'] / $image->info['width'];
-  
+
   if ($upscale) {
     // Set width/height according to aspect ratio if either is empty.
     $width = !empty($width) ? $width : $height / $aspect;
@@ -243,7 +242,7 @@ function imageapi_image_scale(&$image, $width = NULL, $height = NULL, $upscale =
   else {
     $width = $height / $aspect;
   }
-  
+
   return imageapi_image_resize($image, $width, $height);
 }
 

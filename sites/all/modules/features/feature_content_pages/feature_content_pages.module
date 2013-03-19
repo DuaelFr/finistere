@@ -1,0 +1,41 @@
+<?php
+
+include_once('feature_content_pages.features.inc');
+
+/**
+ * Implements hook_views_query_alter().
+ *
+ * Move arguments into an "OR" group.
+ */
+function feature_content_pages_views_query_alter(&$view, &$query){
+  $valid_views = array(
+    'gnova_href_backref_primary',
+    'gnova_href_backref_teaser',
+    'hq_affichage_list',
+    'hq_affichage_files',
+  );
+  if (in_array($view->name, $valid_views)) {
+    $i = count($query->where[0]['clauses']);
+
+    $group = $query->set_where_group('OR', 'parents-group', 'where');
+
+    $query->add_where($group, $query->where[0]['clauses'][$i-1], $query->where[0]['args'][0]);
+    $query->add_where($group, $query->where[0]['clauses'][$i-2], $query->where[0]['args'][1]);
+
+    unset($query->where[0]['clauses'][$i-1]);unset($query->where[0]['args'][0]);
+    unset($query->where[0]['clauses'][$i-2]);unset($query->where[0]['args'][1]);
+
+    $query->set_distinct();
+  }
+}
+
+/**
+ * Implements hook_views_pre_build().
+ *
+ * Duplicate the first argument.
+ */
+function feature_content_pages_views_pre_build(&$view) {
+  if ($view->name == 'gnova_href_backref_primary' || $view->name == 'gnova_href_backref_teaser') {
+    $view->args[] = $view->args[0];
+  }
+}

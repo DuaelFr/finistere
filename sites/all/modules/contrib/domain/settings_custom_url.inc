@@ -67,10 +67,12 @@ function domain_url_outbound_alter(&$path, &$options, $original_path) {
     $root = domain_lookup(variable_get('domain_default_source', 0));
   }
 
+  // Set the target domain for this url.
+  $target_domain_id = $_domain['domain_id'];
+
   // Now run the path rewrite sequence, if necessary.
   if ($check_nodes || $path_alter) {
     $nid = FALSE;
-    $target_domain_id = $_domain['domain_id'];
     if ($check_nodes) {
       // Check to see if this is a node or comment link and set $nid accordingly.
       // We static the $nid results to make this more efficient.
@@ -99,7 +101,7 @@ function domain_url_outbound_alter(&$path, &$options, $original_path) {
       // Remove redundancy from the domain_site check.
       if (!isset($domain_site[$nid])) {
         // If this check works, we don't need to rewrite the path unless SEO rules demand it.
-        $domain_site[$nid] = db_result(db_query("SELECT COUNT(nid) FROM {domain_access} WHERE nid = %d AND gid = 0 AND realm = '%s'", $nid, 'domain_site'));
+        $domain_site[$nid] = db_result(db_query("SELECT 1 FROM {domain_access} WHERE nid = %d AND gid = 0 AND realm = '%s'", $nid, 'domain_site'));
       }
       if (!$domain_site[$nid] || $use_source) {
         // Remove rendundancy from the domain_id check.
@@ -142,13 +144,13 @@ function domain_url_outbound_alter(&$path, &$options, $original_path) {
         // TODO: merge this code with the above for cleanup.
       }
     }
-    // We may have to implement hook_domainpath().
-    if (!isset($path_rewrite)) {
-      $path_rewrite = count(_domain_path_modules());
-    }
-    // Allow path changes, if needed.
-    if ($path_rewrite > 0 && $path != '') {
-      $path = domain_path($target_domain_id, $original_path, isset($options['language']) ? $options['language']->language : '');
-    }
+  }
+  // We may have to implement hook_domainpath().
+  if (!isset($path_rewrite)) {
+    $path_rewrite = count(_domain_path_modules());
+  }
+  // Allow path changes, if needed.
+  if ($path_rewrite > 0 && $path != '') {
+    $path = domain_path($target_domain_id, $original_path, isset($options['language']) ? $options['language']->language : '');
   }
 }
