@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * Add seo permissions to roles who needs it.
+ */
+function cdt_pages_update_6001(/*&$sandbox*/) {
+  $edit = array(
+    'Manager' => array(
+      'add' => array('set page title', 'administer meta tags', 'edit meta tags'),
+      'del' => array('administer page titles'),
+    ),
+    'Responsable publication' => array(
+      'add' => array('set page title', 'administer meta tags', 'edit meta tags'),
+      'del' => array('administer page titles'),
+    ),
+    'Secrétaire de rédaction' => array(
+      'add' => array('set page title', 'administer meta tags', 'edit meta tags'),
+      'del' => array('administer page titles'),
+    ),
+  );
+  $sql_select = "SELECT * FROM {permission} WHERE rid = %d";
+  $sql_update = "UPDATE {permission} SET perm = '%s' WHERE rid = %d";
+  $roles = user_roles();
+
+  foreach ($edit as $rname => $alterations) {
+    $rid = array_search($rname, $roles);
+    if (!empty($rid)) {
+      // Read actual permissions from the db.
+      $data = db_fetch_object(db_query($sql_select, $rid));
+      $perms = array_flip(explode(', ', $row->perm));
+      // Remove unwanted permissions.
+      foreach ($alterations['del'] as $alt) {
+        unset($perms[$alt]);
+      }
+      // Add new permissions.
+      foreach ($alterations['add'] as $alt) {
+        $perms[$alt] = $alt;
+      }
+      // Reinsert data in the db.
+      db_query($sql_update, implode(', ', array_keys($perms)), $rid);
+    }
+  }
+  // Clear caches to force permissions to be rechecked.
+  cache_clear_all();
+}
