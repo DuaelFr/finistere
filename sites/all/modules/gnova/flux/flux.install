@@ -724,3 +724,16 @@ function flux_update_6012(&$sandbox) {
             AND field_hqitem_fluxtid_value = 422";
   db_query($sql);
 }
+
+/**
+ * Synchro des champs du flux pour prendre en compte nouveaux champs.
+ */
+function flux_update_6014(&$sandbox) {
+  module_load_include('inc', 'flux', 'flux.sync');
+  $sync = new Synchronisation();
+  $sync->init(TRUE);
+  foreach ($sync->flux as $fl) {
+    $sync->getFieldsSearch($fl);
+    $sync->getFieldsSearch($fl, TRUE);
+  }
+}

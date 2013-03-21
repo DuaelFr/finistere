@@ -214,7 +214,9 @@ class Synchronisation {
   }
 
   public function msglog($msg) {
-    fputs($this->fplog, $msg . "\r\n");
+    if (!empty($this->fplog)) {
+      fputs($this->fplog, $msg . "\r\n");
+    }
   }
 
 
