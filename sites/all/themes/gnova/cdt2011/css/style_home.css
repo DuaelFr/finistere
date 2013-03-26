@@ -178,7 +178,7 @@ border-top-right-radius: 5px;
 
 	.diaporama li .titre_slide strong{ font-family: 'DaxCondensedBold', Arial, Helvetica, sans-serif;}
 
-	.diaporama_controls {clear: both; overflow: hidden; padding: 5px; position: absolute; bottom: 0px; left: 50%; }
+	.diaporama_controls {clear: both; overflow: hidden; padding: 5px; position: absolute; bottom: 0px; left: 50%; margin-left: -37px; }
 
 	.diaporama_controls .btns { }
 
