@@ -153,6 +153,35 @@ function cdt_pages_translation_link_alter (&$links, $path) {
 	}
 }*/
 
+
+/**
+ * Implement hook_token_list().
+ */
+function cdt_pages_token_list($type = 'all') {
+  $tokens = array();
+
+  if ($type == 'global' || $type == 'all') {
+    $tokens['domain']['domain-slogan'] = t('The current domain slogan, lowercased and with only alphanumeric characters.');
+    $tokens['domain']['domain-slogan-raw'] = t('The current domain slogan. WARNING - raw user input. NOT path safe.');
+  }
+
+  return $tokens;
+}
+
+/**
+ * Implement hook_token_values().
+ */
+function cdt_pages_token_values($type, $object = NULL, $options = array()) {
+  global $_domain;
+
+  $slogan = domain_conf_variable_get($_domain['domain_id'], 'site_slogan');
+
+  $tokens['domain-slogan'] = domain_url_encode($slogan);
+  $tokens['domain-slogan-raw'] = check_plain($slogan);
+
+  return $tokens;
+}
+
 /** **************************************************************** **/
 /**
  * BLOCKS
