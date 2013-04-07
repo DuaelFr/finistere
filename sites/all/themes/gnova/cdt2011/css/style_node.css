@@ -1429,34 +1429,35 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   text-indent: -99999px;
   margin: 0 10px 10px 0;
 }
-.label-img-accueil-paysan { text-ident: 0; }
+.label-img-accueil-paysan { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
 .label-img-accueil-peche { background-position: -320px -5176px; width: 50px; height: 22px; }
-.label-img-atout-france { text-ident: 0; }
-.label-img-bienvenue-a-la-ferme { text-ident: 0; }
-.label-img-camping-qualite-bretagne-calm { text-ident: 0; }
-.label-img-camping-qualite-bretagne-club { text-ident: 0; }
-.label-img-camping-qualite-bretagne-detente { text-ident: 0; }
-.label-img-camping-qualite-bretagne-relax { text-ident: 0; }
-.label-img-camping-qualite-bretagne-relaxation { text-ident: 0; }
-.label-img-chouette-nature { text-ident: 0; }
-.label-img-clef-verte { text-ident: 0; }
+.label-img-atout-france { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-bienvenue-a-la-ferme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-camping-qualite-bretagne-calm { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-camping-qualite-bretagne-club { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-camping-qualite-bretagne-detente { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-camping-qualite-bretagne-relax { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-camping-qualite-bretagne-relaxation { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-qualite-tourisme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-chouette-nature { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clef-verte { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
 .label-img-clevacances { background-position: -189px -5165px; width: 97px; height: 36px; }
-.label-img-clevacances-atout-france { text-ident: 0; }
-.label-img-clevacances-bienvenue-a-la-ferme { text-ident: 0; }
-.label-img-clevacances-bienvenue-au-château { text-ident: 0; }
-.label-img-clevacances-etape-rando-bretagne { text-ident: 0; }
-.label-img-clevacances-famille-plus { text-ident: 0; }
-.label-img-clevacances-qualite-tourisme { text-ident: 0; }
-.label-img-eco-label-europeen { text-ident: 0; }
-.label-img-ecolabel-europeen { text-ident: 0; }
-.label-img-ecolabel-europeen-atout-france { text-ident: 0; }
-.label-img-ecolabel-europeen-qualite-tourisme { text-ident: 0; }
-.label-img-etape-rando-bretagne { text-ident: 0; }
-.label-img-european-ecolabel { text-ident: 0; }
-.label-img-european-ecolabel-qualite-tourisme { text-ident: 0; }
-.label-img-famille { text-ident: 0; }
-.label-img-famille-atout-france { text-ident: 0; }
-.label-img-famille-plus { text-ident: 0; }
+.label-img-clevacances-atout-france { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clevacances-bienvenue-a-la-ferme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clevacances-bienvenue-au-château { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clevacances-etape-rando-bretagne { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clevacances-famille-plus { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-clevacances-qualite-tourisme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-eco-label-europeen { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-ecolabel-europeen { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-ecolabel-europeen-atout-france { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-ecolabel-europeen-qualite-tourisme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-etape-rando-bretagne { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-european-ecolabel { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-european-ecolabel-qualite-tourisme { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-famille { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-famille-atout-france { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
+.label-img-famille-plus { text-indent: 0; width: 50px; height: 50px; font-size: .8em; text-align: center; vertical-align: middle; background: none; padding-top: 20px; }
 .label-img-fleurs-de-soleil { background-position: -11px -5161px; width: 76px; height: 50px; }
 .label-img-gites-de-france { background-position: -114px -5160px; width: 50px; height: 51px; }
 

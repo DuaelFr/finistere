@@ -72,7 +72,7 @@
 
           <?php
           // Chaines & Labels
-          print cdt2011_chaines_labels_tpl($node);
+          print cdt2011_chaines_labels_tpl($node, TRUE);
           ?>
 
           <?php

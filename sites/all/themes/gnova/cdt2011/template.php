@@ -1064,7 +1064,7 @@ function cdt2011_labels($terms) {
   return $output;
 }
 
-function cdt2011_chaines_labels_tpl($node) {
+function cdt2011_chaines_labels_tpl($node, $small = FALSE) {
   $output = '';
 
   $fields = array(
@@ -1084,7 +1084,7 @@ function cdt2011_chaines_labels_tpl($node) {
   }
 
   if (!empty($output)) {
-    $output = '<div class="chaines-labels">' . $output . '</div>';
+    $output = '<div class="chaines-labels' . ($small ? ' small' : '' ) . '">' . $output . '</div>';
   }
   return $output;
 }
