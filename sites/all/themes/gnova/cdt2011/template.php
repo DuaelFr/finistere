@@ -960,7 +960,7 @@ function cdt2011_new_norm($fields) {
   if (isset($fields['field_fl_attente_classeme_value'])) {
     $output = $fields['field_fl_attente_classeme_value']->content;
     if (!empty($output)) {
-      $output = ' - ' . $output;
+      $output = '<span class="attente-classement"> - ' . $output . '</span>';
     }
   }
   return $output;

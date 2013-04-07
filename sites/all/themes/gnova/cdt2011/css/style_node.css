@@ -1373,6 +1373,11 @@ input[type="submit"]#edit-preview:hover { background-position: -5px -3848px; }
   padding: 6px 0 5px 30px;
 }
 
+/* Disable attente classement */
+.attente-classement {
+  display: none;
+}
+
 .term-img {
   background: url('../images/sprite.png?1302230115') no-repeat 0 0;
   display: inline-block;
