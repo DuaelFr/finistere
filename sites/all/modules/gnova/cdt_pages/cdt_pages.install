@@ -6,11 +6,11 @@
 function cdt_pages_update_6001(/*&$sandbox*/) {
   $edit = array(
     'Manager' => array(
-      'add' => array('set page title', 'administer meta tags', 'edit meta tags'),
+      'add' => array('set page title', 'administer meta tags', 'edit meta tags', 'filter and manage site content'),
       'del' => array('administer page titles'),
     ),
     'Responsable publication' => array(
-      'add' => array('set page title', 'administer meta tags', 'edit meta tags'),
+      'add' => array('set page title', 'administer meta tags', 'edit meta tags', 'filter and manage site content'),
       'del' => array('administer page titles'),
     ),
     'Secrétaire de rédaction' => array(
@@ -27,7 +27,7 @@ function cdt_pages_update_6001(/*&$sandbox*/) {
     if (!empty($rid)) {
       // Read actual permissions from the db.
       $data = db_fetch_object(db_query($sql_select, $rid));
-      $perms = array_flip(explode(', ', $row->perm));
+      $perms = array_flip(explode(', ', $data->perm));
       // Remove unwanted permissions.
       foreach ($alterations['del'] as $alt) {
         unset($perms[$alt]);

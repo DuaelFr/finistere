@@ -30,7 +30,7 @@ function cdt_pages_menu() {
     'file' => 'cdt_pages.pages.inc',
     'access arguments' => array('access content'),
   );
-  
+
   $items['agenda'] = array(
     'title' => t('Agenda'),
     'page callback' => 'public_agenda',
@@ -58,25 +58,26 @@ function cdt_pages_theme($existing, $type, $theme, $path) {
 }
 
 function cdt_pages_form_alter(&$form, &$form_state, $form_id){
-	
+  if ($form_id=='views_exposed_form' && !empty($form['field_fl_payant_gratuit_tx_value'])) {
+    $form['field_fl_payant_gratuit_tx_value']=array(
+      '#type'=>'select',
+      '#title' => t('Free'),
+      '#options' => array(
+        '' => t('- Select -'),
+        'Gratuite' => t('Yes'),
+        'Payante' => t('No'),
+      ),
+    );
+  }
 	if(arg(0)=='agenda' && $form_id=='views_exposed_form'){
-		
+
 		$form['#action']=base_path().arg(0);
-		$form['field_fl_payant_gratuit_tx_value']=array(
-			'#type'=>'select',
-			'#title' => t('Free'),
-			'#options' => array(
-				'' => t('- Select -'),
-				'Gratuite' => t('Yes'),
-				'Payante' => t('No'),
-			),
-		);
 
     $form['submit']['#value'] = t('Launch search');
 
 		$form['field_fl_date_debut_date_value']['value']['#date_format'] = 'd-m-Y';
     $form['field_fl_date_fin_date_value_1']['value']['#date_format'] = 'd-m-Y';
-        
+
 		unset($form['field_fl_date_debut_date_value']['#description']);
 		unset($form['field_fl_date_fin_date_value_1']['#description']);
 	}
@@ -96,7 +97,7 @@ function cdt_pages_form_alter(&$form, &$form_state, $form_id){
       }
     }
   }
-  
+
   if ($form['#id'] == 'node-form' && $form['nid']['#value']) {
     // customize node_form title, to show more info
     drupal_set_title(t("Edit: ") . $form['#node']->title . ' (' . $form['#node']->type . ')');
@@ -140,9 +141,9 @@ function cdt_pages_translation_link_alter (&$links, $path) {
 //Ajout d'une variable à toutes les vues indiquant le nombre de résultats
 /*
  * views hook
- * 
+ *
  * hook_views_pre_render
- * 
+ *
  * called after view constructed but before it is rendered
  */
 /*function cdt_pages_views_pre_render(&$view) {
@@ -151,6 +152,35 @@ function cdt_pages_translation_link_alter (&$links, $path) {
 		$view->style_plugin->display->handler->options['footer'] = $nb.' '.t('results');
 	}
 }*/
+
+
+/**
+ * Implement hook_token_list().
+ */
+function cdt_pages_token_list($type = 'all') {
+  $tokens = array();
+
+  if ($type == 'global' || $type == 'all') {
+    $tokens['domain']['domain-slogan'] = t('The current domain slogan, lowercased and with only alphanumeric characters.');
+    $tokens['domain']['domain-slogan-raw'] = t('The current domain slogan. WARNING - raw user input. NOT path safe.');
+  }
+
+  return $tokens;
+}
+
+/**
+ * Implement hook_token_values().
+ */
+function cdt_pages_token_values($type, $object = NULL, $options = array()) {
+  global $_domain;
+
+  $slogan = domain_conf_variable_get($_domain['domain_id'], 'site_slogan');
+
+  $tokens['domain-slogan'] = domain_url_encode($slogan);
+  $tokens['domain-slogan-raw'] = check_plain($slogan);
+
+  return $tokens;
+}
 
 /** **************************************************************** **/
 /**

@@ -95,7 +95,10 @@ DirectoryIndex index.php
   RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^finistere-tourisme\.com$ [NC]
-  RewriteRule ^(.*) http://www.finistere-tourisme.com/$1 [L,R=301]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.finistere-tourisme\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^finistere-nautisme\.com$ [NC]
   RewriteRule ^(.*) http://www.finisteretourisme.com/decouvrez/activites-nautiques [L,R=301]
@@ -115,7 +118,13 @@ DirectoryIndex index.php
   RewriteCond %{HTTP_HOST} ^finistere-booking\.com$ [NC]
   RewriteRule ^(.*) http://www.finisterebrittany.com/book-your-stay-brittany [L,R=301]
 
-  RewriteCond %{HTTP_HOST} ^finisterebrittany\.com$ [NC]
+  RewriteCond %{HTTP_HOST} ^tourism-brittany\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.tourism-brittany\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.finistere-booking\.com$ [NC]
   RewriteRule ^(.*) http://www.finisterebrittany.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^tourism-brittany\.com$ [NC]
@@ -125,19 +134,28 @@ DirectoryIndex index.php
   RewriteRule ^(.*) http://www.finistere-booking.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^finistere-dispo\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/reservez-et-organisez-votre-sejour-en-finistere [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.finistere-dispo\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/reservez-et-organisez-votre-sejour-en-finistere [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^finistere-dispo\.com$ [NC]
   RewriteRule ^(.*) http://www.finistere-dispo.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^finistere-resa\.com$ [NC]
-  RewriteRule ^(.*) http://www.finistere-resa.com/$1 [L,R=301]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/reservez-et-organisez-votre-sejour-en-finistere [L,R=301]
 
-  RewriteCond %{HTTP_HOST} ^reservation-finistere\.com$ [NC]
-  RewriteRule ^(.*) http://www.reservation-finistere.com/$1 [L,R=301]
+  RewriteCond %{HTTP_HOST} ^www\.finistere-resa\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/reservez-et-organisez-votre-sejour-en-finistere [L,R=301]
+
+  RewriteCond %{HTTP_HOST} ^www\.reservation-finistere\.com$ [NC]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/reservez-et-organisez-votre-sejour-en-finistere [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^newweb.finisteretourisme\.com$ [NC]
-  RewriteRule ^(.*) http://www.newwebfinisteretourisme.com/$1 [L,R=301]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^en.newweb.finisteretourisme\.com$ [NC]
-  RewriteRule ^(.*) http://www.en.newweb.finisteretourisme.com/$1 [L,R=301]
+  RewriteRule ^(.*) http://www.finisteretourisme.com/$1 [L,R=301]
 
   RewriteCond %{HTTP_HOST} ^monfinistere\.fr$ [NC]
   RewriteRule ^(.*) http://www.finisteretourisme.com/concours-photos-mon-finistere [L,R=301]
