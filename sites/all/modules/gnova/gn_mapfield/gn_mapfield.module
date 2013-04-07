@@ -1393,9 +1393,7 @@ function attclassement_gnfieldmap_fluxfieldcreate(&$content_type, $ws_fieldname,
 function attclassement_gnfieldmap_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals=array()){
 	$str = trim($value);
 	if ($str == 'oui') {
-// TEMPORARY DISABLED
-//    $node->{$cck_fieldname}[0]['value'] = 'En cours de classement nouvelle norme';
-    $node->{$cck_fieldname}[0]['value'] = '';
+    $node->{$cck_fieldname}[0]['value'] = 'En cours de classement nouvelle norme';
 	}
 	return TRUE;
 }
