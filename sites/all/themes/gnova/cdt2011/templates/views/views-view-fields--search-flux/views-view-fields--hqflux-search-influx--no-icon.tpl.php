@@ -5,11 +5,13 @@
     <h3>
       <?php
       print $fields['title']->content;
-      if (isset($fields['field_fl_categorie_strs_value'])) {
-        print cdt2011_term_to_img($fields['field_fl_categorie_strs_value']->content, ' - ');
+      if (!empty($fields['field_fl_categorie_strs_value']->content)) {
+        // Print the text, not an icon.
+        print ' - ' . $fields['field_fl_categorie_strs_value']->content;
       }
-      if (isset($fields['field_fl_classement_label_strs_value'])) {
-        print cdt2011_term_to_img($fields['field_fl_classement_label_strs_value']->content, ' - ');
+      if (!empty($fields['field_fl_classement_label_strs_value']->content)) {
+        // Print the text, not an icon.
+        print ' - ' . $fields['field_fl_classement_label_strs_value']->content;
       }
       print cdt2011_new_norm($fields);
       ?>
@@ -27,7 +29,7 @@
       <?php print strip_tags($fields['body']->content, '<p><strong>'); ?>
     </div>
 
-    <div class="item-options small">
+    <div class="item-options">
       <?php
       // Bouton Réserver
       print cdt2011_booking_button($fields);

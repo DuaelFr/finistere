@@ -211,6 +211,20 @@ function feature_content_pages_strongarm() {
   $strongarm = new stdClass;
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'page_title_type_bon_plan_showfield';
+  $strongarm->value = 1;
+  $export['page_title_type_bon_plan_showfield'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'page_title_type_hqitem_showfield';
+  $strongarm->value = 1;
+  $export['page_title_type_hqitem_showfield'] = $strongarm;
+
+  $strongarm = new stdClass;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'upload_hqitem';
   $strongarm->value = '1';
   $export['upload_hqitem'] = $strongarm;

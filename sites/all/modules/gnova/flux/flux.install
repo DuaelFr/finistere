@@ -1,436 +1,739 @@
 <?php
-function flux_install(){
+function flux_install() {
 
   $content_type_infos = content_types('flux');
-  
-  if(count($content_type_infos['tables'])<=0){
-  	create_flux_ct();
+
+  if (count($content_type_infos['tables']) <= 0) {
+    create_flux_ct();
   }
-	drupal_install_schema('flux');
-	drupal_set_message('Le module flux a bien été installé');
+  drupal_install_schema('flux');
+  drupal_set_message('Le module flux a bien été installé');
 }
 
-function flux_uninstall(){
-	variable_del('flux_sync_data_cache');
-	variable_del('flux_url');
-	variable_del('flux_last_sync');
-	drupal_uninstall_schema('flux');
-	drupal_set_message('Le module flux a bien été désinstallé');
+function flux_uninstall() {
+  variable_del('flux_sync_data_cache');
+  variable_del('flux_url');
+  variable_del('flux_last_sync');
+  drupal_uninstall_schema('flux');
+  drupal_set_message('Le module flux a bien été désinstallé');
 }
 
 function flux_schema() {
-	$schema['flux_fieldsettings']=array(
-	
-		'description' => t('Per flux per field settings'),
-		
-		'fields' => array(
-			'bordereau_id' => array(
-				'type' => 'varchar',
-				'length' => 20,
-				'not null' => TRUE,
-			),
-			
-			'required' => array(
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			
-			'staticfield' => array(
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			
-			'fieldname' => array(
-				'description' => t('The field name in the WS'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => TRUE,
-			),
-			
-			'cckfieldname' => array(
-				'description' => t('The field name in CCK'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => FALSE,
-			),
-			
-			'fieldfunction' => array(
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => TRUE,
-			),
-			
-			'label' => array(
-				'description' => t('The label to apply to the cck field'),
-				'type' => 'varchar',
-				'length' => 255,
-				'not null' => TRUE,
-			),
-			
-			
-		),
-		
-		'unique keys' => array(
-			'fluxidfieldname' => array('bordereau_id', 'fieldname'),
-		),
-	);
-	
-	
-	$schema['flux_display']=array(
-	
-		'description' => t('Per flux per field settings'),
-		
-		'fields' => array(
-		
-			'bordereau_id' => array(
-				'type' => 'varchar',
-				'length' => 20,
-				'not null' => TRUE,
-			),
-			
-			'cckfieldname' => array(
-				'description' => t('The field name in CCK'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => TRUE,
-			),
-			
-			'label' => array(
-				'description' => t('Custom label'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => FALSE,
-			),
-			
-			'hide' => array(
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			
-			'after' => array(
-				'description' => t('the cck fieldname after whome display the value'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => FALSE,
-			),
-			
-			'disptype' => array(
-				'description' => t('the display type'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => FALSE,
-				'default' => '<none>',
-			),
-			
-			'zone' => array(
-				'description' => t('Where to display this field'),
-				'type' => 'varchar',
-				'length' => 80,
-				'not null' => FALSE,
-				'default' => '<default>',
-			),
-			
-			'single' => array(
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			
-			'weight' => array(
-				'type' => 'int',
-				'unsigned' => FALSE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			
-		),
-		
-		'unique keys' => array(
-			'fluxidcckfieldname' => array('bordereau_id', 'cckfieldname'),
-		),
-	);
-	
-	
-	return $schema;
+  $schema['flux_fieldsettings'] = array(
+
+    'description' => t('Per flux per field settings'),
+    'fields'      => array(
+      'bordereau_id'  => array(
+        'type'     => 'varchar',
+        'length'   => 20,
+        'not null' => TRUE,
+      ),
+      'required'      => array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+      'staticfield'   => array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+      'fieldname'     => array(
+        'description' => t('The field name in the WS'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => TRUE,
+      ),
+      'cckfieldname'  => array(
+        'description' => t('The field name in CCK'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => FALSE,
+      ),
+      'fieldfunction' => array(
+        'type'     => 'varchar',
+        'length'   => 80,
+        'not null' => TRUE,
+      ),
+      'label'         => array(
+        'description' => t('The label to apply to the cck field'),
+        'type'        => 'varchar',
+        'length'      => 255,
+        'not null'    => TRUE,
+      ),
+
+
+    ),
+    'unique keys' => array(
+      'fluxidfieldname' => array('bordereau_id', 'fieldname'),
+    ),
+  );
+
+
+  $schema['flux_display'] = array(
+
+    'description' => t('Per flux per field settings'),
+    'fields'      => array(
+
+      'bordereau_id' => array(
+        'type'     => 'varchar',
+        'length'   => 20,
+        'not null' => TRUE,
+      ),
+      'cckfieldname' => array(
+        'description' => t('The field name in CCK'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => TRUE,
+      ),
+      'label'        => array(
+        'description' => t('Custom label'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => FALSE,
+      ),
+      'hide'         => array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+      'after'        => array(
+        'description' => t('the cck fieldname after whome display the value'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => FALSE,
+      ),
+      'disptype'     => array(
+        'description' => t('the display type'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => FALSE,
+        'default'     => '<none>',
+      ),
+      'zone'         => array(
+        'description' => t('Where to display this field'),
+        'type'        => 'varchar',
+        'length'      => 80,
+        'not null'    => FALSE,
+        'default'     => '<default>',
+      ),
+      'single'       => array(
+        'type'     => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+      'weight'       => array(
+        'type'     => 'int',
+        'unsigned' => FALSE,
+        'not null' => TRUE,
+        'default'  => 0,
+      ),
+
+    ),
+    'unique keys' => array(
+      'fluxidcckfieldname' => array('bordereau_id', 'cckfieldname'),
+    ),
+  );
+
+
+  return $schema;
 }
 
-function create_flux_ct(){
- module_load_include('inc', 'install_profile_api', 'contrib/content_copy');
-  
-  
-	$content['type']  = array (
-	  'name' => 'Flux',
-	  'type' => 'flux',
-	  'description' => 'Define Tourinsoft idModule',
-	  'title_label' => 'Title',
-	  'body_label' => '',
-	  'min_word_count' => '0',
-	  'help' => '',
-	  'node_options' => 
-	  array (
-	    'status' => true,
-	    'promote' => false,
-	    'sticky' => false,
-	    'revision' => false,
-	  ),
-	  'language_content_type' => '0',
-	  'upload' => '0',
-	  'old_type' => 'flux',
-	  'orig_type' => '',
-	  'module' => 'node',
-	  'custom' => '1',
-	  'modified' => '1',
-	  'locked' => '0',
-	  'comment' => '0',
-	  'comment_default_mode' => '4',
-	  'comment_default_order' => '1',
-	  'comment_default_per_page' => '50',
-	  'comment_controls' => '3',
-	  'comment_anonymous' => 0,
-	  'comment_subject_field' => '1',
-	  'comment_preview' => '1',
-	  'comment_form_location' => '0',
-	  'print_display' => 0,
-	  'print_display_comment' => 0,
-	  'print_display_urllist' => 0,
-	  'print_mail_display' => 0,
-	  'print_mail_display_comment' => 0,
-	  'print_mail_display_urllist' => 0,
-	  'print_pdf_display' => 0,
-	  'print_pdf_display_comment' => 0,
-	  'print_pdf_display_urllist' => 0,
-	  'scheduler_publish_enable' => 0,
-	  'scheduler_publish_touch' => 0,
-	  'scheduler_publish_required' => 0,
-	  'scheduler_publish_revision' => 0,
-	  'scheduler_unpublish_enable' => 0,
-	  'scheduler_unpublish_required' => 0,
-	  'scheduler_unpublish_revision' => 0,
-	  'i18n_newnode_current' => 0,
-	  'i18n_required_node' => 0,
-	  'i18n_lock_node' => 0,
-	  'i18n_node' => 1,
-	);
-	$content['fields']  = array (
-	  0 => 
-	  array (
-	    'label' => 'Identifiant',
-	    'field_name' => 'field_flux_identifiant',
-	    'type' => 'text',
-	    'widget_type' => 'text_textfield',
-	    'change' => 'Modifier les informations de base',
-	    'weight' => '-3',
-	    'rows' => 5,
-	    'size' => '60',
-	    'description' => '',
-	    'default_value' => 
-	    array (
-	      0 => 
-	      array (
-	        'value' => '',
-	        '_error_element' => 'default_value_widget][field_flux_identifiant][0][value',
-	      ),
-	    ),
-	    'default_value_php' => '',
-	    'default_value_widget' => NULL,
-	    'group' => false,
-	    'required' => 1,
-	    'multiple' => '0',
-	    'text_processing' => '0',
-	    'max_length' => '',
-	    'allowed_values' => '',
-	    'allowed_values_php' => '',
-	    'op' => 'Enregistrer les paramètres du champ',
-	    'module' => 'text',
-	    'widget_module' => 'text',
-	    'columns' => 
-	    array (
-	      'value' => 
-	      array (
-	        'type' => 'text',
-	        'size' => 'big',
-	        'not null' => false,
-	        'sortable' => true,
-	        'views' => true,
-	      ),
-	    ),
-	    'display_settings' => 
-	    array (
-	      'label' => 
-	      array (
-	        'format' => 'above',
-	        'exclude' => 0,
-	      ),
-	      'teaser' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'full' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      4 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      2 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      3 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      5 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'ubox_resume' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'ubox_slideshow' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'token' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	    ),
-	  ),
-	  1 => 
-	  array (
-	    'label' => 'IdModule',
-	    'field_name' => 'field_flux_idmodule',
-	    'type' => 'text',
-	    'widget_type' => 'text_textfield',
-	    'change' => 'Modifier les informations de base',
-	    'weight' => '-2',
-	    'rows' => 5,
-	    'size' => '60',
-	    'description' => '',
-	    'default_value' => 
-	    array (
-	      0 => 
-	      array (
-	        'value' => '',
-	        '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
-	      ),
-	    ),
-	    'default_value_php' => '',
-	    'default_value_widget' => 
-	    array (
-	      'field_flux_idmodule' => 
-	      array (
-	        0 => 
-	        array (
-	          'value' => '',
-	          '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
-	        ),
-	      ),
-	    ),
-	    'group' => false,
-	    'required' => 1,
-	    'multiple' => '0',
-	    'text_processing' => '0',
-	    'max_length' => '',
-	    'allowed_values' => '',
-	    'allowed_values_php' => '',
-	    'op' => 'Enregistrer les paramètres du champ',
-	    'module' => 'text',
-	    'widget_module' => 'text',
-	    'columns' => 
-	    array (
-	      'value' => 
-	      array (
-	        'type' => 'text',
-	        'size' => 'big',
-	        'not null' => false,
-	        'sortable' => true,
-	        'views' => true,
-	      ),
-	    ),
-	    'display_settings' => 
-	    array (
-	      'label' => 
-	      array (
-	        'format' => 'above',
-	        'exclude' => 0,
-	      ),
-	      'teaser' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'full' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      4 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      2 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      3 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      5 => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'ubox_resume' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'ubox_slideshow' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	      'token' => 
-	      array (
-	        'format' => 'default',
-	        'exclude' => 0,
-	      ),
-	    ),
-	  ),
-	);
-	$content['extra']  = array (
-	  'title' => '-5',
-	  'revision_information' => '0',
-	  'author' => '1',
-	  'options' => '2',
-	  'comment_settings' => '3',
-	  'menu' => '-4',
-	  'path' => '5',
-	  'print' => '4',
-	);
-	install_content_copy_import_from_file($content);
+function create_flux_ct() {
+  module_load_include('inc', 'install_profile_api', 'contrib/content_copy');
+
+
+  $content['type']   = array(
+    'name'                         => 'Flux',
+    'type'                         => 'flux',
+    'description'                  => 'Define Tourinsoft idModule',
+    'title_label'                  => 'Title',
+    'body_label'                   => '',
+    'min_word_count'               => '0',
+    'help'                         => '',
+    'node_options'                 =>
+    array(
+      'status'   => TRUE,
+      'promote'  => FALSE,
+      'sticky'   => FALSE,
+      'revision' => FALSE,
+    ),
+    'language_content_type'        => '0',
+    'upload'                       => '0',
+    'old_type'                     => 'flux',
+    'orig_type'                    => '',
+    'module'                       => 'node',
+    'custom'                       => '1',
+    'modified'                     => '1',
+    'locked'                       => '0',
+    'comment'                      => '0',
+    'comment_default_mode'         => '4',
+    'comment_default_order'        => '1',
+    'comment_default_per_page'     => '50',
+    'comment_controls'             => '3',
+    'comment_anonymous'            => 0,
+    'comment_subject_field'        => '1',
+    'comment_preview'              => '1',
+    'comment_form_location'        => '0',
+    'print_display'                => 0,
+    'print_display_comment'        => 0,
+    'print_display_urllist'        => 0,
+    'print_mail_display'           => 0,
+    'print_mail_display_comment'   => 0,
+    'print_mail_display_urllist'   => 0,
+    'print_pdf_display'            => 0,
+    'print_pdf_display_comment'    => 0,
+    'print_pdf_display_urllist'    => 0,
+    'scheduler_publish_enable'     => 0,
+    'scheduler_publish_touch'      => 0,
+    'scheduler_publish_required'   => 0,
+    'scheduler_publish_revision'   => 0,
+    'scheduler_unpublish_enable'   => 0,
+    'scheduler_unpublish_required' => 0,
+    'scheduler_unpublish_revision' => 0,
+    'i18n_newnode_current'         => 0,
+    'i18n_required_node'           => 0,
+    'i18n_lock_node'               => 0,
+    'i18n_node'                    => 1,
+  );
+  $content['fields'] = array(
+    0 =>
+    array(
+      'label'                => 'Identifiant',
+      'field_name'           => 'field_flux_identifiant',
+      'type'                 => 'text',
+      'widget_type'          => 'text_textfield',
+      'change'               => 'Modifier les informations de base',
+      'weight'               => '-3',
+      'rows'                 => 5,
+      'size'                 => '60',
+      'description'          => '',
+      'default_value'        =>
+      array(
+        0 =>
+        array(
+          'value'          => '',
+          '_error_element' => 'default_value_widget][field_flux_identifiant][0][value',
+        ),
+      ),
+      'default_value_php'    => '',
+      'default_value_widget' => NULL,
+      'group'                => FALSE,
+      'required'             => 1,
+      'multiple'             => '0',
+      'text_processing'      => '0',
+      'max_length'           => '',
+      'allowed_values'       => '',
+      'allowed_values_php'   => '',
+      'op'                   => 'Enregistrer les paramètres du champ',
+      'module'               => 'text',
+      'widget_module'        => 'text',
+      'columns'              =>
+      array(
+        'value' =>
+        array(
+          'type'     => 'text',
+          'size'     => 'big',
+          'not null' => FALSE,
+          'sortable' => TRUE,
+          'views'    => TRUE,
+        ),
+      ),
+      'display_settings'     =>
+      array(
+        'label'          =>
+        array(
+          'format'  => 'above',
+          'exclude' => 0,
+        ),
+        'teaser'         =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'full'           =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        4                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        2                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        3                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        5                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'ubox_resume'    =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'ubox_slideshow' =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'token'          =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+      ),
+    ),
+    1 =>
+    array(
+      'label'                => 'IdModule',
+      'field_name'           => 'field_flux_idmodule',
+      'type'                 => 'text',
+      'widget_type'          => 'text_textfield',
+      'change'               => 'Modifier les informations de base',
+      'weight'               => '-2',
+      'rows'                 => 5,
+      'size'                 => '60',
+      'description'          => '',
+      'default_value'        =>
+      array(
+        0 =>
+        array(
+          'value'          => '',
+          '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
+        ),
+      ),
+      'default_value_php'    => '',
+      'default_value_widget' =>
+      array(
+        'field_flux_idmodule' =>
+        array(
+          0 =>
+          array(
+            'value'          => '',
+            '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
+          ),
+        ),
+      ),
+      'group'                => FALSE,
+      'required'             => 1,
+      'multiple'             => '0',
+      'text_processing'      => '0',
+      'max_length'           => '',
+      'allowed_values'       => '',
+      'allowed_values_php'   => '',
+      'op'                   => 'Enregistrer les paramètres du champ',
+      'module'               => 'text',
+      'widget_module'        => 'text',
+      'columns'              =>
+      array(
+        'value' =>
+        array(
+          'type'     => 'text',
+          'size'     => 'big',
+          'not null' => FALSE,
+          'sortable' => TRUE,
+          'views'    => TRUE,
+        ),
+      ),
+      'display_settings'     =>
+      array(
+        'label'          =>
+        array(
+          'format'  => 'above',
+          'exclude' => 0,
+        ),
+        'teaser'         =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'full'           =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        4                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        2                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        3                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        5                =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'ubox_resume'    =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'ubox_slideshow' =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+        'token'          =>
+        array(
+          'format'  => 'default',
+          'exclude' => 0,
+        ),
+      ),
+    ),
+  );
+  $content['extra']  = array(
+    'title'                => '-5',
+    'revision_information' => '0',
+    'author'               => '1',
+    'options'              => '2',
+    'comment_settings'     => '3',
+    'menu'                 => '-4',
+    'path'                 => '5',
+    'print'                => '4',
+  );
+  install_content_copy_import_from_file($content);
+}
+
+/**
+ * Mise à jour champs "Périodes d'ouverture"
+ */
+function flux_update_6001(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_date_debut_date', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Périodes d\'ouverture';
+      $field['display_settings']['label']['format'] = 'above';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+/**
+ * Désactivation champs CATEGORIE & CLASSEMENT_LABEL & ATTENTE_CLASSEMENT pour affichage spécial.
+ */
+function flux_update_6002(&$sandbox) {
+  module_load_include('inc', 'flux', 'fluxfields_admin_pages');
+  $toDel = array('CATEGORIE', 'CLASSEMENT_LABEL', 'ATTENTE_CLASSEMENT');
+  $fluxList = fluxfields_get_flux();
+  foreach ($fluxList as $bid) {
+    $confList = flux_fieldsmapping($bid);
+    foreach ($toDel as $name) {
+      if (!empty($confList) && !empty($confList[$name])) {
+        $fname = $confList[$name]->cckfieldname;
+
+        $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
+        db_query($sql, $fname, $bid);
+        $sql = "DELETE FROM {flux_display} WHERE bordereau_id='%s' AND cckfieldname='%s'";
+        db_query($sql, $fname, $bid);
+      }
+    }
+  }
+}
+
+/**
+ * Désactivation champs CHAINES & LABELS pour affichage spécial.
+ */
+function flux_update_6003(&$sandbox) {
+  module_load_include('inc', 'flux', 'fluxfields_admin_pages');
+  $toDel = array('CHAINES', 'LABELS');
+  $fluxList = fluxfields_get_flux();
+  foreach ($fluxList as $bid) {
+    $confList = flux_fieldsmapping($bid);
+    foreach ($toDel as $name) {
+      if (!empty($confList) && !empty($confList[$name])) {
+        $fname = $confList[$name]->cckfieldname;
+
+        $sql = "UPDATE {flux_fieldsettings} SET staticfield = 1 WHERE cckfieldname = '%s' AND bordereau_id = '%s'";
+        db_query($sql, $fname, $bid);
+        $sql = "DELETE FROM {flux_display} WHERE bordereau_id='%s' AND cckfieldname='%s'";
+        db_query($sql, $fname, $bid);
+      }
+    }
+  }
+}
+
+/**
+ * Mise à jour champs "Animaux acceptés"
+ */
+function flux_update_6004(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_anx_acceptes_tx', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['label']['format'] = 'hidden';
+      foreach ($field['display_settings'] as $format => $_) {
+        if (!empty($field['display_settings'][$format]['format']) && $field['display_settings'][$format]['format'] == 'hidefalse') {
+          $field['display_settings'][$format]['format'] = 'copylabel';
+        }
+      }
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+  /**
+   * Ajout traductions
+   */
+function flux_update_6005(&$sandbox) {
+  $traductions = array(
+    'Max capacity' => 'Capacité max',
+    'Min capacity' => 'Capacité min',
+  );
+  $sql_select = "SELECT lid FROM {locales_source} WHERE source = '%s'";
+  $sql_insert = "INSERT INTO {locales_source} (lid, location, textgroup, source, version) VALUES (NULL, '', 'default', '%s', " . VERSION. ")";
+  $sql_update = "REPLACE INTO {locales_target} (lid, translation, language, plid, plural, i18n_status) VALUES (%d, '%s', 'fr', 0, 0 ,0)";
+
+  foreach ($traductions as $source => $target) {
+    $data = db_fetch_object(db_query($sql_select, $source));
+    // If source does not exists, create it.
+    if (empty($data)) {
+      db_query($sql_insert, $source);
+      $lid = db_last_insert_id('locales_source', 'lid');
+    }
+    else {
+      $lid = $data->lid;
+    }
+    // Save the translation.
+    db_query($sql_update, $lid, $target);
+
+    // Flush caches
+    drupal_flush_all_caches();
+  }
+}
+
+/**
+ * Mise à jour champs "Min" & "Max"
+ */
+function flux_update_6006(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_capacite_max_int', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Max capacity';
+      content_field_instance_update($field, FALSE);
+    }
+
+    $field = content_fields('field_fl_capacite_min_int', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Min capacity';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+/**
+ * Mise à jour champs "Capacité" (ajout suffixe)
+ */
+function flux_update_6007(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  // INT fields
+  $toChange = array(
+    'field_fl_capacite_min_int',
+    'field_fl_capacite_max_int',
+  );
+  $sql_select = "SELECT global_settings FROM {content_node_field} WHERE field_name = '%s'";
+  $sql_update = "UPDATE {content_node_field} SET global_settings = '%s' WHERE field_name = '%s'";
+
+  foreach ($toChange as $fname) {
+    $data = db_fetch_object(db_query($sql_select, $fname));
+    if (!empty($data)) {
+      $settings = unserialize($data->global_settings);
+      $settings['suffix'] = ' personnes';
+
+      db_query($sql_update, serialize($settings), $fname);
+    }
+  }
+
+  // TEXT field
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_capacite_strs', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['full']['format'] = 'capacity';
+      $field['display_settings']['teaser']['format'] = 'capacity';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+/**
+ * Mise à jour champs "Services" (RES)
+ */
+function flux_update_6008(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_services_strs', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['label']['format'] = 'inline';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+/**
+ * Mise à jour champs "Localisation" & "Services"
+ */
+function flux_update_6009(&$sandbox) {
+  module_load_include('inc', 'content', 'includes/content.crud');
+
+  $types = content_types();
+  foreach ($types as $tname => $type) {
+    $field = content_fields('field_fl_localisation_tx', $tname);
+    if (!empty($field)) {
+      $field['widget']['label'] = 'Localisation';
+      $field['display_settings']['label']['format'] = 'above';
+      content_field_instance_update($field, FALSE);
+    }
+
+    $field = content_fields('field_fl_services_strs', $tname);
+    if (!empty($field)) {
+      $field['display_settings']['label']['format'] = 'above';
+      content_field_instance_update($field, FALSE);
+    }
+  }
+
+  // Rebuild registries.
+  content_clear_type_cache(TRUE);
+  menu_rebuild();
+}
+
+/**
+ * Suppression pages et flux Aviron
+ */
+function flux_update_6010(&$sandbox) {
+  // Find ASC aviron flux
+  $sql = "SELECT nid FROM {content_type_flux} WHERE field_flux_idmodule_value = '%s'";
+  $nid = reset(db_fetch_array(db_query($sql, '2ab51060-c89b-4f7e-8dda-029aca2b7cea')));
+  $node = node_load($nid);
+
+  // Delete all data using this flux
+  $sql = "SELECT nid FROM {content_field_fl_id_module_tx} WHERE field_fl_id_module_tx_value = '%s' OR field_fl_id_module_tx_value = '%s'";
+  $query = db_query($sql, $node->field_flux_idmodule[0]['value'], $node->field_flux_idmodule_en[0]['value']);
+  while ($data = db_fetch_array($query)) {
+    $to_del = reset($data);
+    node_delete($to_del);
+  }
+
+  // Find and delete related taxonomy terms
+  $sql = "SELECT vid FROM {vocabulary} WHERE name = '%s'";
+  $vocid = reset(db_fetch_array(db_query($sql, 'Tourinsoft_' . $node->field_flux_identifiant[0]['value'])));
+  $sql = "SELECT tid FROM {term_data} WHERE vid = %d AND name = '%s'";
+  $tid = reset(db_fetch_array(db_query($sql, $vocid, $node->title)));
+  taxonomy_del_term($tid);
+
+  // Find and remove hierachical pages related to this flux
+  $sql = "SELECT nid FROM {content_type_hqitem} WHERE field_hqitem_fluxdisplay_value = '%s'";
+  $hqnid = reset(db_fetch_array(db_query($sql, 'block_28')));
+  node_delete($hqnid);
+
+  // Delete parents relations to these hqitems
+  $sql = "DELETE FROM {content_field_hqitem_parent} WHERE field_hqitem_parent_nid = %d";
+  db_query($sql, $hqnid);
+  $sql = "DELETE FROM {content_field_hqitem_parents_other} WHERE field_hqitem_parents_other_nid = %d";
+  db_query($sql, $hqnid);
+
+  // Delete the flux
+  node_delete($nid);
+}
+
+/**
+ * Mise à jour pages parcs à thèmes
+ */
+function flux_update_6011(&$sandbox) {
+  features_revert(array(
+    'feature_content_pages' => array('content'),
+    'feature_hq_views' => array('views'),
+  ));
+
+  $sql = "UPDATE {content_type_hqitem}
+          SET field_hq_view_name_value = 'hqflux_search_influx',
+              field_hqitem_fluxtid_value = NULL,
+              field_hqitem_fluxdisplay_value = 'block_74'
+          WHERE field_hq_view_name_value = 'hqflux_display_list_as_hqchild'
+            AND field_hqitem_fluxtid_value = 5398";
+  db_query($sql);
+}
+
+/**
+ * Mise à jour pages agendas festivals et marchés
+ */
+function flux_update_6012(&$sandbox) {
+  features_revert(array(
+    'feature_content_pages' => array('content'),
+    'feature_hq_views' => array('views'),
+  ));
+
+  $sql = "UPDATE {content_type_hqitem}
+          SET field_hq_view_name_value = 'hqflux_search_influx',
+              field_hqitem_fluxtid_value = NULL,
+              field_hqitem_fluxdisplay_value = 'block_75'
+          WHERE field_hq_view_name_value = 'hqflux_display_list_as_hqchild'
+            AND field_hqitem_fluxtid_value = 422";
+  db_query($sql);
+}
+
+/**
+ * Synchro des champs du flux pour prendre en compte nouveaux champs.
+ */
+function flux_update_6014(&$sandbox) {
+  module_load_include('inc', 'flux', 'flux.sync');
+  $sync = new Synchronisation();
+  $sync->init(TRUE);
+  foreach ($sync->flux as $fl) {
+    $sync->getFieldsSearch($fl);
+    $sync->getFieldsSearch($fl, TRUE);
+  }
 }

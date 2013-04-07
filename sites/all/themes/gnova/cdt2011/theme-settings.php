@@ -20,20 +20,20 @@ function cdt2011_settings($saved_settings, $subtheme_defaults = array()) {
     '#prefix'        => '<strong>' . t('Zen Tabs:') . '</strong>',
   );
 
-  $form['cdt2011_breadcrumb'] = array(
-    '#type'          => 'fieldset',
-    '#title'         => t('Breadcrumb settings'),
-    '#attributes'    => array('id' => 'cdt2011-breadcrumb'),
+  $form['cdt2011_breadcrumb']                                 = array(
+    '#type'       => 'fieldset',
+    '#title'      => t('Breadcrumb settings'),
+    '#attributes' => array('id' => 'cdt2011-breadcrumb'),
   );
-  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb'] = array(
+  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb']           = array(
     '#type'          => 'select',
     '#title'         => t('Display breadcrumb'),
     '#default_value' => $settings['cdt2011_breadcrumb'],
     '#options'       => array(
-                          'yes'   => t('Yes'),
-                          'admin' => t('Only in admin section'),
-                          'no'    => t('No'),
-                        ),
+      'yes'   => t('Yes'),
+      'admin' => t('Only in admin section'),
+      'no'    => t('No'),
+    ),
   );
   $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_separator'] = array(
     '#type'          => 'textfield',
@@ -42,20 +42,21 @@ function cdt2011_settings($saved_settings, $subtheme_defaults = array()) {
     '#default_value' => $settings['cdt2011_breadcrumb_separator'],
     '#size'          => 5,
     '#maxlength'     => 10,
-    '#prefix'        => '<div id="div-cdt2011-breadcrumb-collapse">', // jquery hook to show/hide optional widgets
+    '#prefix'        => '<div id="div-cdt2011-breadcrumb-collapse">',
+    // jquery hook to show/hide optional widgets
   );
-  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_home'] = array(
+  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_home']      = array(
     '#type'          => 'checkbox',
     '#title'         => t('Show home page link in breadcrumb'),
     '#default_value' => $settings['cdt2011_breadcrumb_home'],
   );
-  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_trailing'] = array(
+  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_trailing']  = array(
     '#type'          => 'checkbox',
     '#title'         => t('Append a separator to the end of the breadcrumb'),
     '#default_value' => $settings['cdt2011_breadcrumb_trailing'],
     '#description'   => t('Useful when the breadcrumb is placed just before the title.'),
   );
-  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_title'] = array(
+  $form['cdt2011_breadcrumb']['cdt2011_breadcrumb_title']     = array(
     '#type'          => 'checkbox',
     '#title'         => t('Append the content title to the end of the breadcrumb'),
     '#default_value' => $settings['cdt2011_breadcrumb_title'],

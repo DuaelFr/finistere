@@ -56,6 +56,18 @@ function cdt_formatters_field_formatter_info() {
       'description' => t('Affichage du lien réservation en ligne sous conditions'),
       'multiple values' => CONTENT_HANDLE_MODULE
 	  ),
+    'copylabel' => array(
+      'label' => t("Copy label"),
+      'field types' => array('text'),
+      'description' => t('Copie le label dans la valeur si le champ n\'est pas vide (ou \'non\')'),
+      'multiple values' => CONTENT_HANDLE_MODULE
+    ),
+    'capacity' => array(
+      'label' => t("Add capacity suffix"),
+      'field types' => array('text'),
+      'description' => t('Add the capacity suffix to the text'),
+      'multiple values' => CONTENT_HANDLE_MODULE
+    ),
   );
   return $formatters;
 }
@@ -71,6 +83,8 @@ function cdt_formatters_theme() {
     'cdt_formatters_formatter_begintoenddate' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_hidefalse' => array('arguments' => array('element' => NULL),),
     'cdt_formatters_formatter_resaligne' => array('arguments' => array('element' => NULL),),
+    'cdt_formatters_formatter_copylabel' => array('arguments' => array('element' => NULL),),
+    'cdt_formatters_formatter_capacity' => array('arguments' => array('element' => NULL),),
   );
   return $theme;
 }
@@ -134,7 +148,7 @@ function theme_cdt_formatters_formatter_bpimages($element) {
 		for($i=0; $i < $count; $i++){
 			if(isset($element[$i]['#item']['fid'])){
 				$item = $element[$i]['#item'];
-				$img.='<a class="lien_img" href="#">'.theme('imagecache', 'bp_detail_big', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
+				$img.='<a class="lien_img colorbox-load" href="'.base_path().$item['filepath'].'">'.theme('imagecache', 'bp_detail_big', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
 				$tiny_imgs[] = '<a href="#" '.($i==0 ? 'class="current"' : '').'>'.theme('imagecache', 'bp_tiny_img', $item['filepath'], $item['data']['alt'], $item['data']['title']).'</a>';
         //dsm($i % 4);
 			}
@@ -283,4 +297,28 @@ function theme_cdt_formatters_formatter_resaligne($element){
   }
 
 	return $output;
+}
+
+function theme_cdt_formatters_formatter_copylabel($element){
+  $output = theme_cdt_formatters_formatter_hidefalse($element);
+
+  if (!empty($output)) {
+    $sql = "SELECT label FROM {flux_fieldsettings} WHERE cckfieldname = '%s'";
+    $data = db_fetch_object(db_query($sql, $element['#field_name']));
+    if (!empty($data)) {
+      $output = $data->label;
+    }
+  }
+
+  return $output;
+}
+
+function theme_cdt_formatters_formatter_capacity($element){
+  $output = '';
+
+  if (!empty($element[0]['#item']['value'])) {
+    $output = check_plain($element[0]['#item']['value']) . ' personnes';
+  }
+
+  return $output;
 }

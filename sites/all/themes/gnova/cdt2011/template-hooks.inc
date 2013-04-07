@@ -1,10 +1,10 @@
 <?php
 
 function cdt2011_menu_tree($tree, $attributes = array('class' => 'menu')) {
-	
-	foreach($attributes as $cle=>$val){
-		$attr_string .= ' ' . $cle . '="' . $val . '"';
-	}
+
+  foreach ($attributes as $cle => $val) {
+    $attr_string .= ' ' . $cle . '="' . $val . '"';
+  }
   return "<ul$attr_string>" . $tree . "</ul>";
 }
 
@@ -17,6 +17,6 @@ function cdt2011_menu_item_custom($link, $has_children, $menu = '', $in_active_t
   if ($in_active_trail) {
     $class .= ' active-trail';
   }
-  
+
   return '<li class="' . $class . '">' . $link . $menu . "</li>\n";
 }

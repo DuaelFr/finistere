@@ -15,6 +15,10 @@
       ?>
     </h3>
 
+    <?php
+    print cdt2011_output_dates($fields);
+    ?>
+
     <div class="date_agenda">
       <?php print $fields['city']->content; ?>
       <?php //print $fields['postal_code']->content; ?>
@@ -27,7 +31,7 @@
       <?php print strip_tags($fields['body']->content, '<p><strong>'); ?>
     </div>
 
-    <div class="item-options small">
+    <div class="item-options">
       <?php
       // Bouton Réserver
       print cdt2011_booking_button($fields);
