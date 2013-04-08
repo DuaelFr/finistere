@@ -9303,9 +9303,8 @@ function feature_hq_views_views_default_views() {
     'term_node_tid_depth' => array(
       'operator' => 'or',
       'value' => array(
-        '404' => '404',
         '422' => '422',
-        '288' => '288',
+        '404' => '404',
       ),
       'group' => '0',
       'exposed' => FALSE,
