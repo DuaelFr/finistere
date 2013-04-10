@@ -8,7 +8,7 @@
 
 #menu-primary-links li:hover, #menu-primary-links .actif{  background:url(../images/sprite_repeat.png) 0 -62px;}
 
-#menu-primary-links li a{font:1.65em/61px 'DaxCondensedRegular', Arial, Helvetica, sans-serif; /*text-transform:uppercase;*/ letter-spacing:-1px; color:#e3e6e8; text-decoration:none; height:54px; display:block; padding:0 33px 0 17px; background:url(../images/sprite.png?1302230115) no-repeat right -399px;}
+#menu-primary-links li a{font:1.65em/61px 'DaxCondensedRegular', Arial, Helvetica, sans-serif; /*text-transform:uppercase;*/ letter-spacing:-1px; color:#e3e6e8; text-decoration:none; height:54px; display:block; padding:0 33px 0 17px; background:url(../images/sprite.png?1304110000) no-repeat right -399px;}
 
 /*#menu-primary-links li a{ font:3.11em;}*/
 
@@ -79,7 +79,7 @@ body.domain-2 #conteneur_menu #menu-primary-links li a span{ font-size:0.7em; di
 
 #pagination li a:hover{ background-color:#9b9b9b; color:#FFF;}
 
-#pagination .custom{ position:absolute; background:url(../images/sprite.png?1302230115) no-repeat 0px -3895px; }
+#pagination .custom{ position:absolute; background:url(../images/sprite.png?1304110000) no-repeat 0px -3895px; }
 
 #pagination .custom a{ height:21px; width:10px;  text-indent:-9990px; display:block;}
 

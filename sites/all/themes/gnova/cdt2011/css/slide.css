@@ -20,7 +20,7 @@
   
     .items .img_bon_plan { float:left; position:relative; }
   
-    #conteneur_right .browse{cursor:pointer; background:url(../images/sprite.png?1302230115) no-repeat 0 0; display:block; width:24px; height:20px; position:absolute; margin-top:0; float:none; z-index:1;}
+    #conteneur_right .browse{cursor:pointer; background:url(../images/sprite.png?1304110000) no-repeat 0 0; display:block; width:24px; height:20px; position:absolute; margin-top:0; float:none; z-index:1;}
 	
 	#conteneur_right .next{ background-position:0 -1215px; top:15px; right:15px;}
 	
