@@ -26,7 +26,7 @@
 
 .title_we{font: 0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; margin-bottom: 10px; }
 
-#conteneur_left .info_we{ font:0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase;  background:url(../images/sprite.png) no-repeat 0 0; padding-left:23px; height:20px; line-height:16px;  }
+#conteneur_left .info_we{ font:0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase;  background:url(../images/sprite.png?1304110000) no-repeat 0 0; padding-left:23px; height:20px; line-height:16px;  }
 
 #conteneur_left .uboxpb_items .g-tabs{ margin-left:0;}
 

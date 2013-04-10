@@ -3,7 +3,7 @@
 
 #titre_agenda h1{ font:1.56em 'NeoSansRegular',Arial,Helvetica,sans-serif; float:left; border-bottom:0; margin:0; }
 
-.lien_title{ float:right; font:bold 0.69em Arial, Helvetica, sans-serif; color:#4a4a4a; text-transform:uppercase; background:url(../images/sprite.png) no-repeat 0 -1965px; padding:6px 0 0 20px; margin-top:8px; position:absolute; top:48px; right:0; text-decoration:none;}
+.lien_title{ float:right; font:bold 0.69em Arial, Helvetica, sans-serif; color:#4a4a4a; text-transform:uppercase; background:url(../images/sprite.png?1304110000) no-repeat 0 -1965px; padding:6px 0 0 20px; margin-top:8px; position:absolute; top:48px; right:0; text-decoration:none;}
 
 #titre_agenda label select{ border:0; border:1px solid #9ea4a8; width:158px; text-transform:none; padding:3px; margin-left:10px;}
 
@@ -87,7 +87,7 @@
 
 #conteneur_left.agenda .pager li{ float:left;  font-size:0.75em; font-weight:bold;}
 
-#conteneur_left.agenda .pager li:first-child{ background:url(../images/sprite.png) no-repeat 0 -713px; padding-left:14px; height:14px; line-height:14px;}
+#conteneur_left.agenda .pager li:first-child{ background:url(../images/sprite.png?1304110000) no-repeat 0 -713px; padding-left:14px; height:14px; line-height:14px;}
 
 #conteneur_left.agenda .pager li a{ border-right:1px solid #4A4A4A; padding:0 5px; font-weight:bold; text-decoration:none; line-height:14px;}
 
@@ -105,7 +105,7 @@
 
 .box_right form{ width:234px; margin:0 auto;}
 
-.box_right input[type=submit]{ width:187px; height:38px; font-size:0.88em; color:#FFF; text-transform:uppercase; background:url(../images/sprite.png) no-repeat 0 -2319px; border:0; margin:20px 0; cursor:pointer;}
+.box_right input[type=submit]{ width:187px; height:38px; font-size:0.88em; color:#FFF; text-transform:uppercase; background:url(../images/sprite.png?1304110000) no-repeat 0 -2319px; border:0; margin:20px 0; cursor:pointer;}
 
 .box_right input[type=submit]:hover{ background-position:0 -2361px;}
 
@@ -113,9 +113,9 @@
 
 #conteneur #conteneur_right.agenda .box_right{ min-height:0;}
 
-#conteneur #conteneur_right.agenda .box_right .fleche_agenda{ background:url(../images/sprite.png) no-repeat 5px -3484px; }
+#conteneur #conteneur_right.agenda .box_right .fleche_agenda{ background:url(../images/sprite.png?1304110000) no-repeat 5px -3484px; }
 
-#conteneur #conteneur_right.agenda .box_right .rss{ background:url(../images/sprite.png) no-repeat right -3607px;}
+#conteneur #conteneur_right.agenda .box_right .rss{ background:url(../images/sprite.png?1304110000) no-repeat right -3607px;}
 
 #conteneur #conteneur_right.agenda .box_right .calendar{ background:url(../images/calendar.png) no-repeat 206px 7px; }
 
@@ -125,13 +125,13 @@
 
 #google_maps{ padding-left:0; margin:10px 0 0 0;}
 
-.bons_plans .uboxpb_items .info{ background:url(../images/sprite.png) no-repeat 0 -3683px; padding-left:19px; margin-top:10px;}
+.bons_plans .uboxpb_items .info{ background:url(../images/sprite.png?1304110000) no-repeat 0 -3683px; padding-left:19px; margin-top:10px;}
 
-.uboxbp .date{ font-size:0.75em; font-weight:bold; padding-left:15px; background:url(../images/sprite.png) no-repeat 0 -3733px; margin-bottom:10px;}
+.uboxbp .date{ font-size:0.75em; font-weight:bold; padding-left:15px; background:url(../images/sprite.png?1304110000) no-repeat 0 -3733px; margin-bottom:10px;}
 
 #conteneur_left .all h1{ margin:0; border:0;}
 
-#up_agenda{ position:absolute; top:20px; right:10px; background:url(../images/sprite.png) no-repeat 0 -1848px; display:block; padding-left:35px; font-weight:bold; text-transform:uppercase; text-decoration:none; font-size:0.75em; height:33px; line-height:16px;}
+#up_agenda{ position:absolute; top:20px; right:10px; background:url(../images/sprite.png?1304110000) no-repeat 0 -1848px; display:block; padding-left:35px; font-weight:bold; text-transform:uppercase; text-decoration:none; font-size:0.75em; height:33px; line-height:16px;}
 
 .ubox_others{ width:186px; margin-right:46px; float:left;}
 
@@ -139,6 +139,6 @@
 
 #conteneur_left .uboxbp .ubox_others h2{ font-size:1.31em; margin-top:0;}
 
-.ubox_others ul li a{ background:url(../images/sprite.png) no-repeat 0 -3169px; font-size:0.75em; padding-left:11px; margin-bottom:5px; text-decoration:none; display:block;}
+.ubox_others ul li a{ background:url(../images/sprite.png?1304110000) no-repeat 0 -3169px; font-size:0.75em; padding-left:11px; margin-bottom:5px; text-decoration:none; display:block;}
 
 .ubox_others ul li a:hover{ text-decoration:underline;}
