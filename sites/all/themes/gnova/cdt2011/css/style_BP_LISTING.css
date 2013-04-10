@@ -1,6 +1,6 @@
 .bons_plans #tri_offres{ margin-bottom:15px;}
 
-.bons_plans #tri_offres a{ font-weight:bold; text-transform:uppercase; background:url(../images/sprite.png) no-repeat -2px -4045px; padding-left:20px; display:block; text-decoration:none; font-size:0.70em; line-height:22px; height:22px;}
+.bons_plans #tri_offres a{ font-weight:bold; text-transform:uppercase; background:url(../images/sprite.png?1302230115) no-repeat -2px -4045px; padding-left:20px; display:block; text-decoration:none; font-size:0.70em; line-height:22px; height:22px;}
 
 .bons_plans #tri_offres div a{ text-decoration:none;}
 
@@ -26,7 +26,7 @@
 
 .bons_plans .uboxpb_items .promo{ font-size:1.5em; top:25px;}
 
-.bons_plans .uboxpb_items .ruban{ background: url(../images/sprite.png) no-repeat 0 -1041px; width:101px; height:102px; position:absolute; z-index:1; left:-7px; top:-7px;}
+.bons_plans .uboxpb_items .ruban{ background: url(../images/sprite.png?1302230115) no-repeat 0 -1041px; width:101px; height:102px; position:absolute; z-index:1; left:-7px; top:-7px;}
 
 .bons_plans .all .uboxpb_items .ruban{ top:-3px; left:-3px;}
 
@@ -34,9 +34,9 @@
 
 .bons_plans .uboxpb_items .border{ display:block; float:left; height:72px;}
 
-.bons_plans .uboxpb_items .left_b{ width:5px; background:url(../images/sprite.png) no-repeat 0 -2104px;}
+.bons_plans .uboxpb_items .left_b{ width:5px; background:url(../images/sprite.png?1302230115) no-repeat 0 -2104px;}
 
-.bons_plans .uboxpb_items .right_b{ width:6px; background:url(../images/sprite.png) no-repeat -6px -2104px;}
+.bons_plans .uboxpb_items .right_b{ width:6px; background:url(../images/sprite.png?1302230115) no-repeat -6px -2104px;}
 
 .bons_plans .uboxpb_items .prix{ font:bold 2.38em Arial, Helvetica, sans-serif; color:#FFF; background:url(../images/sprite_repeat.png) 0 -1025px; text-align:center; height:72px; float:left;}
 
@@ -70,7 +70,7 @@
 
 .bons_plans .all .uboxbp_content ul li a{ background:none; color:#4a4a4a; display:inline; font-size:1em; font-weight:normal;}
 
-.bons_plans #bouton{ background:url(../images/sprite.png) no-repeat 0 -2319px; color:#FFF; display:block; width:177px; height:38px; text-transform:uppercase; line-height:38px; margin-top:30px; text-align:center;}
+.bons_plans #bouton{ background:url(../images/sprite.png?1302230115) no-repeat 0 -2319px; color:#FFF; display:block; width:177px; height:38px; text-transform:uppercase; line-height:38px; margin-top:30px; text-align:center;}
 
 .bons_plans #bouton:hover{ background-position:-1px -2361px; text-decoration:none;}
 
@@ -82,11 +82,11 @@
 
 .bons_plans .uboxpb_items .uboxpb_items_content{ font-size:0.69em; padding:5px; line-height:16px;}
 
-.bons_plans .uboxpb_items .rest_offer{ font-size:0.75em; text-transform:uppercase; font-weight:bold; background:url(../images/sprite.png) no-repeat 0 -1767px; padding-left:12px; margin:0 0 15px 5px;}
+.bons_plans .uboxpb_items .rest_offer{ font-size:0.75em; text-transform:uppercase; font-weight:bold; background:url(../images/sprite.png?1302230115) no-repeat 0 -1767px; padding-left:12px; margin:0 0 15px 5px;}
 
 .bons_plans .uboxpb_items .lower{ text-transform:none; font-size:0.74em;}
 
-.bons_plans .uboxpb_items a{ font-size:0.75em; font-weight:bold; text-decoration:none; display:block; background:url(../images/sprite.png) no-repeat 0 -2052px; padding-left:10px; margin:5px;}
+.bons_plans .uboxpb_items a{ font-size:0.75em; font-weight:bold; text-decoration:none; display:block; background:url(../images/sprite.png?1302230115) no-repeat 0 -2052px; padding-left:10px; margin:5px;}
 
 .bons_plans .uboxpb_items a:hover{ text-decoration:underline;}
 

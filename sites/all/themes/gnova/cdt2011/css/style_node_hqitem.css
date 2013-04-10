@@ -4,10 +4,10 @@
 
 #conteneur #conteneur_left .node-type-hqitem h1{ padding-left:0; letter-spacing:-1px;}
 
-#conteneur #conteneur_left .node-type-hqitem h1 a{ display:block; float:right; background:url(../images/sprite.png) no-repeat 0 -1848px; width:30px; height:32px; text-indent:-9999px; overflow:hidden;}
+#conteneur #conteneur_left .node-type-hqitem h1 a{ display:block; float:right; background:url(../images/sprite.png?1302230115) no-repeat 0 -1848px; width:30px; height:32px; text-indent:-9999px; overflow:hidden;}
 
 
-#lys{ background:url(../images/sprite.png) no-repeat 0 -1908px; width:52px; height:44px; position:absolute; top:-7px; right:-7px;}
+#lys{ background:url(../images/sprite.png?1302230115) no-repeat 0 -1908px; width:52px; height:44px; position:absolute; top:-7px; right:-7px;}
 
 #conteneur_left .node-type-hqitem .img_ss_categories{ max-width:668px; margin:10px 0 0;}
 
@@ -106,7 +106,7 @@
 
 .primary-hitem-list .views-row .primlist-content-right .ul_2col{ padding-left:20px;}
 
-.primary-hitem-list .views-row .primlist-content-right ul li{ background:url(../images/sprite.png) no-repeat 0 -260px; padding-left:14px;}
+.primary-hitem-list .views-row .primlist-content-right ul li{ background:url(../images/sprite.png?1302230115) no-repeat 0 -260px; padding-left:14px;}
 
 .primary-hitem-list .views-row .primlist-content-right ul li a{ font:0.9em Arial, Helvetica, sans-serif; color:#4a4a4a; text-decoration:none; display:block; margin-bottom:3px;}
 
