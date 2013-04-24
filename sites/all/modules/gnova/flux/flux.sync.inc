@@ -147,6 +147,17 @@ class Synchronisation {
       return;
     }
 
+    $time = variable_get("flux_last_taxo_clean", time());
+    if ($time < time() - 1200) {
+      // Réparation et nettoyage des vocabulaires
+      $this->msglog(date('Y-m-d H:i:s') . " - Nettoyage taxonomies ------------------ debut");
+      module_load_include('inc', 'flux', 'flux.api');
+      repair_term_node_all();
+      clean_term_node_all();
+      $this->msglog(date('Y-m-d H:i:s') . " - Nettoyage taxonomies ------------------ fin");
+      variable_set("flux_last_taxo_clean", time());
+    }
+
     // on met en cache les données pour éviter de les recharger
     // dans le cas où on est obliger de faire plusieurs passes pour synchroniser les données
     $this->setCache();
@@ -210,7 +221,6 @@ class Synchronisation {
     }
 
     fclose($this->fplog);
-
   }
 
   public function msglog($msg) {
