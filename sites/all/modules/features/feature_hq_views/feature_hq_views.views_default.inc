@@ -2523,8 +2523,8 @@ function feature_hq_views_views_default_views() {
       'expose' => array(
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_4_op',
-        'identifier' => 'localisation',
-        'label' => 'Label handicap',
+        'identifier' => 'label',
+        'label' => 'Label Handicap',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
         'optional' => 1,
@@ -2559,7 +2559,7 @@ function feature_hq_views_views_default_views() {
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_5_op',
         'identifier' => 'localisation',
-        'label' => 'Situation',
+        'label' => 'Localisation',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
         'optional' => 1,
@@ -2829,7 +2829,7 @@ function feature_hq_views_views_default_views() {
       'expose' => array(
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_op',
-        'identifier' => 'term_node_tid_depth_parent',
+        'identifier' => 'localisation',
         'label' => 'Localisaton',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
@@ -3954,8 +3954,8 @@ function feature_hq_views_views_default_views() {
       'expose' => array(
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_1_op',
-        'identifier' => 'localisation',
-        'label' => 'Label handicap',
+        'identifier' => 'label',
+        'label' => 'Label Handicap',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
         'optional' => 1,
@@ -4565,7 +4565,7 @@ function feature_hq_views_views_default_views() {
       'expose' => array(
         'use_operator' => 0,
         'operator' => 'term_node_tid_depth_parent_op',
-        'identifier' => 'term_node_tid_depth_parent',
+        'identifier' => 'categorie',
         'label' => 'Catégorie',
         'bef_filter_description' => '',
         'bef_format' => 'bef',
