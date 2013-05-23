@@ -140,6 +140,8 @@ function repair_term_node($vid) {
 
   // Fusion and delete duplicates
   foreach ($duplicates as $key => $tids) {
+    if (count($tids) < 2) { continue; }
+
     $main_tid = array_slice($tids, 0, 1);
     $other_tids = array_slice($tids, 1);
 
