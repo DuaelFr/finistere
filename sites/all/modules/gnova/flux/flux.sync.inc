@@ -479,7 +479,7 @@ class Synchronisation {
       $this->getFieldsSearch($flux, $en);
 
       // Réparation du vocabulaire
-      repair_term_node($this->vocab['vid']);
+      repair_term_node($this->vocab->vid);
 
       // Récupération des données mises à jour dans Tourinsoft
       $datas = $this->getListingDiff($flux, $en);
