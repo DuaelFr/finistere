@@ -204,60 +204,6 @@ function repair_term_node_all() {
 }
 
 /**
- * Supprime les termes feuilles n'ayant pas de contenu rattaché dans un
- * vocabulaire donné.
- *
- * Ne débute le script qu'à partir du 3ème niveau de profondeur pour le pas
- * supprimer des termes architecturaux.
- */
-function clean_term_node($vid) {
-  $tree = get_taxonomy_get_nested_tree_right(intval($vid));
-
-  if (is_array($tree) && count($tree) > 0) {
-    foreach ($tree as $child1) {
-      if (!empty($child1->children)) {
-        foreach ($child1->children as $child2) {
-          if (!empty($child2->children)) {
-            foreach ($child2->children as $child3) {
-              clean_term_node_recursive($child3);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/**
- * Supprime les termes vides dans tous les vocabulaires.
- */
-function clean_term_node_all() {
-  $vocabularies = taxonomy_get_vocabularies();
-  foreach ($vocabularies as $vocabulary) {
-    clean_term_node($vocabulary->vid);
-  }
-}
-
-/**
- * Fonction recursive permettant de nettoyer les termes vides d'un vocabulaire.
- */
-function clean_term_node_recursive($term) {
-  if (!empty($term->children)) {
-    foreach ($term->children as $child) {
-      clean_term_node_recursive($child);
-    }
-  }
-  else {
-    $sql = 'SELECT COUNT(tn.nid) AS count FROM {term_node} tn WHERE tn.tid = %d';
-    $data = db_fetch_array(db_query($sql, $term->tid));
-    if ($data['count'] == 0) {
-      taxonomy_del_term($term->tid);
-      watchdog('flux', 'Le terme ' . $term->name . ' a été supprimé car il était vide de contenu.');
-    }
-  }
-}
-
-/**
  * Function from http://api.drupal.org/api/drupal/modules--taxonomy--taxonomy.module/function/taxonomy_get_tree/6 to get real taxonomy tree
  *
  */

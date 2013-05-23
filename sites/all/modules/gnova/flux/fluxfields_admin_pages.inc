@@ -360,6 +360,5 @@ function repair_nodes_page($vid) {
   $voc = taxonomy_vocabulary_load($vid);
   dsm($voc);
   repair_term_node($vid);
-  clean_term_node($vid);
   return '';
 }
