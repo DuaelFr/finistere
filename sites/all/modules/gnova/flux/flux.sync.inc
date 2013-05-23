@@ -564,7 +564,7 @@ class Synchronisation {
 
               // Parcours des valeurs
               if (!empty($elements) && (is_array($elements) || is_object($elements))) {
-
+                $still_exists = array();
                 foreach ($elements as $element) {
                   $libelle = trim($element['LIBELLE']);
 
@@ -609,10 +609,18 @@ class Synchronisation {
 
                   if ($value && isset($value->tid)) {
                     $this->vocabs[$fluxInfos->identifiant . ($en ? '_en' : '')]['terms'][$fluxInfos->title]->children[$niveau2->tid]->children[$value->tid] = $value;
+                    $still_exists[] = $value->tid;
                   }
 
                 }
                 //Fin foreach($element
+
+                // Remove not anymore used terms.
+                foreach ($niveau3 as $term) {
+                  if (!in_array($term->tid, $still_exists)) {
+                    taxonomy_del_term($term->tid);
+                  }
+                }
               }
               //Fin if empty($elements
             }
