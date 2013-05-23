@@ -116,6 +116,44 @@ function getTidByDescription($vid, $description, $parent) {
  * Supprime les doublons dans un vocabulaire : doublons sur description sur termes de niveau 3
  */
 function repair_term_node($vid) {
+  // Read all duplicates from the database
+  $sql = "SELECT td.tid tid1, td2.tid tid2, td.description, th.parent
+    FROM {term_data} td
+    INNER JOIN {term_hierarchy} th ON td.tid = th.tid
+    INNER JOIN {term_hierarchy} th2 ON th.parent = th2.parent
+    INNER JOIN {term_data} td2 ON th2.tid = td2.tid
+    WHERE td.vid = %d AND th.parent != 0 AND td.description != ''
+    AND td.tid != td2.tid AND td.description = td2.description
+    ORDER BY th.parent ASC, td.description ASC";
+  $query = db_query($sql, $vid);
+
+  // Put duplicates in an array to avoid concurrent deletion issues
+  $duplicates = array();
+  while ($row = db_fetch_object($query)) {
+    $key = $row->parent . '¤¤' . $row->description;
+    if (empty($duplicates[$key])) {
+      $duplicates[$key] = array();
+    }
+    $duplicates[$key][$row->tid] = $row->tid;
+    $duplicates[$key][$row->tid2] = $row->tid2;
+  }
+
+  // Fusion and delete duplicates
+  foreach ($duplicates as $key => $tids) {
+    $main_tid = array_slice($tids, 0, 1);
+    $other_tids = array_slice($tids, 1);
+
+    // Use the first tid as the main one and put all other's content into
+    $fusion = "UPDATE IGNORE {term_node} SET tid = %d WHERE tid IN (%s)";
+    db_query($fusion, $main_tid, implode(',', $other_tids));
+
+    // Delete each other tid
+    foreach ($other_tids as $tid) {
+      taxonomy_del_term($tid);
+    }
+  }
+
+/*
   $tree = get_taxonomy_get_nested_tree_right(intval($vid));
 
   if (is_array($tree) && count($tree) > 0) {
@@ -152,6 +190,7 @@ function repair_term_node($vid) {
       }//Fin if($nivo1->children
     }//Fin foreach($tree as
   }//Fin if($tree->children &
+*/
 }
 
 /**
