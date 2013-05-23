@@ -570,17 +570,14 @@ class Synchronisation {
 
                   // Si la valeur existe déjà dans les termes de niveau 3, vérifie s'il faut modifier le libellé.
                   if ($value = $this->isTermExistByDesc($element['CODE'], $niveau3)) {
-
                     if ($value->name != $libelle || $value->weight != $element['ORDRE']) {
-                      $valuename     = $libelle;
+                      $value->name   = $libelle;
                       $value->weight = $element['ORDRE'];
 
                       $term = get_object_vars($value); // taxonomy_save_term() get array only
 
                       taxonomy_save_term($term);
-
                     }
-
                   }
                   elseif (!empty($libelle)) {
 
