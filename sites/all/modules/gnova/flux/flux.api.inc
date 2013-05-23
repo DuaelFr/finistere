@@ -140,10 +140,9 @@ function repair_term_node($vid) {
 
   // Fusion and delete duplicates
   foreach ($duplicates as $key => $tids) {
-    if (count($tids) < 2) { continue; }
-
     $main_tid = array_slice($tids, 0, 1);
     $other_tids = array_slice($tids, 1);
+    if (empty($other_tids)) { continue; }
 
     // Use the first tid as the main one and put all other's content into
     $fusion = "UPDATE IGNORE {term_node} SET tid = %d WHERE tid IN (%s)";
