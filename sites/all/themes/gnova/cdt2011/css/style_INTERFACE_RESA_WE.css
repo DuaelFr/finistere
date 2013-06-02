@@ -28,7 +28,7 @@
 
 .title_we{font: 0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; margin-bottom: 10px; }
 
-#conteneur_left .info_we{ font:0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase;  background:url(../images/sprite.png?1304110000) no-repeat 0 0; padding-left:23px; height:20px; line-height:16px;  }
+#conteneur_left .info_we{ font:0.88em 'NeoSansRegular', Arial, Helvetica, sans-serif; text-transform:uppercase;  background:url(../images/sprite.png?1306022245) no-repeat 0 0; padding-left:23px; height:20px; line-height:16px;  }
 
 #conteneur_left .uboxpb_items .g-tabs{ margin-left:0;}
 
@@ -238,13 +238,13 @@
     padding: 7px;
     position: relative;
     width: 213px; min-height:301px;}
-	
+
 .node-type-flux-b2917 #conteneur_left .view-header h3{ font-size: 1.3em;
     padding-bottom: 10px;}
-	
+
 .node-type-flux-b2917 #conteneur_left .views-row .prix_min{ right: 13px;
     top: 55px;}
-	
+
 .node-type-flux-b2917 #conteneur_left .views-row .contenu_decouvrez h2 a{ color:white; font-size:0.65em;}
 
 .node-type-flux-b2917 #conteneur_left .views-row .contenu_decouvrez h2{ border:0;}
