@@ -191,7 +191,8 @@ function flux_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
 
         //GESTION DES CHAMPS STATIQUES
         if (!isset($displayConfList['body'])) {
-          $node->fluxfields['presentationzone']['#value'] .= $node->body;
+//          $node->fluxfields['presentationzone']['#value'] .= $node->body;
+          $node->fluxfields['presentationzone']['#value'] .= cdt_multibody_show_bodies($node);
         }
 
         if (!preg_match('/b2917/i', $node->type)) {
@@ -464,9 +465,10 @@ function gn_fluxfield_body_fluxfieldcreate(&$content_type, $ws_fieldname, $cck_f
 
 }
 
-function gn_fluxfield_body_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array()) {
+function gn_fluxfield_body_fluxfieldvalue(&$node, $cck_fieldname, $value, $defaultvals = array(), $flux_tid = NULL) {
   $value      = str_replace('’', "'", $value);
   $node->body = trim($value);
+  cdt_multibody_add_body($node, $node->field_fl_nid_tx[0]['value'], $flux_tid, $node->body);
   return TRUE;
 }
 

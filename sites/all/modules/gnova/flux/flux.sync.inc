@@ -1038,7 +1038,7 @@ class Synchronisation {
             $defaultVals['fid'] = $fluxInfos->fid;
           }
 
-          $function($node, $fieldsConf[$prevName]->cckfieldname, $value, $defaultVals);
+          $function($node, $fieldsConf[$prevName]->cckfieldname, $value, $defaultVals, $this->vocab->tid);
 
         }
         else {
@@ -1190,7 +1190,7 @@ class Synchronisation {
             $defaultVals['fid'] = $fluxInfos->fid;
           }
 
-          $function($node, $fieldsConf[$prevName]->cckfieldname, $value, $defaultVals);
+          $function($node, $fieldsConf[$prevName]->cckfieldname, $value, $defaultVals, $this->vocab->tid);
 
         }
         else {
