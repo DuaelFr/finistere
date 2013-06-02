@@ -1,0 +1,174 @@
+<?php
+
+/**
+ * Implements hook_nodeapi().
+ */
+function cdt_multibody_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
+  if (strpos($node->type, 'flux_') !== 0) {
+    return;
+  }
+
+  switch ($op) {
+    case 'delete':
+      cdt_multibody_delete_node($node);
+      break;
+  }
+}
+
+/**
+ * Helper to read active term
+ */
+function cdt_multibody_get_default_tid() {
+  return !empty($_SESSION['cdt_multibody_active_term']) ? $_SESSION['cdt_multibody_active_term'] : NULL;
+}
+
+/**
+ * Helper to keep active term
+ */
+function cdt_multibody_set_default_tid($tid) {
+  if (is_object($tid)) {
+    $tid = $tid->tid;
+  }
+  if (!is_array($tid)) {
+    $tid = array($tid);
+  }
+  $_SESSION['cdt_multibody_active_term'] = $tid;
+}
+
+/**
+ * Helper to show all bodies of a node
+ */
+function cdt_multibody_show_bodies($node) {
+  $bodies = cdt_multibody_get_bodies($node);
+  $tid = cdt_multibody_get_default_tid();
+
+  if (count($bodies) <= 1) {
+    return $node->body;
+  }
+  elseif (empty($tid)) {
+    $tid = array($bodies[0]->tid);
+  }
+
+  $tab_titles   = array();
+  $tab_contents = array();
+  foreach ($bodies as $body) {
+    if (!empty($body->body)) {
+      $tab_titles[] = array(
+        'data' => $body->title,
+        'class' => 'tab-title' . (in_array($body->tid, $tid) ? ' active' : ''),
+        'id' => 'tab-title-' . $body->tid,
+      );
+      $tab_contents[] = array(
+        'data' => $body->body,
+        'class' => 'tab-content' . (in_array($body->tid, $tid) ? ' active' : ''),
+        'id' => 'tab-content-' . $body->tid,
+      );
+    }
+  }
+
+  $output  = '<div class="cdt-multibody-tabs">';
+  $output .= theme('item_list', $tab_titles, NULL, 'ul', array('class' => 'tab-titles'));
+  $output .= theme('item_list', $tab_contents, NULL, 'ul', array('class' => 'tab-contents'));
+  $output .= '</div>';
+
+  drupal_add_js(drupal_get_path('module', 'cdt_multibody') . '/cdt_multibody.js');
+
+  return $output;
+}
+
+/**
+ * Helper to get all bodies of a node
+ */
+function cdt_multibody_get_bodies($node) {
+  $sql = "SELECT IFNULL(ct.field_title_" . ($node->language == 'en' ? '_en' : '') . "value, n.title) title, mb.body, mb.tid
+    FROM {cdt_multibody} mb
+    INNER JOIN {node} n ON mb.flux_nid = n.nid
+    LEFT JOIN {content_type_flux} ct ON n.vid = ct.vid
+    WHERE mb.nid = %d";
+  $query = db_query($sql, $node->nid);
+
+  $results = array();
+  while ($result = db_fetch_object($query)) {
+    $results[] = $result;
+  }
+  return $results;
+}
+
+/**
+ * Helper to add a body
+ *
+ * $fid = flux_nid
+ */
+function cdt_multibody_add_body($nid, $fid, $tid, $body) {
+  $body = trim($body);
+  if (empty($body)) {
+    cdt_multibody_del_body($nid, $fid, $tid);
+  }
+
+  $sql = "REPLACE INTO {cdt_multibody} (nid, tid, flux_nid, body) VALUES (%d, %d, %d, '%s')";
+
+  if (is_object($nid)) { $nid = $nid->nid; }
+  if (is_object($fid)) { $fid = $fid->nid; }
+  if (is_object($tid)) { $tid = $tid->tid; }
+  if (empty($tid)) { $tid = cdt_multibody_get_tid_from_flux($fid, $nid); }
+
+  db_query($sql, $nid, $tid, $fid, $body);
+}
+
+/**
+ * Helper to del a body
+ *
+ * $fid = flux_nid
+ */
+function cdt_multibody_del_body($nid, $fid, $tid) {
+  $sql = "DELETE FROM {cdt_multibody} WHERE nid = %d AND tid = %d AND flux_nid = %d";
+
+  if (is_object($nid)) { $nid = $nid->nid; }
+  if (is_object($tid)) { $tid = $tid->tid; }
+  if (is_object($fid)) { $fid = $fid->nid; }
+
+  db_query($sql, $nid, $tid, $fid);
+}
+
+/**
+ * Helper to del a node
+ */
+function cdt_multibody_del_node($nid) {
+  $sql = "DELETE FROM {cdt_multibody} WHERE nid = %d";
+
+  if (is_object($nid)) { $nid = $nid->nid; }
+
+  db_query($sql, $nid);
+}
+
+/**
+ * @param $fid
+ */
+function cdt_multibody_get_tid_from_flux($fid, $nid) {
+  static $cdt_multibody_map;
+  if (empty($cdt_multibody_map)) {
+    $cdt_multibody_map = array();
+  }
+  if (empty($cdt_multibody_map[$fid])) {
+    $cdt_multibody_map[$fid] = NULL;
+
+    $node = node_load($nid);
+    $flux = node_load($fid);
+
+    $flid = $flux->field_flux_identifiant[0]['value'];
+    if ($node->language == 'en') {
+      $flid .= '_en';
+    }
+
+    $sql = "SELECT vid FROM {vocabulary} WHERE name = 'Tourinsoft_%s'";
+    $res = db_fetch_object(db_query($sql, $flid));
+    if (!empty($res)) {
+      $sql = "SELECT tid FROM {term_data} WHERE name = '%s' AND vid = %d";
+      $res = db_fetch_object(db_query($sql, $flux->title, $res->vid));
+      if (!empty($res)) {
+        $cdt_multibody_map[$fid] = $res->tid;
+      }
+    }
+  }
+  return $cdt_multibody_map[$fid];
+}

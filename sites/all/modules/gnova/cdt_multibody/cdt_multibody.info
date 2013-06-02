@@ -1,0 +1,4 @@
+name = Multi Body
+description = "Allow Tourinsoft Sheets to have one body by feed."
+package = G-nova
+core = 6.x

@@ -1,0 +1,61 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function cdt_multibody_schema() {
+  return array(
+    'cdt_multibody' => array(
+      'description' => 'The table to store multi body data.',
+      'fields' => array(
+        'nid' => array(
+          'description' => 'The identifier of a node.',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'tid' => array(
+          'description' => 'The identifier of the flux taxonomy term.',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'flux_nid' => array(
+          'description' => 'The identifier of the flux node.',
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+        'body' => array(
+          'description' => 'The body of this version.',
+          'type' => 'text',
+          'not null' => TRUE,
+          'size' => 'big',
+        ),
+      ),
+      'indexes' => array(
+        'nid' => array('nid'),
+        'tid' => array('tid'),
+        'flux_nid' => array('flux_nid'),
+      ),
+      'primary key' => array('nid', 'tid'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_install().
+ */
+function cdt_multibody_install() {
+  drupal_install_schema('cdt_multibody');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function cdt_multibody_uninstall() {
+  drupal_uninstall_schema('cdt_multibody');
+}
