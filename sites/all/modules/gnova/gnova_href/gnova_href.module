@@ -166,11 +166,14 @@ function gnova_href_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL) {
             //Si il s'agit d'une liste de fiches (flux) sans filtrage
             elseif($viewName=='hqflux_display_list_as_hqchild' && isset($node->field_hqitem_fluxtid[0]['value']) && is_numeric($node->field_hqitem_fluxtid[0]['value'])){
               $view->set_arguments(array($node->field_hqitem_fluxtid[0]['value']));
+              cdt_multibody_set_default_tid($node->field_hqitem_fluxtid[0]['value']);
             }
             //Si il s'agit d'une liste de fiches avec recehrche,
             //il doit y avoir un display bloc de sélectionné dans le champ "field_hqitem_fluxdisplay"
             elseif($viewName=='hqflux_search_influx' && isset($node->field_hqitem_fluxdisplay[0]['value'])){
               $view->set_display($node->field_hqitem_fluxdisplay[0]['value']);
+              $tids = $view->display_handler->options['filters']['term_node_tid_depth']['value'];
+              cdt_multibody_set_default_tid($tids);
             }
 
             //Gestion du titre de la vue des enfants
