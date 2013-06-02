@@ -201,16 +201,17 @@ function feature_content_pages_strongarm() {
   $strongarm->name = 'content_extra_weights_flux';
   $strongarm->value = array(
     'title' => '-5',
-    'revision_information' => '1',
-    'author' => '2',
-    'options' => '3',
-    'comment_settings' => '5',
-    'menu' => '0',
-    'path' => '7',
-    'custom_breadcrumbs' => '9',
-    'domain' => '4',
-    'print' => '6',
-    'workflow' => '8',
+    'revision_information' => '3',
+    'author' => '4',
+    'options' => '5',
+    'comment_settings' => '7',
+    'menu' => '2',
+    'path' => '9',
+    'custom_breadcrumbs' => '11',
+    'domain' => '6',
+    'print' => '8',
+    'workflow' => '10',
+    'nodewords' => '12',
   );
   $export['content_extra_weights_flux'] = $strongarm;
 

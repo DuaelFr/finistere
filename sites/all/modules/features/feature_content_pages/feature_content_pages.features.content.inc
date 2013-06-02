@@ -85,7 +85,7 @@ function feature_content_pages_content_default_fields() {
       'default_image' => NULL,
       'use_default_image' => 0,
       'label' => 'Image par défaut',
-      'weight' => '-1',
+      'weight' => '1',
       'description' => '',
       'type' => 'imagefield_widget',
       'module' => 'imagefield',
@@ -316,6 +316,170 @@ function feature_content_pages_content_default_fields() {
       'default_value_php' => NULL,
       'label' => 'IdModule anglais',
       'weight' => '-2',
+      'description' => '',
+      'type' => 'text_textfield',
+      'module' => 'text',
+    ),
+  );
+
+  // Exported field: field_title
+  $fields['flux-field_title'] = array(
+    'field_name' => 'field_title',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => 5,
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_title][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Intitulé',
+      'weight' => '-1',
+      'description' => '',
+      'type' => 'text_textfield',
+      'module' => 'text',
+    ),
+  );
+
+  // Exported field: field_title_en
+  $fields['flux-field_title_en'] = array(
+    'field_name' => 'field_title_en',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => 5,
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_title_en][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Intitulé anglais',
+      'weight' => 0,
       'description' => '',
       'type' => 'text_textfield',
       'module' => 'text',
@@ -1978,6 +2142,8 @@ block_73|EN ORG Offices de tourisme',
   t('Image de page');
   t('Image par défaut');
   t('Images de menu');
+  t('Intitulé');
+  t('Intitulé anglais');
   t('Poids');
   t('Thumbnails');
   t('Titre de la liste des contenus connexes');
