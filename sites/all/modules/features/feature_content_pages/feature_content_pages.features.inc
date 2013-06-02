@@ -52,6 +52,17 @@ function feature_content_pages_imagecache_default_presets() {
  */
 function feature_content_pages_node_info() {
   $items = array(
+    'flux' => array(
+      'name' => t('Flux'),
+      'module' => 'features',
+      'description' => t('Define Tourinsoft idModule'),
+      'has_title' => '1',
+      'title_label' => t('Title'),
+      'has_body' => '0',
+      'body_label' => '',
+      'min_word_count' => '0',
+      'help' => '',
+    ),
     'hqitem' => array(
       'name' => t('Contenu hiérarchique'),
       'module' => 'features',

@@ -6,6 +6,322 @@
 function feature_content_pages_content_default_fields() {
   $fields = array();
 
+  // Exported field: field_default_img
+  $fields['flux-field_default_img'] = array(
+    'field_name' => 'field_default_img',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'image_plain',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'filefield',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'filefield',
+    'active' => '1',
+    'list_field' => '0',
+    'list_default' => 1,
+    'description_field' => '0',
+    'widget' => array(
+      'file_extensions' => 'png gif jpg jpeg',
+      'file_path' => '',
+      'progress_indicator' => 'bar',
+      'max_filesize_per_file' => '',
+      'max_filesize_per_node' => '',
+      'max_resolution' => '500x500',
+      'min_resolution' => '0',
+      'alt' => '',
+      'custom_alt' => 0,
+      'title' => '',
+      'custom_title' => 0,
+      'title_type' => 'textfield',
+      'default_image' => NULL,
+      'use_default_image' => 0,
+      'label' => 'Image par défaut',
+      'weight' => '-1',
+      'description' => '',
+      'type' => 'imagefield_widget',
+      'module' => 'imagefield',
+    ),
+  );
+
+  // Exported field: field_flux_identifiant
+  $fields['flux-field_flux_identifiant'] = array(
+    'field_name' => 'field_flux_identifiant',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => 5,
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_flux_identifiant][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'Identifiant',
+      'weight' => '-4',
+      'description' => '',
+      'type' => 'text_textfield',
+      'module' => 'text',
+    ),
+  );
+
+  // Exported field: field_flux_idmodule
+  $fields['flux-field_flux_idmodule'] = array(
+    'field_name' => 'field_flux_idmodule',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '1',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => 5,
+      'size' => '60',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_flux_idmodule][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'IdModule',
+      'weight' => '-3',
+      'description' => '',
+      'type' => 'text_textfield',
+      'module' => 'text',
+    ),
+  );
+
+  // Exported field: field_flux_idmodule_en
+  $fields['flux-field_flux_idmodule_en'] = array(
+    'field_name' => 'field_flux_idmodule_en',
+    'type_name' => 'flux',
+    'display_settings' => array(
+      'label' => array(
+        'format' => 'above',
+        'exclude' => 0,
+      ),
+      'teaser' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'full' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '4' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '2' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '3' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      '5' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_resume' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'ubox_ruban_slideshow' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+      'token' => array(
+        'format' => 'default',
+        'exclude' => 0,
+      ),
+    ),
+    'widget_active' => '1',
+    'type' => 'text',
+    'required' => '0',
+    'multiple' => '0',
+    'module' => 'text',
+    'active' => '1',
+    'text_processing' => '0',
+    'max_length' => '',
+    'allowed_values' => '',
+    'allowed_values_php' => '',
+    'widget' => array(
+      'rows' => 5,
+      'size' => '80',
+      'default_value' => array(
+        '0' => array(
+          'value' => '',
+          '_error_element' => 'default_value_widget][field_flux_idmodule_en][0][value',
+        ),
+      ),
+      'default_value_php' => NULL,
+      'label' => 'IdModule anglais',
+      'weight' => '-2',
+      'description' => '',
+      'type' => 'text_textfield',
+      'module' => 'text',
+    ),
+  );
+
   // Exported field: field_hidesimpleshare
   $fields['hqitem-field_hidesimpleshare'] = array(
     'field_name' => 'field_hidesimpleshare',
@@ -1654,9 +1970,13 @@ block_73|EN ORG Offices de tourisme',
   t('Fichier attaché');
   t('Flux avec recherche');
   t('Flux comme fils');
+  t('IdModule');
+  t('IdModule anglais');
+  t('Identifiant');
   t('Image de liste');
   t('Image de liste primaire');
   t('Image de page');
+  t('Image par défaut');
   t('Images de menu');
   t('Poids');
   t('Thumbnails');
