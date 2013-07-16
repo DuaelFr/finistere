@@ -718,7 +718,7 @@ class Synchronisation {
               next($bodies);
             }
 
-            if ($datecrea > $this->date || $datemaj > $this->date || empty($current_body) || $current_body->changed > $this->date) {
+            if ($datecrea > $this->date || $datemaj > $this->date || empty($current_body) || $datecrea > $current_body->changed || $datemaj > $current_body->changed) {
 
               if ($fluxInfos->identifiant <> $dataList['OBJETTOUR_CODE']) {
 
