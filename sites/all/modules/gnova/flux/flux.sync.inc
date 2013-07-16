@@ -692,8 +692,9 @@ class Synchronisation {
         $dataset = $this->clearResultListingDiff($resultset);
       }
 
-      //$it = 0;
-      //$nbMax=1500;
+      if (!isset($this->vocab) || empty($this->vocab)) {
+        $this->vocab = $this->vocabs[$fluxInfos->identifiant . ($en ? '_en' : '')]['terms'][$fluxInfos->title];
+      }
 
       if (is_array($dataset) && count($dataset) > 0) {
         // Liste les fiches a mettre à jour
@@ -704,8 +705,20 @@ class Synchronisation {
             $datecrea = strtotime(substr($dataList['DATECREA'], 0, 10) . ' ' . substr($dataList['DATECREA'], 11, 8));
             $datemaj  = strtotime(substr($dataList['DATEMAJ'], 0, 10) . ' ' . substr($dataList['DATEMAJ'], 11, 8));
 
+            // Get current node multi bodies to manage the case of multiple
+            // bodies created at the same date.
+            $nid = $this->nodeExists($dataList['ID'], 'flux_' . strtolower($fluxInfos->identifiant), $en);
+            $node = node_load($nid);
+            $bodies = cdt_multibody_get_bodies($node);
+            $current_body = FALSE;
+            while ($current_body === FALSE && ($tmp = current($bodies))) {
+              if ($tmp->tid == $this->vocab->tid) {
+                $current_body = $tmp;
+              }
+              next($bodies);
+            }
 
-            if ($datecrea > $this->date || $datemaj > $this->date) {
+            if ($datecrea > $this->date || $datemaj > $this->date || empty($current_body) || $current_body->changed > $this->date) {
 
               if ($fluxInfos->identifiant <> $dataList['OBJETTOUR_CODE']) {
 

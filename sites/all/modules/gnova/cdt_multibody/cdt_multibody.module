@@ -80,7 +80,7 @@ function cdt_multibody_show_bodies($node) {
  * Helper to get all bodies of a node
  */
 function cdt_multibody_get_bodies($node) {
-  $sql = "SELECT IFNULL(ct.field_title_" . ($node->language == 'en' ? '_en' : '') . "value, n.title) title, mb.body, mb.tid
+  $sql = "SELECT IFNULL(ct.field_title_" . ($node->language == 'en' ? '_en' : '') . "value, n.title) title, mb.body, mb.tid, mb.changed
     FROM {cdt_multibody} mb
     INNER JOIN {node} n ON mb.flux_nid = n.nid
     LEFT JOIN {content_type_flux} ct ON n.vid = ct.vid
@@ -105,14 +105,14 @@ function cdt_multibody_add_body($nid, $fid, $tid, $body) {
     cdt_multibody_del_body($nid, $fid, $tid);
   }
 
-  $sql = "REPLACE INTO {cdt_multibody} (nid, tid, flux_nid, body) VALUES (%d, %d, %d, '%s')";
+  $sql = "REPLACE INTO {cdt_multibody} (nid, tid, flux_nid, body, changed) VALUES (%d, %d, %d, '%s', %d)";
 
   if (is_object($nid)) { $nid = $nid->nid; }
   if (is_object($fid)) { $fid = $fid->nid; }
   if (is_object($tid)) { $tid = $tid->tid; }
   if (empty($tid)) { $tid = cdt_multibody_get_tid_from_flux($fid, $nid); }
 
-  db_query($sql, $nid, $tid, $fid, $body);
+  db_query($sql, $nid, $tid, $fid, $body, REQUEST_TIME);
 }
 
 /**
