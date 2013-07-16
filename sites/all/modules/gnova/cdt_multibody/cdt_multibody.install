@@ -35,6 +35,12 @@ function cdt_multibody_schema() {
           'not null' => TRUE,
           'size' => 'big',
         ),
+        'changed' => array(
+          'description' => 'The Unix timestamp when the body was most recently saved.',
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
       ),
       'indexes' => array(
         'nid' => array('nid'),
@@ -44,6 +50,20 @@ function cdt_multibody_schema() {
       'primary key' => array('nid', 'tid'),
     ),
   );
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add changed field.
+ */
+function cdt_multibody_update_6001(&$sandbox) {
+  db_add_field($return, 'cdt_multibody', 'changed', array(
+    'description' => 'The Unix timestamp when the body was most recently saved.',
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  ));
 }
 
 /**
